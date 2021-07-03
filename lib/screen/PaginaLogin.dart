@@ -40,20 +40,20 @@ class _PaginaLoginState extends State<PaginaLogin> {
   }
 
   void submit() async {
-    // if( this.validateSenha() ){
-    //   if( this.validateNome() ){
-    //     Map<String, dynamic> data = await this.service.login( this.nomeController.text, this.senhaController.text );
-    //     if( data["status"] == 201 ) {
-    //       String token = data["data"]["accessToken"]["token"];
-    //       this.preferences.setToken(token);
-    //       Navigator.push( context, MaterialPageRoute(builder: (context) => Duvidas()) );
-    //     }
-    //     else{
-    //       this.showError("Usuário Não encontrado");
-    //     }
-    //   }
-    // }
-    Navigator.push( context, MaterialPageRoute(builder: (context) => Duvidas()) );
+    if( this.validateSenha() ){
+      if( this.validateNome() ){
+        Map<String, dynamic> data = await this.service.login( this.nomeController.text, this.senhaController.text );
+        if( data["status"] == 201 ) {
+          String token = data["data"]["accessToken"]["token"];
+          this.preferences.setToken(token);
+          Navigator.push( context, MaterialPageRoute(builder: (context) => Duvidas()) );
+        }
+        else{
+          this.showError("Usuário Não encontrado");
+        }
+      }
+    }
+    //Navigator.push( context, MaterialPageRoute(builder: (context) => Duvidas()) );
   }
 
   bool validateSenha(){

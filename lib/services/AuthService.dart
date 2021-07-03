@@ -12,9 +12,11 @@ class AuthService extends AbstractService {
 
   // CONFIRM
   Future<Map<String, dynamic>> confirm([ String token ]) async {
+    dynamic headers = await this.getHeader(auth: false);
+
     http.Response response = await http.post( 
       this.buildUri("confirm"),
-      headers: this.getHeader(),
+      headers: headers,
       body: json.encode({ 'token': token })
     );
     dynamic data = this.decode(response);
@@ -23,9 +25,11 @@ class AuthService extends AbstractService {
 
   // LOGIN
   Future<Map<String, dynamic>> login([ String email, String senha ]) async {
+    dynamic headers = await this.getHeader(auth: false);
+
     http.Response response = await http.post( 
       this.buildUri("login"),
-      headers: this.getHeader(),
+      headers: headers,
       body: json.encode({ 'email': email, 'password': senha})
     );
     dynamic data = this.decode(response);
@@ -34,9 +38,11 @@ class AuthService extends AbstractService {
 
   // REGISTER
   Future<Map<String, dynamic>> register([ String login, String email, String senha ]) async {
+    dynamic headers = await this.getHeader(auth: false);
+
     http.Response response = await http.post( 
       this.buildUri("register"),
-      headers: this.getHeader(),
+      headers: headers,
       body: json.encode({ 'name': login, 'email': email, 'password': senha, 'password_confirmation': senha})
     );
     dynamic data = this.decode(response);

@@ -3,6 +3,10 @@ import 'package:meta/meta.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
+
+
 abstract class AbstractService{
   Encoding encoding;
   String prefix, host, path, token;
@@ -17,13 +21,18 @@ abstract class AbstractService{
     return Uri.parse(baseUrl);
   }
 
-  Map<String, String> getHeader() => {
-    "Content-Type": "application/json; charset=utf-8",
-  };
+  Future<Map<String, String>> getHeader({ bool auth = false }) async {
+    if( auth == true){
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      return { "Content-Type": "application/json; charset=utf-8", "Authorization": "Bearer ${prefs.get('token')}"};
+    }
+    return { "Content-Type": "application/json; charset=utf-8" };
+  }
 
-  Map<String, String> getAuthHeader() => {
-    "Authorization": "Bearer ${this.token}"
-  };
+  Future<Map<String, String>> getAuthHeader() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return { "Authorization": "Bearer ${prefs.get('token')}"};
+  }
 
   dynamic decode(http.Response response) => json.decode(utf8.decode(response.bodyBytes));
 

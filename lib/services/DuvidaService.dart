@@ -13,10 +13,12 @@ class DuvidaService extends AbstractService {
 
   // POST
   Future<Duvida> registerDuvida(Duvida duvida) async {
+    dynamic headers = await this.getHeader(auth: true);
+
     http.Response response = await http.post(
       this.buildUri(),
       body: json.encode(duvida.toJson()),
-      headers: this.getHeader(),
+      headers: headers,
       encoding: this.encoding
     );
 
@@ -25,10 +27,13 @@ class DuvidaService extends AbstractService {
 
   // PUT
   Future<Duvida> updateDuvida({int id, Duvida duvida}) async {
+
+    dynamic headers = await this.getHeader(auth: true);
+
     http.Response response = await http.put(
       this.buildUri(id.toString()),
       body: json.encode(duvida.toJson()),
-      headers: this.getHeader(),
+      headers: headers,
       encoding: this.encoding
     );
 
@@ -37,7 +42,9 @@ class DuvidaService extends AbstractService {
 
   // GET
   Future<Duvida> getDuvida(int id, { bool loadDependencies = false }) async{
-    http.Response response = await http.get( this.buildUri(id.toString()) );
+    dynamic headers = await this.getHeader(auth: true);
+
+    http.Response response = await http.get( this.buildUri(id.toString()), headers: headers );
     
     dynamic json = this.decode(response);
     return Duvida.fromJson(json, loadDependencies: loadDependencies);
@@ -45,16 +52,18 @@ class DuvidaService extends AbstractService {
   }
 
   // GET --> LIST
-  Future<List<Duvida>> getDuvidas({ bool loadDependencies = false }) async{
+  Future<Map<String, dynamic>> getDuvidas({ bool loadDependencies = false }) async{
     List<Duvida> categorias = [];
-    http.Response response = await http.get(this.buildUri());
 
+    dynamic headers = await this.getHeader(auth: true);
+    print(headers);
+    http.Response response = await http.get(this.buildUri(), headers: headers);
     dynamic json = this.decode(response);
 
-    for( var obj in json){
-      categorias.add( Duvida.fromJson(obj, loadDependencies: loadDependencies) );
-    }
-    return categorias;
+    // for( var obj in json){
+    //   categorias.add( Duvida.fromJson(obj, loadDependencies: loadDependencies) );
+    // }
+    return json;
   }
 
 }
