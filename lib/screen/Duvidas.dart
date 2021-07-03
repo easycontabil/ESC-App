@@ -37,13 +37,22 @@ class Duvidas extends StatelessWidget {
               child: Column(
                 children: [               
                   GestureDetector(
-                    child: DuvidaComponent(),
+                    child: DuvidaComponent( 
+                      titulo: "PROBLEMAS COM SPED", 
+                      conteudo: "Nullam ornare sit amet quam ac lacinia. Donec egestas ligula id felis luctus, in accumsan tellus tincidunt. Cras mi est, sagittis sed libero ut, congue vehicula enim",
+                    ),
                     onTap: (){
                       Navigator.push( context, MaterialPageRoute(builder: (context) => VerDuvida()) );
                     },
                   ),
-                  DuvidaComponent(),
-                  DuvidaComponent(),
+                  DuvidaComponent( 
+                      titulo: "PROBLEMAS ", 
+                      conteudo: "Nullam ornare sit amet quam ac lacinia. Donec egestas ligula id felis luctus, in accumsan tellus tincidunt. Cras mi est, sagittis sed libero ut, congue vehicula enim",
+                    ),
+                  DuvidaComponent( 
+                      titulo: "TESTE", 
+                      conteudo: "Nullam ornare sit amet quam ac lacinia. Donec egestas ligula id felis luctus, in accumsan tellus tincidunt. Cras mi est, sagittis sed libero ut, congue vehicula enim",
+                    ),
                 ]
               ),
             ),

@@ -5,8 +5,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'misc/IconCount.dart';
 
 class DuvidaComponent extends StatefulWidget {
+
+  final String titulo, conteudo;
+
   @override
   _DuvidaComponentState createState() => _DuvidaComponentState();
+
+  DuvidaComponent({ @required this.titulo, @required this.conteudo });
 }
 
 class _DuvidaComponentState extends State<DuvidaComponent> {
@@ -44,12 +49,12 @@ class _DuvidaComponentState extends State<DuvidaComponent> {
                     children: [
                           Container(
                         width: size.width * 0.75,
-                        child: Text("PROBLEMAS COM SPED", overflow: TextOverflow.ellipsis, style: GoogleFonts.openSans( color: Color.fromRGBO(78,76,76,1), fontSize: 12, fontWeight: FontWeight.w600),),
+                        child: Text(this.widget.titulo, overflow: TextOverflow.ellipsis, style: GoogleFonts.openSans( color: Color.fromRGBO(78,76,76,1), fontSize: 12, fontWeight: FontWeight.w600),),
                       ),
                       Container(
                         width: size.width * 0.75,
                         child: Text(
-                          "Nullam ornare sit amet quam ac lacinia. Donec egestas ligula id felis luctus, in accumsan tellus tincidunt. Cras mi est, sagittis sed libero ut, congue vehicula enim", 
+                          this.widget.conteudo, 
                           style: GoogleFonts.openSans( color: Color.fromRGBO(161,161,161,1), fontSize: 9, fontWeight: FontWeight.w600),
                           overflow: TextOverflow.ellipsis,
                           maxLines: 4,
