@@ -53,15 +53,15 @@ class DuvidaService extends AbstractService {
 
   // GET --> LIST
   Future<Map<String, dynamic>> getDuvidas({ bool loadDependencies = false }) async{
-    List<Duvida> categorias = [];
+    List<Duvida> duvidas = [];
 
     dynamic headers = await this.getHeader(auth: true);
     print(headers);
     http.Response response = await http.get(this.buildUri(), headers: headers);
     dynamic json = this.decode(response);
 
-    // for( var obj in json){
-    //   categorias.add( Duvida.fromJson(obj, loadDependencies: loadDependencies) );
+    // for( var obj in json["data"]){
+    //   duvidas.add( Duvida.fromJson(obj, loadDependencies: loadDependencies) );
     // }
     return json;
   }
