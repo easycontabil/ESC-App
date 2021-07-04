@@ -9,53 +9,48 @@ class UsuarioService extends AbstractService {
 
   UsuarioService({ encoding, prefix, @required host, path, queryParams}) 
   : super( prefix: prefix, host: host, path: path, queryParams: queryParams, encoding: encoding );
-  //({ encoding, prefix, host, path, queryParams}) : super( prefix: prefix, host: host, path: path, queryParams: queryParams, encoding: encoding );
-
 
   // POST
   Future<Usuario> registerUsuario(Usuario usuario) async {
     http.Response response = await http.post(
       this.buildUri(),
       body: json.encode(usuario.toJson()),
-      headers: this.getHeader(),
+      headers: await this.getHeader(auth: true),
       encoding: this.encoding
     );
 
-    return Usuario.fromJson(this.decode(response));
+    return Usuario.fromJson(this.decode(response)["data"]);
   }
 
   // PUT
-  Future<Usuario> updateUsuario({int id, Usuario usuario}) async {
+  Future<Usuario> updateUsuario({String id, Usuario usuario}) async {
     http.Response response = await http.put(
-      this.buildUri(id.toString()),
+      this.buildUri(id),
       body: json.encode(usuario.toJson()),
-      headers: this.getHeader(),
+      headers: await this.getHeader(auth: true),
       encoding: this.encoding
     );
 
-    return Usuario.fromJson(this.decode(response));
+    return Usuario.fromJson(this.decode(response)["data"]);
   }
 
   // GET
-  Future<Usuario> getUsuario(int id) async{
-    http.Response response = await http.get( this.buildUri(id.toString()) );
-    
-    dynamic json = this.decode(response);
-    return Usuario.fromJson(json);
+  Future<Usuario> getUsuario(String id) async{
+    http.Response response = await http.get(this.buildUri(id), headers: await this.getHeader(auth: true));
 
+    return Usuario.fromJson(this.decode(response)["data"]);
   }
 
-  // GET --> LIST
+  // LIST
   Future<List<Usuario>> getUsuarios() async{
-    List<Usuario> usuarios = [];
-    http.Response response = await http.get(this.buildUri());
+    List<Usuario> usuarios = new List<Usuario>();
 
-    dynamic json = this.decode(response);
+    http.Response response = await http.get(this.buildUri(), headers: await this.getHeader(auth: true));
 
-    for( var obj in json){
-      usuarios.add( Usuario.fromJson(obj) );
+    for (var obj in this.decode(response)["data"]["data"]){
+      usuarios.add(Usuario.fromJson(obj));
     }
+
     return usuarios;
   }
-
 }

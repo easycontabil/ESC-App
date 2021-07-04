@@ -22,21 +22,21 @@ class Duvida extends Abstract{
   
     Duvida.fromJson( Map<String, dynamic> json, { bool loadDependencies = false}){
       this.id = json['id'];
-      this.criacao = DateTime.parse(json['criacao']) ?? null;
-      this.ultimaModificacao = DateTime.parse(json['ultima_modificacao']) ?? null;
-      this.usuario = Usuario.fromJson(json['usuario']);
-      this.titulo = json['titulo'];
-      this.descricao = json['descricao'];
-      this.nrRespostas = json['nr_respostas'];
-      this.nrViews = json['nr_views'];
-      this.nrFavoritos = json['nr_favoritos'];
-      this.aberta = json['aberta'];
-      this.resolvida = json['resolvida'];
-      this.categorias = this.categoriasFromJson(json['categorias']);
+      this.criacao = DateTime.parse(json['createdAt']) ?? null;
+      this.ultimaModificacao = DateTime.parse(json['updatedAt']) ?? null;
+      // this.usuario = json['userId'];
+      this.titulo = json['title'];
+      this.descricao = json['description'];
+      // this.nrRespostas = json['answers'];
+      // this.nrViews = json['nr_views'];
+      // this.nrFavoritos = json['nr_favoritos'];
+      this.aberta = json['solved'];
+      this.resolvida = json['solved'];
+      // this.categorias = this.categoriasFromJson(json['categories']);
       if( loadDependencies == true){
-        this.comentarios = comentariosFromJson(json['comentarios']);
-        this.respostas = respostasFromJson(json['respostas']);
-        this.reacoes = reacoesFromJson(json['reacoes']);
+        // this.comentarios = comentariosFromJson(json['comments']);
+        // this.respostas = respostasFromJson(json['answers']);
+        // this.reacoes = reacoesFromJson(json['doubtReactions']);
       }
     }
 
@@ -101,5 +101,4 @@ class Duvida extends Abstract{
     String toString() => "${this.titulo}"; 
   
 }
-  
   

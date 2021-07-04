@@ -7,26 +7,21 @@ class CategoriaService extends AbstractService {
 
   CategoriaService({ encoding, prefix, @required host, path, queryParams}) 
   : super( prefix: prefix, host: host, path: path, queryParams: queryParams, encoding: encoding );
-  //({ encoding, prefix, host, path, queryParams}) : super( prefix: prefix, host: host, path: path, queryParams: queryParams, encoding: encoding );
 
-  Future<Categoria> getCategoria(int id) async{
-    http.Response response = await http.get( this.buildUri(id.toString()) );
-    
-    dynamic json = this.decode(response);
-    return Categoria.fromJson(json);
+  Future<Categoria> getCategoria(String id) async {
+    http.Response response = await http.get(this.buildUri(id.toString()), headers: await this.getHeader(auth: true));
 
+    return Categoria.fromJson(this.decode(response)["data"]);
   }
 
-  Future<List<Categoria>> getCategorias() async{
-    List<Categoria> categorias = [];
-    http.Response response = await http.get(this.buildUri());
+  Future<List<Categoria>> getCategorias() async {
+    List<Categoria> categorias = new List<Categoria>();
+    http.Response response = await http.get(this.buildUri(), headers: await this.getHeader(auth: true));
 
-    dynamic json = this.decode(response);
-
-    for( var obj in json){
-      categorias.add( Categoria.fromJson(obj) );
+    for( var obj in this.decode(response)["data"]["data"]) {
+      categorias.add(Categoria.fromJson(obj));
     }
+
     return categorias;
   }
-
 }

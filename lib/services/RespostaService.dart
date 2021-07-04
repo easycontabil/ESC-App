@@ -9,53 +9,48 @@ class RespostaService extends AbstractService {
 
   RespostaService({ encoding, prefix, @required host, path, queryParams}) 
   : super( prefix: prefix, host: host, path: path, queryParams: queryParams, encoding: encoding );
-  //({ encoding, prefix, host, path, queryParams}) : super( prefix: prefix, host: host, path: path, queryParams: queryParams, encoding: encoding );
-
 
   // POST
   Future<Resposta> registerResposta(Resposta resposta) async {
     http.Response response = await http.post(
       this.buildUri(),
       body: json.encode(resposta.toJson()),
-      headers: this.getHeader(),
+      headers: await this.getHeader(auth: true),
       encoding: this.encoding
     );
 
-    return Resposta.fromJson(this.decode(response));
+    return Resposta.fromJson(this.decode(response)["data"]);
   }
 
   // PUT
-  Future<Resposta> updateResposta({int id, Resposta resposta}) async {
+  Future<Resposta> updateResposta({String id, Resposta resposta}) async {
     http.Response response = await http.put(
       this.buildUri(id.toString()),
       body: json.encode(resposta.toJson()),
-      headers: this.getHeader(),
+      headers: await this.getHeader(auth: true),
       encoding: this.encoding
     );
 
-    return Resposta.fromJson(this.decode(response));
+    return Resposta.fromJson(this.decode(response)["data"]);
   }
 
   // GET
-  Future<Resposta> getResposta(int id, { bool loadDependencies = false }) async{
-    http.Response response = await http.get( this.buildUri(id.toString()) );
-    
-    dynamic json = this.decode(response);
-    return Resposta.fromJson(json, loadDependencies: loadDependencies);
+  Future<Resposta> getResposta(String id, { bool loadDependencies = false }) async {
+    http.Response response = await http.get(this.buildUri(id.toString()), headers: await this.getHeader(auth: true));
 
+    return Resposta.fromJson(this.decode(response)["data"], loadDependencies: loadDependencies);
   }
 
-  // GET --> LIST
-  Future<List<Resposta>> getRespostas({bool loadDependencies = false}) async{
-    List<Resposta> categorias = [];
-    http.Response response = await http.get(this.buildUri());
+  // LIST
+  Future<List<Resposta>> getRespostas({bool loadDependencies = false}) async {
+    List<Resposta> respostas = new List<Resposta>();
 
-    dynamic json = this.decode(response);
+    http.Response response = await http.get(this.buildUri(), headers: await this.getHeader(auth: true));
 
-    for( var obj in json){
-      categorias.add( Resposta.fromJson(obj, loadDependencies: loadDependencies) );
+    for (var obj in this.decode(response)["data"]["data"]) {
+      respostas.add(Resposta.fromJson(obj, loadDependencies: loadDependencies));
     }
-    return categorias;
-  }
 
+    return respostas;
+  }
 }

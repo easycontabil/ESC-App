@@ -28,7 +28,6 @@ class Usuario extends Abstract{
     'admin': this.admin,
   };
 
-
   @override
   String toString() => this.nome;
 }

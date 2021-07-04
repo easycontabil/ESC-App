@@ -12,11 +12,9 @@ class AuthService extends AbstractService {
 
   // CONFIRM
   Future<Map<String, dynamic>> confirm([ String token ]) async {
-    dynamic headers = await this.getHeader(auth: false);
-
     http.Response response = await http.post( 
       this.buildUri("confirm"),
-      headers: headers,
+      headers: await this.getHeader(auth: false),
       body: json.encode({ 'token': token })
     );
     dynamic data = this.decode(response);

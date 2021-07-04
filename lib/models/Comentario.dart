@@ -1,30 +1,29 @@
 import 'package:easycontab/models/Abstract.dart';
-import 'package:easycontab/models/Usuario.dart';
+// import 'package:easycontab/models/Usuario.dart';
 
 class Comentario extends Abstract{
   int duvidaId;
-  Usuario usuario;
+  String usuario;
   String comentario;
 
   Comentario({id, criacao, this.comentario, this.duvidaId, this.usuario}) : super(id: id, criacao: criacao);
 
   Comentario.fromJson(Map<String, dynamic> json){
     this.id = json['id'];
-    this.criacao = json['criacao'];
-    this.duvidaId = json['duvida_id'];
-    this.comentario = json['comentario'];
-    this.usuario = Usuario.fromJson(json['usuario']);
+    this.criacao = json['createdAt'];
+    this.duvidaId = json['doubtId'];
+    this.comentario = json['content'];
+    this.usuario = json['userId'];
   }
 
   Map<String, dynamic> toJson() => {
     'id': this.id,
-    'criacao': this.criacao ,
-    'duvida_id': this.duvidaId,
-    'comentario': this.comentario,
-    'usuario': this.usuario.toJson()
+    'createdAt': this.criacao ,
+    'doubtId': this.duvidaId,
+    'content': this.comentario,
+    'userId': this.usuario
   };
 
   @override 
-  String toString() => "@${this.usuario.nome} comentário.";
-
+  String toString() => "@${this.usuario} comentário.";
 }

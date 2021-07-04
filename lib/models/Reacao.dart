@@ -12,17 +12,16 @@ class ReacaoResposta extends Abstract{
   ReacaoResposta({ id, this.usuario, this.resposta, this.curtiu }) : super(id: id);
 
   ReacaoResposta.fromJson(Map<String, dynamic> json) {
-    this.usuario = Usuario.fromJson(json['usuario']);
-    this.resposta = Resposta(id: json['resposta']['id']);
-    this.curtiu = json['curtiu'];
+    this.usuario = Usuario(id: json['userId']);
+    this.resposta = Resposta(id: json['answerId']);
+    this.curtiu = json['liked'];
   }
 
   Map<String, dynamic> toJson() => {
     'id': this.id,
-    'resposta': { 'id': this.resposta.id },
-    'usuario': { 'id': this.usuario.id }
+    'answer': { 'id': this.resposta.id },
+    'user': { 'id': this.usuario.id }
   };
-
 }
 
 class ReacaoDuvida extends Abstract{
@@ -33,15 +32,14 @@ class ReacaoDuvida extends Abstract{
   ReacaoDuvida({ id, this.usuario, this.duvida, this.curtiu }) : super(id: id);
 
   ReacaoDuvida.fromJson(Map<String, dynamic> json) {
-    this.usuario = Usuario.fromJson(json['usuario']);
-    this.duvida = Duvida(id: json['duvida']['id']);
-    this.curtiu = json['curtiu'];
+    this.usuario = Usuario(id: json['userId']);
+    this.duvida = Duvida(id: json['doubtId']);
+    this.curtiu = json['liked'];
   }
 
   Map<String, dynamic> toJson() => {
     'id': this.id,
-    'duvida': { 'id': this.duvida.id },
-    'usuario': { 'id': this.usuario.id }
+    'doubt': { 'id': this.duvida.id },
+    'user': { 'id': this.usuario.id }
   };
-
 }

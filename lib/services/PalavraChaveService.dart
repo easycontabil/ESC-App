@@ -8,22 +8,21 @@ class PalavraChaveService extends AbstractService{
   PalavraChaveService({ encoding, prefix, @required host, path, queryParams}) 
   : super( prefix: prefix, host: host, path: path, queryParams: queryParams, encoding: encoding );
 
-  Future<PalavraChave> getPalavraChave(int id) async {
-    http.Response response = await http.get(this.buildUri(id.toString()));
-    dynamic json = this.decode(response);
+  Future<PalavraChave> getPalavraChave(String id) async {
+    http.Response response = await http.get(this.buildUri(id), headers: await this.getHeader(auth: true));
 
-    return PalavraChave.fromJson(json);
+    return PalavraChave.fromJson(this.decode(response)["data"]);
   }
 
   Future<List<PalavraChave>> getPalavrasChaves() async {
-    List<PalavraChave> palavrasChave = [];
+    List<PalavraChave> palavrasChave = new List<PalavraChave>();
 
-    http.Response response = await http.get(this.buildUri());
-    dynamic json = this.decode(response);
+    http.Response response = await http.get(this.buildUri(), headers: await this.getHeader(auth: true));
 
-    for( var obj in json){
-      palavrasChave.add( PalavraChave.fromJson(obj));
+    for( var obj in this.decode(response)["data"]["data"]){
+      palavrasChave.add(PalavraChave.fromJson(obj));
     }
+
     return palavrasChave;
   }
 }

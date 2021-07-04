@@ -3,10 +3,10 @@ import 'package:easycontab/models/Reacao.dart';
 
 import 'Abstract.dart';
 import 'Duvida.dart';
-import 'Usuario.dart';
+// import 'Usuario.dart';
 
 class Resposta extends Abstract{
-  Usuario usuario;
+  String usuario;
   Duvida duvida;
   List<Comentario> comentarios;
   List<ReacaoResposta> reacoes;
@@ -14,22 +14,21 @@ class Resposta extends Abstract{
   bool resolveu;
   int nrAprovacoes, nrDesaprovacoes;
 
-
   Resposta(
     { id, criacao, ultimaModificacao, this.usuario, this.duvida, this.conteudo, this.nrAprovacoes, this.nrDesaprovacoes, this.resolveu }
   ) : super(id: id, criacao: criacao, ultimaModificacao: ultimaModificacao);
 
   Resposta.fromJson(Map<String, dynamic> json, { bool loadDependencies = false }){
     this.id = json['id'];
-    this.criacao = DateTime.parse(json['criacao']);
-    this.ultimaModificacao = DateTime.parse(json['ultima_modificacao']);
-    this.usuario = Usuario.fromJson(json['usuario']);
-    this.duvida = Duvida(id: json['duvida']['id']);
-    this.conteudo = json['conteudo'];
-    this.resolveu = json['resolveu'];
+    this.criacao = DateTime.parse(json['createdAt']);
+    this.ultimaModificacao = DateTime.parse(json['updatedAt']);
+    this.usuario = json['userId'];
+    this.duvida = Duvida(id: json['doubt']['id']);
+    this.conteudo = json['content'];
+    this.resolveu = json['solved'];
     if( loadDependencies == true  ){
-      this.comentarios = comentariosFromJson(json['comentarios']);
-      this.reacoes = reacoesFromJson(json['reacoes']);
+      this.comentarios = comentariosFromJson(json['comments']);
+      this.reacoes = reacoesFromJson(json['answerReactions']);
     }
   } 
 
@@ -53,13 +52,12 @@ class Resposta extends Abstract{
 
   Map<String, dynamic> toJson() => {
     'id': this.id,
-    'usuario_id': this.usuario.id, 
-    'duvida_id': this.duvida.id, 
-    'conteudo': this.conteudo,
-    'resolveu': this.resolveu
+    'userId': this.usuario,
+    'doubtId': this.duvida.id,
+    'content': this.conteudo,
+    'solved': this.resolveu
   };
 
   @override 
   String toString() => this.conteudo;
-
 }

@@ -34,6 +34,7 @@ class _DuvidasState extends State<Duvidas> {
     List<DuvidaComponent> duvidaComponents = new List<DuvidaComponent>();
 
     for (var duvida in duvidas) {
+      print(duvida);
       duvidaComponents.add(DuvidaComponent(titulo: duvida.titulo, conteudo: duvida.descricao));
     }
 

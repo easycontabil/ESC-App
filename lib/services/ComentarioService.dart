@@ -8,53 +8,49 @@ import 'AbstractService.dart';
 class ComentarioService extends AbstractService {
 
   ComentarioService({ encoding, prefix, @required host, path, queryParams}) 
-  : super( prefix: prefix, host: host, path: path, queryParams: queryParams, encoding: encoding );
-
-
+  : super(prefix: prefix, host: host, path: path, queryParams: queryParams, encoding: encoding);
 
   // POST
   Future<Comentario> registerComentario(Comentario comentario) async {
     http.Response response = await http.post(
       this.buildUri(),
       body: json.encode(comentario.toJson()),
-      headers: this.getHeader(),
+      headers: await this.getHeader(auth: true),
       encoding: this.encoding
     );
 
-    return Comentario.fromJson(this.decode(response));
+    return Comentario.fromJson(this.decode(response)["data"]);
   }
 
   // PUT
-  Future<Comentario> updateComentario({int id, Comentario comentario}) async {
+  Future<Comentario> updateComentario({String id, Comentario comentario}) async {
     http.Response response = await http.put(
       this.buildUri(id.toString()),
       body: json.encode(comentario.toJson()),
-      headers: this.getHeader(),
+      headers: await this.getHeader(auth: true),
       encoding: this.encoding
     );
 
-    return Comentario.fromJson(this.decode(response));
+    return Comentario.fromJson(this.decode(response)["data"]);
   }
 
   // GET
-  Future<Comentario> getComentario(int id) async{
-    http.Response response = await http.get( this.buildUri(id.toString()) );
-    
-    dynamic json = this.decode(response);
-    return Comentario.fromJson(json);
+  Future<Comentario> getComentario(String id) async{
+    http.Response response = await http.get(this.buildUri(id.toString()), headers: await this.getHeader(auth: true));
 
+    return Comentario.fromJson(this.decode(response)["data"]);
   }
 
-  // GET --> LIST
+  // LIST
   Future<List<Comentario>> getComentarios() async{
-    List<Comentario> comentarios = [];
-    http.Response response = await http.get(this.buildUri());
+    List<Comentario> comentarios = new List<Comentario>();
 
-    dynamic json = this.decode(response);
+    http.Response response = await http.get(this.buildUri(), headers: await this.getHeader(auth: true));
 
-    for( var obj in json){
-      comentarios.add( Comentario.fromJson(obj) );
+    for( var obj in this.decode(response)["data"]["data"]){
+      comentarios.add(Comentario.fromJson(obj));
     }
+
     return comentarios;
   }
 
