@@ -6,8 +6,8 @@ import 'dart:convert';
 
 class ReacaoDuvidaService extends AbstractService {
 
-  ReacaoDuvidaService({ encoding, prefix, @required host, path, queryParams}) 
-  : super( prefix: prefix, host: host, path: path, queryParams: queryParams, encoding: encoding );
+  ReacaoDuvidaService({ encoding, prefix, @required host, path, queryPath}) 
+  : super( prefix: prefix, host: host, path: path, queryPath: queryPath, encoding: encoding );
 
 
   // POST
@@ -15,7 +15,7 @@ class ReacaoDuvidaService extends AbstractService {
     http.Response response = await http.post(
       this.buildUri(),
       body: json.encode(reacao.toJson()),
-      headers: this.getHeader(),
+      headers: await this.getHeader(auth: true),
       encoding: this.encoding
     );
     return ReacaoDuvida.fromJson(this.decode(response));
@@ -26,7 +26,7 @@ class ReacaoDuvidaService extends AbstractService {
     http.Response response = await http.post(
       this.buildUri(reacao.id.toString()),
       body: json.encode(reacao.toJson()),
-      headers: this.getHeader(),
+      headers: await this.getHeader(auth: true),
       encoding: this.encoding
     );
     return ReacaoDuvida.fromJson(this.decode(response));
@@ -34,7 +34,7 @@ class ReacaoDuvidaService extends AbstractService {
   
   // GET
   Future<ReacaoDuvida> getReacao(int id) async{
-    http.Response response = await http.get( this.buildUri(id.toString()) );
+    http.Response response = await http.get( this.buildUri(id.toString()), headers: await this.getHeader(auth: true), );
     
     dynamic json = this.decode(response);
     return ReacaoDuvida.fromJson(json);
@@ -43,7 +43,7 @@ class ReacaoDuvidaService extends AbstractService {
   // GET --> LIST
   Future<List<ReacaoDuvida>> getReacoes() async{
     List<ReacaoDuvida> categorias = [];
-    http.Response response = await http.get(this.buildUri());
+    http.Response response = await http.get(this.buildUri(), headers: await this.getHeader(auth: true),);
 
     dynamic json = this.decode(response);
 
@@ -58,8 +58,8 @@ class ReacaoDuvidaService extends AbstractService {
 
 class ReacaoRespostaService extends AbstractService {
 
-  ReacaoRespostaService({ encoding, prefix, @required host, path, queryParams}) 
-  : super( prefix: prefix, host: host, path: path, queryParams: queryParams, encoding: encoding );
+  ReacaoRespostaService({ encoding, prefix, @required host, path, queryPath}) 
+  : super( prefix: prefix, host: host, path: path, queryPath: queryPath, encoding: encoding );
 
 
   // POST
@@ -67,7 +67,7 @@ class ReacaoRespostaService extends AbstractService {
     http.Response response = await http.post(
       this.buildUri(),
       body: json.encode(reacao.toJson()),
-      headers: this.getHeader(),
+      headers: await this.getHeader(auth: true),
       encoding: this.encoding
     );
     return ReacaoResposta.fromJson(this.decode(response));
@@ -78,7 +78,7 @@ class ReacaoRespostaService extends AbstractService {
     http.Response response = await http.post(
       this.buildUri(reacao.id.toString()),
       body: json.encode(reacao.toJson()),
-      headers: this.getHeader(),
+      headers: await this.getHeader(auth: true),
       encoding: this.encoding
     );
     return ReacaoResposta.fromJson(this.decode(response));
@@ -86,7 +86,7 @@ class ReacaoRespostaService extends AbstractService {
   
   // GET
   Future<ReacaoResposta> getReacao(int id) async{
-    http.Response response = await http.get( this.buildUri(id.toString()) );
+    http.Response response = await http.get( this.buildUri(id.toString()), headers: await this.getHeader(auth: true), );
     
     dynamic json = this.decode(response);
     return ReacaoResposta.fromJson(json);
@@ -95,7 +95,7 @@ class ReacaoRespostaService extends AbstractService {
   // GET --> LIST
   Future<List<ReacaoResposta>> getReacoes() async{
     List<ReacaoResposta> categorias = [];
-    http.Response response = await http.get(this.buildUri());
+    http.Response response = await http.get(this.buildUri(), headers: await this.getHeader(auth: true),);
 
     dynamic json = this.decode(response);
 

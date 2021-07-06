@@ -16,7 +16,7 @@ class Duvidas extends StatefulWidget {
 class _DuvidasState extends State<Duvidas> {
   DuvidaService service = new DuvidaService( prefix: ApiUrls.prefix, host: ApiUrls.hostqst , path: "qst/doubts");
 
-  List<Duvida> duvidas = new List<Duvida>();
+  List<Duvida> duvidas = [];
 
   getDuvidas() {
     this.service.getDuvidas().then((response) => {
@@ -31,11 +31,10 @@ class _DuvidasState extends State<Duvidas> {
   }
 
   List<DuvidaComponent> listaDuvidas() {
-    List<DuvidaComponent> duvidaComponents = new List<DuvidaComponent>();
+    List<DuvidaComponent> duvidaComponents = [];
 
     for (var duvida in duvidas) {
-      print(duvida);
-      duvidaComponents.add(DuvidaComponent(titulo: duvida.titulo, conteudo: duvida.descricao));
+      duvidaComponents.add(DuvidaComponent(duvida: duvida,));
     }
 
     return duvidaComponents;

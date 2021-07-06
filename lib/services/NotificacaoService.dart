@@ -7,9 +7,9 @@ import 'AbstractService.dart';
 
 class NotificacaoService extends AbstractService {
 
-  NotificacaoService({ encoding, prefix, @required host, path, queryParams}) 
-  : super( prefix: prefix, host: host, path: path, queryParams: queryParams, encoding: encoding );
-  //({ encoding, prefix, host, path, queryParams}) : super( prefix: prefix, host: host, path: path, queryParams: queryParams, encoding: encoding );
+  NotificacaoService({ encoding, prefix, @required host, path, queryPath}) 
+  : super( prefix: prefix, host: host, path: path, queryPath: queryPath, encoding: encoding );
+  //({ encoding, prefix, host, path, queryPath}) : super( prefix: prefix, host: host, path: path, queryPath: queryPath, encoding: encoding );
 
   // GET
   Future<Notificacao> getNotificacao(int id) async{

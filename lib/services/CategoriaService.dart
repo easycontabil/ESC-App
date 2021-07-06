@@ -5,8 +5,8 @@ import 'AbstractService.dart';
 
 class CategoriaService extends AbstractService {
 
-  CategoriaService({ encoding, prefix, @required host, path, queryParams}) 
-  : super( prefix: prefix, host: host, path: path, queryParams: queryParams, encoding: encoding );
+  CategoriaService({ encoding, prefix, @required host, path, queryPath}) 
+  : super( prefix: prefix, host: host, path: path, queryPath: queryPath, encoding: encoding );
 
   Future<Categoria> getCategoria(String id) async {
     http.Response response = await http.get(this.buildUri(id.toString()), headers: await this.getHeader(auth: true));

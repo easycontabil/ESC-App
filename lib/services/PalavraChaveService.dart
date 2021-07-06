@@ -5,8 +5,8 @@ import 'AbstractService.dart';
 
 class PalavraChaveService extends AbstractService{
 
-  PalavraChaveService({ encoding, prefix, @required host, path, queryParams}) 
-  : super( prefix: prefix, host: host, path: path, queryParams: queryParams, encoding: encoding );
+  PalavraChaveService({ encoding, prefix, @required host, path, queryPath}) 
+  : super( prefix: prefix, host: host, path: path, queryPath: queryPath, encoding: encoding );
 
   Future<PalavraChave> getPalavraChave(String id) async {
     http.Response response = await http.get(this.buildUri(id), headers: await this.getHeader(auth: true));

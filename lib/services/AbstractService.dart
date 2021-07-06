@@ -9,16 +9,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class AbstractService{
   Encoding encoding;
-  String prefix, host, path, token;
-  Map<String, String> queryParams;
+  String prefix, host, path, token, queryPath;
 
-  AbstractService({ this.prefix = "http://", @required this.host, this.path, this.queryParams, Encoding encoding }) : this.encoding = encoding ?? Encoding.getByName('utf-8') ;
+  AbstractService({ this.prefix = "http://", @required this.host, this.path, this.queryPath, Encoding encoding }) : this.encoding = encoding ?? Encoding.getByName('utf-8') ;
 
   Uri buildUri([ String extraParams ]){
-    String baseUrl = "${this.prefix}${this.host}/";
-    if( this.path != null ){ baseUrl += "${this.path}/"; }
-    if( extraParams != null ){ baseUrl += "${extraParams}/"; }
-    return Uri.parse(baseUrl);
+    String baseUrl = "${this.prefix}${this.host}";
+    if( this.path != null ){ baseUrl += "/${this.path}"; }
+    if( queryPath != null ){ baseUrl += "/${this.queryPath}"; }
+    if( extraParams != null ){ baseUrl += "?${extraParams}"; }
+    return Uri.parse(baseUrl += "/");
   }
 
   Future<Map<String, String>> getHeader({ bool auth = false }) async {

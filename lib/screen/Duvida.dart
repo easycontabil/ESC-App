@@ -14,21 +14,25 @@ import 'package:google_fonts/google_fonts.dart';
 class VerDuvida extends StatefulWidget {
   String duvidaId;
 
-  VerDuvida(String id) {
-    duvidaId = id;
-  }
+  VerDuvida({ @required this.duvidaId });
 
   @override
   _VerDuvidaState createState() => _VerDuvidaState(duvidaId);
 }
 
 class _VerDuvidaState extends State<VerDuvida> {
-  DuvidaService service = new DuvidaService(prefix: ApiUrls.prefix, host: ApiUrls.hostqst , path: "qst/doubts");
 
-  Duvida duvida = new Duvida();
+  DuvidaService service = new DuvidaService(
+    prefix: ApiUrls.prefix, 
+    host: ApiUrls.hostqst , 
+    path: "qst/doubts",
+  );
 
-  getDuvida(String id) {
-    this.service.getDuvida(id).then((response) => {
+  bool respostas = false;
+  Duvida duvida;
+
+  void getDuvida(String id) {
+    this.service.getDuvida(id, loadDependencies: true, extraParams: "*deletedAt=null&_comments=true&_doubtReactions=true&_answers.answerReactions=true").then((response) => {
       setState(() {
         duvida = response;
       })
@@ -36,12 +40,8 @@ class _VerDuvidaState extends State<VerDuvida> {
   }
 
   _VerDuvidaState(String id) {
+    this.service.queryPath = id;
     getDuvida(id);
-  }
-
-  // TODO Ver com gabriel para criar um componente que renderize a duvida com todas as respostas e comentarios
-  listaDuvida() {
-
   }
 
   @override
@@ -50,33 +50,20 @@ class _VerDuvidaState extends State<VerDuvida> {
         backgroundColor: Color.fromRGBO(241,237,237, 1),
         drawer: CustomDrawer(),
         body: Container(
-          child: Column(
-            children: [
-              FeedAppBar(logged: true, height: 150,),
-              SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Column(
-                    children: [
-                      DuvidaText(),
-                      RespostaComponent(
-                        conteudo: "Nullam ornare sit amet quam ac lacinia. Donec egestas ligula id felis luctus, in accumsan tellus tincidunt. Cras mi est, sagittis sed libero ut, congue vehicula enim",
-                        nrComentarios: 2,
-                        nrCurtidas: 2,
-                        nrDescurtidas: 0,
-                        resolveu: false,
-                      ),
-                      RespostaComponent(
-                        conteudo: "Nullam ornare sit amet quam ac lacinia. Donec egestas ligula id felis luctus, in accumsan tellus tincidunt. Cras mi est, sagittis sed libero ut, congue vehicula enim",
-                        nrComentarios: 2,
-                        nrCurtidas: 2,
-                        nrDescurtidas: 0,
-                        resolveu: false,
-                      ),
-                      ComentarioComponent(conteudo: "Nullam ornare sit amet quam ac lacinia. Donec egestas ligula id felis luctus",)
-                    ]
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                FeedAppBar(logged: true, height: 150,),
+                SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  child: Column(
+                      children: [
+                        this.duvida != null ? DuvidaText(this.duvida) : CircularProgressIndicator()                       
+                      ]
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
         floatingActionButton: IconButton(

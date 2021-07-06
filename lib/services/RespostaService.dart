@@ -7,8 +7,8 @@ import 'AbstractService.dart';
 
 class RespostaService extends AbstractService {
 
-  RespostaService({ encoding, prefix, @required host, path, queryParams}) 
-  : super( prefix: prefix, host: host, path: path, queryParams: queryParams, encoding: encoding );
+  RespostaService({ encoding, prefix, @required host, path, queryPath}) 
+  : super( prefix: prefix, host: host, path: path, queryPath: queryPath, encoding: encoding );
 
   // POST
   Future<Resposta> registerResposta(Resposta resposta) async {

@@ -8,13 +8,13 @@ import 'AbstractService.dart';
 
 class DuvidaService extends AbstractService {
 
-  DuvidaService({ encoding, prefix, @required host, path, queryParams}) 
-  : super( prefix: prefix, host: host, path: path, queryParams: queryParams, encoding: encoding );
+  DuvidaService({ encoding, prefix, @required host, path, queryPath}) 
+  : super( prefix: prefix, host: host, path: path, queryPath: queryPath, encoding: encoding );
 
   // POST
-  Future<Duvida> registerDuvida(Duvida duvida) async {
+  Future<Duvida> registerDuvida(Duvida duvida, [ String extraParams ]) async {
     http.Response response = await http.post(
-      this.buildUri(),
+      this.buildUri(extraParams),
       body: json.encode(duvida.toJson()),
       headers: await this.getHeader(auth: true),
       encoding: this.encoding
@@ -24,9 +24,9 @@ class DuvidaService extends AbstractService {
   }
 
   // PUT
-  Future<Duvida> updateDuvida({String id, Duvida duvida}) async {
+  Future<Duvida> updateDuvida({String id, Duvida duvida, String extraParams}) async {
     http.Response response = await http.put(
-      this.buildUri(id.toString()),
+      this.buildUri(extraParams),
       body: json.encode(duvida.toJson()),
       headers: await this.getHeader(auth: true),
       encoding: this.encoding
@@ -36,17 +36,17 @@ class DuvidaService extends AbstractService {
   }
 
   // GET
-  Future<Duvida> getDuvida(String id, { bool loadDependencies = false }) async{
-    http.Response response = await http.get(this.buildUri(id.toString()), headers: await this.getHeader(auth: true));
+  Future<Duvida> getDuvida(String id, { bool loadDependencies = false, String extraParams }) async{
+    http.Response response = await http.get(this.buildUri(extraParams), headers: await this.getHeader(auth: true));
 
     return Duvida.fromJson(this.decode(response)["data"], loadDependencies: loadDependencies);
   }
 
   // LIST
-  Future<List<Duvida>> getDuvidas({ bool loadDependencies = false }) async {
-    List<Duvida> duvidas = new List<Duvida>();
+  Future<List<Duvida>> getDuvidas({ bool loadDependencies = false, String extraParams }) async {
+    List<Duvida> duvidas = [];
 
-    http.Response response = await http.get(this.buildUri(), headers: await this.getHeader(auth: true));
+    http.Response response = await http.get(this.buildUri(extraParams), headers: await this.getHeader(auth: true));
 
     for (var obj in this.decode(response)["data"]["data"]) {
       duvidas.add(Duvida.fromJson(obj, loadDependencies: loadDependencies) );

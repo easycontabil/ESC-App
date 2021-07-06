@@ -34,9 +34,9 @@ class Duvida extends Abstract{
       this.resolvida = json['solved'];
       // this.categorias = this.categoriasFromJson(json['categories']);
       if( loadDependencies == true){
-        // this.comentarios = comentariosFromJson(json['comments']);
-        // this.respostas = respostasFromJson(json['answers']);
-        // this.reacoes = reacoesFromJson(json['doubtReactions']);
+        this.comentarios = comentariosFromJson(json['comments']);
+        this.respostas = respostasFromJson(json['answers']);
+        this.reacoes = reacoesFromJson(json['doubtReactions']);
       }
     }
 

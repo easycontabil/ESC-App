@@ -7,8 +7,8 @@ import 'AbstractService.dart';
 
 class ComentarioService extends AbstractService {
 
-  ComentarioService({ encoding, prefix, @required host, path, queryParams}) 
-  : super(prefix: prefix, host: host, path: path, queryParams: queryParams, encoding: encoding);
+  ComentarioService({ encoding, prefix, @required host, path, queryPath}) 
+  : super(prefix: prefix, host: host, path: path, queryPath: queryPath, encoding: encoding);
 
   // POST
   Future<Comentario> registerComentario(Comentario comentario) async {

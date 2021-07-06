@@ -23,7 +23,7 @@ class Resposta extends Abstract{
     this.criacao = DateTime.parse(json['createdAt']);
     this.ultimaModificacao = DateTime.parse(json['updatedAt']);
     this.usuario = json['userId'];
-    this.duvida = Duvida(id: json['doubt']['id']);
+    this.duvida = Duvida(id: json['doubtId']);
     this.conteudo = json['content'];
     this.resolveu = json['solved'];
     if( loadDependencies == true  ){

@@ -7,8 +7,8 @@ import 'AbstractService.dart';
 
 class UsuarioService extends AbstractService {
 
-  UsuarioService({ encoding, prefix, @required host, path, queryParams}) 
-  : super( prefix: prefix, host: host, path: path, queryParams: queryParams, encoding: encoding );
+  UsuarioService({ encoding, prefix, @required host, path, queryPath}) 
+  : super( prefix: prefix, host: host, path: path, queryPath: queryPath, encoding: encoding );
 
   // POST
   Future<Usuario> registerUsuario(Usuario usuario) async {

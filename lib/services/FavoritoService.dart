@@ -7,9 +7,9 @@ import 'AbstractService.dart';
 
 class FavoritoService extends AbstractService {
 
-  FavoritoService({ encoding, prefix, @required host, path, queryParams}) 
-  : super( prefix: prefix, host: host, path: path, queryParams: queryParams, encoding: encoding );
-  //({ encoding, prefix, host, path, queryParams}) : super( prefix: prefix, host: host, path: path, queryParams: queryParams, encoding: encoding );
+  FavoritoService({ encoding, prefix, @required host, path, queryPath}) 
+  : super( prefix: prefix, host: host, path: path, queryPath: queryPath, encoding: encoding );
+  //({ encoding, prefix, host, path, queryPath}) : super( prefix: prefix, host: host, path: path, queryPath: queryPath, encoding: encoding );
 
 
   // POST
@@ -17,7 +17,7 @@ class FavoritoService extends AbstractService {
     http.Response response = await http.post(
       this.buildUri(),
       body: json.encode(favorito.toJson()),
-      headers: this.getHeader(),
+      headers: await this.getHeader(auth: true),
       encoding: this.encoding
     );
 
@@ -29,7 +29,7 @@ class FavoritoService extends AbstractService {
     http.Response response = await http.put(
       this.buildUri(id.toString()),
       body: json.encode(favorito.toJson()),
-      headers: this.getHeader(),
+      headers: await this.getHeader(auth: true),
       encoding: this.encoding
     );
 
@@ -38,7 +38,7 @@ class FavoritoService extends AbstractService {
 
   // GET
   Future<Favorito> getFavorito(int id) async{
-    http.Response response = await http.get( this.buildUri(id.toString()) );
+    http.Response response = await http.get( this.buildUri(id.toString()), headers: await this.getHeader(auth: true), );
     
     dynamic json = this.decode(response);
     return Favorito.fromJson(json);
@@ -48,7 +48,7 @@ class FavoritoService extends AbstractService {
   // GET --> LIST
   Future<List<Favorito>> getFavoritos() async{
     List<Favorito> favoritos = [];
-    http.Response response = await http.get(this.buildUri());
+    http.Response response = await http.get(this.buildUri(), headers: await this.getHeader(auth: true),);
 
     dynamic json = this.decode(response);
 
