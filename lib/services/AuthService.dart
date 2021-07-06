@@ -35,13 +35,13 @@ class AuthService extends AbstractService {
   }
 
   // REGISTER
-  Future<Map<String, dynamic>> register([ String login, String email, String senha ]) async {
+  Future<Map<String, dynamic>> register([ String login, String email, String senha, String image ]) async {
     dynamic headers = await this.getHeader(auth: false);
 
     http.Response response = await http.post( 
       this.buildUri("register"),
       headers: headers,
-      body: json.encode({ 'name': login, 'email': email, 'password': senha, 'password_confirmation': senha})
+      body: json.encode({ 'name': login, 'email': email, 'password': senha, 'password_confirmation': senha, 'image': image})
     );
     dynamic data = this.decode(response);
     return data;

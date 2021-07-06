@@ -1,4 +1,6 @@
 
+import 'dart:convert';
+
 import 'package:easycontab/components/AppBar.dart';
 import 'package:easycontab/components/BackgroundBaseWidget.dart';
 import 'package:easycontab/components/Button.dart';
@@ -34,7 +36,7 @@ class _RegistroUsuarioState extends State<RegistroUsuario> {
   Preferences preferences = new Preferences();
 
   final picker = ImagePicker();
-  dynamic bytes;
+  String img64;
   File image;
 
   void showError(String msg){
@@ -53,7 +55,8 @@ class _RegistroUsuarioState extends State<RegistroUsuario> {
           Map<String, dynamic> data = await this.service.register(
             this.nomeController.text,
             this.emailController.text,
-            this.senhaController.text
+            this.senhaController.text,
+            this.img64
           );
           if( data["status"] == 201 ){
             // String userId = data["data"]["id"];
@@ -107,6 +110,7 @@ class _RegistroUsuarioState extends State<RegistroUsuario> {
     setState(() {
       if (pickedFile != null){
         this.image = File(pickedFile.path);
+        this.img64 = base64Encode( this.image.readAsBytesSync() );
       }
     }); 
   }
