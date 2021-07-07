@@ -13,19 +13,20 @@ class Usuario extends Abstract{
     this.id = json["id"];
     this.nome = json['name'];
     this.login = json['login'];
-    this.senha = json['senha'];
+    this.senha = json['password'];
     this.email = json['email'];
     this.admin = json['admin'];
-    this.foto = json['foto'];
+    this.foto = json['image'];
   }
 
   Map<String, dynamic> toJson() => {
     'id': this.id,
-    'nome': this.nome,
+    'name': this.nome,
     'login': this.login,
-    'senha': this.senha,
+    'password': this.senha,
     'email': this.email,
     'admin': this.admin,
+    'image': this.foto,
   };
 
   @override

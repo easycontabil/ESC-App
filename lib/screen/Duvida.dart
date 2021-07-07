@@ -32,7 +32,7 @@ class _VerDuvidaState extends State<VerDuvida> {
   Duvida duvida;
 
   void getDuvida(String id) {
-    this.service.getDuvida(id, loadDependencies: true, extraParams: "*deletedAt=null&_comments=true&_doubtReactions=true&_answers.answerReactions=true").then((response) => {
+    this.service.getDuvida(id, loadDependencies: true).then((response) => {
       setState(() {
         duvida = response;
       })
@@ -40,7 +40,7 @@ class _VerDuvidaState extends State<VerDuvida> {
   }
 
   _VerDuvidaState(String id) {
-    this.service.queryPath = id;
+    this.service.queryPath = "*deletedAt=null&_comments=true&_doubtReactions=true&_answers.answerReactions=true";
     getDuvida(id);
   }
 

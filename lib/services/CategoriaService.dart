@@ -9,7 +9,7 @@ class CategoriaService extends AbstractService {
   : super( prefix: prefix, host: host, path: path, queryPath: queryPath, encoding: encoding );
 
   Future<Categoria> getCategoria(String id) async {
-    http.Response response = await http.get(this.buildUri(id.toString()), headers: await this.getHeader(auth: true));
+    http.Response response = await http.get(this.buildUri(id), headers: await this.getHeader(auth: true));
 
     return Categoria.fromJson(this.decode(response)["data"]);
   }

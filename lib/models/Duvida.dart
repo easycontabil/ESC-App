@@ -24,7 +24,7 @@ class Duvida extends Abstract{
       this.id = json['id'];
       this.criacao = DateTime.parse(json['createdAt']) ?? null;
       this.ultimaModificacao = DateTime.parse(json['updatedAt']) ?? null;
-      // this.usuario = json['userId'];
+      this.usuario = Usuario.fromJson(json['user']);
       this.titulo = json['title'];
       this.descricao = json['description'];
       // this.nrRespostas = json['answers'];
@@ -78,20 +78,21 @@ class Duvida extends Abstract{
 
     Map<String, dynamic> toJson() => {
       'id': this.id,
-      'usuario': this.usuario.id,
-      'titulo': this.titulo,
-      'descricao': this.descricao,
-      'nr_respostas': this.nrRespostas,
-      'nr_views': this.nrViews ,
-      'nr_favoritos': this.nrFavoritos ,
-      'aberta': this.aberta ,
-      'resolvida': this.resolvida ,
-      'categorias': this.gategoriasToJson(),
+      // 'userId': this.usuario.id,
+      'title': this.titulo,
+      'description': this.descricao,
+      // 'nr_respostas': this.nrRespostas,
+      // 'nr_views': this.nrViews ,
+      // 'nr_favoritos': this.nrFavoritos ,
+      'closedAt': this.aberta ,
+      'solved': this.resolvida ,
+      'categories': this.gategoriasToJson(),
+      // 'doubtReaction': { 'liked': this.curtiu }
     };
   
     List<Map<String, dynamic>> gategoriasToJson(){
       List<Map<String, dynamic>> categorias = [];
-      this.categorias.forEach((Categoria categoria) { 
+      this.categorias.forEach((Categoria categoria) {
         categorias.add(categoria.toJson());
       });
       return categorias;

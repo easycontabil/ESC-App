@@ -18,23 +18,25 @@ class ReacaoDuvidaService extends AbstractService {
       headers: await this.getHeader(auth: true),
       encoding: this.encoding
     );
+
     return ReacaoDuvida.fromJson(this.decode(response));
   }
 
   // PUT
   Future<ReacaoDuvida> updateReacao(ReacaoDuvida reacao) async {
     http.Response response = await http.post(
-      this.buildUri(reacao.id.toString()),
+      this.buildUri(reacao.duvida.id),
       body: json.encode(reacao.toJson()),
       headers: await this.getHeader(auth: true),
       encoding: this.encoding
     );
+
     return ReacaoDuvida.fromJson(this.decode(response));
   }
   
   // GET
-  Future<ReacaoDuvida> getReacao(int id) async{
-    http.Response response = await http.get( this.buildUri(id.toString()), headers: await this.getHeader(auth: true), );
+  Future<ReacaoDuvida> getReacao(String id) async{
+    http.Response response = await http.get( this.buildUri(id), headers: await this.getHeader(auth: true), );
     
     dynamic json = this.decode(response);
     return ReacaoDuvida.fromJson(json);
@@ -85,8 +87,8 @@ class ReacaoRespostaService extends AbstractService {
   }
   
   // GET
-  Future<ReacaoResposta> getReacao(int id) async{
-    http.Response response = await http.get( this.buildUri(id.toString()), headers: await this.getHeader(auth: true), );
+  Future<ReacaoResposta> getReacao(String id) async{
+    http.Response response = await http.get( this.buildUri(id), headers: await this.getHeader(auth: true), );
     
     dynamic json = this.decode(response);
     return ReacaoResposta.fromJson(json);

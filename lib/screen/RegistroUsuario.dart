@@ -1,5 +1,5 @@
-
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:easycontab/components/AppBar.dart';
 import 'package:easycontab/components/BackgroundBaseWidget.dart';
@@ -106,11 +106,12 @@ class _RegistroUsuarioState extends State<RegistroUsuario> {
   }
 
   Future chooseImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    PickedFile pickedFile = await picker.getImage(source: ImageSource.gallery);
+    Uint8List fileBytes = await pickedFile.readAsBytes();
     setState(() {
       if (pickedFile != null){
         this.image = File(pickedFile.path);
-        this.img64 = base64Encode( this.image.readAsBytesSync() );
+        this.img64 = base64Encode(fileBytes);
       }
     }); 
   }

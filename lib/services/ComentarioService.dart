@@ -25,7 +25,7 @@ class ComentarioService extends AbstractService {
   // PUT
   Future<Comentario> updateComentario({String id, Comentario comentario}) async {
     http.Response response = await http.put(
-      this.buildUri(id.toString()),
+      this.buildUri(id),
       body: json.encode(comentario.toJson()),
       headers: await this.getHeader(auth: true),
       encoding: this.encoding
@@ -36,7 +36,7 @@ class ComentarioService extends AbstractService {
 
   // GET
   Future<Comentario> getComentario(String id) async{
-    http.Response response = await http.get(this.buildUri(id.toString()), headers: await this.getHeader(auth: true));
+    http.Response response = await http.get(this.buildUri(id), headers: await this.getHeader(auth: true));
 
     return Comentario.fromJson(this.decode(response)["data"]);
   }

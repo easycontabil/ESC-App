@@ -5,8 +5,6 @@ import 'dart:convert';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-
-
 abstract class AbstractService{
   Encoding encoding;
   String prefix, host, path, token, queryPath;
@@ -15,10 +13,12 @@ abstract class AbstractService{
 
   Uri buildUri([ String extraParams ]){
     String baseUrl = "${this.prefix}${this.host}";
-    if( this.path != null ){ baseUrl += "/${this.path}"; }
-    if( queryPath != null ){ baseUrl += "/${this.queryPath}"; }
-    if( extraParams != null ){ baseUrl += "?${extraParams}"; }
-    return Uri.parse(baseUrl += "/");
+
+    if (this.path != null) baseUrl += "/${this.path}";
+    if (extraParams != null) baseUrl += "/${extraParams}";
+    if (queryPath != null) baseUrl += "?${this.queryPath}";
+
+    return Uri.parse(baseUrl);
   }
 
   Future<Map<String, String>> getHeader({ bool auth = false }) async {

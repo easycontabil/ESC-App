@@ -12,15 +12,13 @@ class ReacaoResposta extends Abstract{
   ReacaoResposta({ id, this.usuario, this.resposta, this.curtiu }) : super(id: id);
 
   ReacaoResposta.fromJson(Map<String, dynamic> json) {
-    this.usuario = Usuario(id: json['userId']);
+    this.usuario = Usuario.fromJson(json['user']);
     this.resposta = Resposta(id: json['answerId']);
     this.curtiu = json['liked'];
   }
 
   Map<String, dynamic> toJson() => {
-    'id': this.id,
-    'answer': { 'id': this.resposta.id },
-    'user': { 'id': this.usuario.id }
+    'answerReaction': { 'liked': this.curtiu }
   };
 }
 
@@ -32,14 +30,12 @@ class ReacaoDuvida extends Abstract{
   ReacaoDuvida({ id, this.usuario, this.duvida, this.curtiu }) : super(id: id);
 
   ReacaoDuvida.fromJson(Map<String, dynamic> json) {
-    this.usuario = Usuario(id: json['userId']);
+    this.usuario = Usuario.fromJson(json['user']);
     this.duvida = Duvida(id: json['doubtId']);
     this.curtiu = json['liked'];
   }
 
   Map<String, dynamic> toJson() => {
-    'id': this.id,
-    'doubt': { 'id': this.duvida.id },
-    'user': { 'id': this.usuario.id }
+    'doubtReaction': { 'liked': this.curtiu }
   };
 }

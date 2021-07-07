@@ -3,10 +3,10 @@ import 'package:easycontab/models/Reacao.dart';
 
 import 'Abstract.dart';
 import 'Duvida.dart';
-// import 'Usuario.dart';
+import 'Usuario.dart';
 
 class Resposta extends Abstract{
-  String usuario;
+  Usuario usuario;
   Duvida duvida;
   List<Comentario> comentarios;
   List<ReacaoResposta> reacoes;
@@ -22,7 +22,7 @@ class Resposta extends Abstract{
     this.id = json['id'];
     this.criacao = DateTime.parse(json['createdAt']);
     this.ultimaModificacao = DateTime.parse(json['updatedAt']);
-    this.usuario = json['userId'];
+    this.usuario = Usuario.fromJson(json['user']);
     this.duvida = Duvida(id: json['doubtId']);
     this.conteudo = json['content'];
     this.resolveu = json['solved'];
@@ -52,7 +52,7 @@ class Resposta extends Abstract{
 
   Map<String, dynamic> toJson() => {
     'id': this.id,
-    'userId': this.usuario,
+    // 'userId': this.usuario,
     'doubtId': this.duvida.id,
     'content': this.conteudo,
     'solved': this.resolveu

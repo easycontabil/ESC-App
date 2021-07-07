@@ -37,7 +37,7 @@ class DuvidaService extends AbstractService {
 
   // GET
   Future<Duvida> getDuvida(String id, { bool loadDependencies = false, String extraParams }) async{
-    http.Response response = await http.get(this.buildUri(extraParams), headers: await this.getHeader(auth: true));
+    http.Response response = await http.get(this.buildUri(id), headers: await this.getHeader(auth: true));
 
     return Duvida.fromJson(this.decode(response)["data"], loadDependencies: loadDependencies);
   }
