@@ -15,6 +15,7 @@ class Duvida extends Abstract{
   String titulo, descricao;
   int nrRespostas, nrViews, nrFavoritos, nrAprovacoes, nrDesaprovacoes;
   bool aberta, resolvida;
+  bool reacaoDuvida;
   
     Duvida(
       { id, this.titulo, this.descricao, this.usuario, this.categorias, this.nrFavoritos, this.nrAprovacoes, this.nrDesaprovacoes, this.nrRespostas, this.nrViews, this.aberta, this.resolvida }
@@ -29,17 +30,16 @@ class Duvida extends Abstract{
       this.descricao = json['description'];
       this.aberta = json['solved'];
       this.resolvida = json['solved'];
-      if( loadDependencies == true){
-        this.comentarios = comentariosFromJson(json['comments'], loadDependencies: loadDependencies);
-        this.respostas = respostasFromJson(json['answers'], loadDependencies: loadDependencies);
-        this.reacoes = reacoesFromJson(json['doubtReactions'], loadDependencies: loadDependencies);
+      if (loadDependencies == true) {
+        this.respostas = respostasFromJson(json['answers']);
+        this.reacoes = reacoesFromJson(json['doubtReactions']);
         this.nrRespostas = this.respostas.length;
         this.nrAprovacoes = this.reacoes.where((element) => element.curtiu == true).toList().length;
         this.nrDesaprovacoes = this.reacoes.where((element) => element.curtiu == false).toList().length;
       }
     }
 
-    List<Categoria> categoriasFromJson(dynamic json, { bool loadDependencies = false}){
+    List<Categoria> categoriasFromJson(dynamic json) {
       List<Categoria> categorias = [];
 
       for( var categoria in json){
@@ -48,7 +48,7 @@ class Duvida extends Abstract{
       return categorias;
     }
 
-    List<Comentario> comentariosFromJson(dynamic json, { bool loadDependencies = false}){
+    List<Comentario> comentariosFromJson(dynamic json) {
       List<Comentario> comentarios = [];
 
       for( var comentario in json){
@@ -57,16 +57,17 @@ class Duvida extends Abstract{
       return comentarios;
     }
 
-    List<Resposta> respostasFromJson(dynamic json, { bool loadDependencies = false}){
+    List<Resposta> respostasFromJson(dynamic json) {
       List<Resposta> respostas = [];
 
       for( var resposta in json){
-        respostas.add( Resposta.fromJson(resposta, loadDependencies: loadDependencies) );
+        respostas.add( Resposta.fromJson(resposta, loadDependencies: true) );
       }
+
       return respostas;
     }
 
-    List<ReacaoDuvida> reacoesFromJson(dynamic json, { bool loadDependencies = false}){
+    List<ReacaoDuvida> reacoesFromJson(dynamic json){
       List<ReacaoDuvida> reacoes = [];
 
       for( var resposta in json){
@@ -76,21 +77,12 @@ class Duvida extends Abstract{
     }
 
     Map<String, dynamic> toJson() => {
-      'id': this.id,
       'title': this.titulo,
       'description': this.descricao,
-      'closedAt': this.aberta ,
-      'solved': this.resolvida ,
-      'categories': this.gategoriasToJson(),
+      'doubtReaction': {
+        'liked': this.reacaoDuvida
+      }
     };
-  
-    List<Map<String, dynamic>> gategoriasToJson(){
-      List<Map<String, dynamic>> categorias = [];
-      this.categorias.forEach((Categoria categoria) {
-        categorias.add(categoria.toJson());
-      });
-      return categorias;
-    }
   
     @override 
     String toString() => "${this.titulo}"; 

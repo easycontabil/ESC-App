@@ -1,8 +1,10 @@
 
 import 'package:easycontab/components/DuvidaComponent.dart';
 import 'package:easycontab/components/RespostaComponent.dart';
+import 'package:easycontab/contants/app_api_urls.dart';
 import 'package:easycontab/models/Duvida.dart';
 import 'package:easycontab/models/Resposta.dart';
+import 'package:easycontab/services/DuvidaService.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -10,7 +12,7 @@ import 'misc/IconCount.dart';
 
 class DuvidaText extends StatefulWidget {
 
-  final Duvida duvida;
+  Duvida duvida;
 
   DuvidaText(@required this.duvida);
 
@@ -19,6 +21,12 @@ class DuvidaText extends StatefulWidget {
 }
 
 class _DuvidaTextState extends State<DuvidaText> {
+
+  DuvidaService service = new DuvidaService(
+    prefix: ApiUrls.prefix,
+    host: ApiUrls.hostqst ,
+    path: "qst/doubts",
+  );
 
   bool respostasVisible = false;
 
@@ -87,8 +95,31 @@ class _DuvidaTextState extends State<DuvidaText> {
                           this.respostasVisible = !this.respostasVisible;
                         });
                       }
-                    )
-                    //IconCount(count: 0, icon: Icons.remove_red_eye),
+                    ),
+                    GestureDetector(
+                      child: IconCount(count: this.widget.duvida.nrAprovacoes, icon: Icons.thumb_up, size: 18, ),
+                      onTap: () {
+                        this.widget.duvida.reacaoDuvida = true;
+
+                        this.service.updateDuvida(id: this.widget.duvida.id, duvida: this.widget.duvida).then((response) => {
+                          setState(() {
+                            this.widget.duvida = response;
+                          })
+                        });
+                      }
+                    ),
+                    GestureDetector(
+                        child: IconCount(count: this.widget.duvida.nrDesaprovacoes, icon: Icons.thumb_down, size: 18 ),
+                        onTap: () {
+                          this.widget.duvida.reacaoDuvida = false;
+
+                          this.service.updateDuvida(id: this.widget.duvida.id, duvida: this.widget.duvida).then((response) => {
+                            setState(() {
+                              this.widget.duvida = response;
+                            })
+                          });
+                        }
+                    ),
                   ],
                 ),
               ]

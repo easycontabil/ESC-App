@@ -14,3 +14,12 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter, view our
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+- [ ] like, dislike resposta
+- [ ] renderizar o perfil *
+- [ ] criar uma duvida *
+- [ ] criar uma resposta/comentario *
+- [ ] fechar duvida
+- [ ] pontos
+- [ ] listagem minhas duvidas
+- [ ] resolver duvida baseada em uma resposta

@@ -40,7 +40,7 @@ class _VerDuvidaState extends State<VerDuvida> {
   }
 
   _VerDuvidaState(String id) {
-    this.service.queryPath = "*deletedAt=null&_doubtReactions=true&_answers.answerReactions=true&_answers.comments=true";
+    this.service.queryPath = "*deletedAt=null&_doubtReactions=[]&_answers=[\"answerReactions\", \"comments\"]";
     getDuvida(id);
   }
 

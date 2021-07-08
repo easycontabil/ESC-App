@@ -26,13 +26,13 @@ class DuvidaService extends AbstractService {
   // PUT
   Future<Duvida> updateDuvida({String id, Duvida duvida, String extraParams}) async {
     http.Response response = await http.put(
-      this.buildUri(extraParams),
+      this.buildUri(id),
       body: json.encode(duvida.toJson()),
       headers: await this.getHeader(auth: true),
       encoding: this.encoding
     );
 
-    return Duvida.fromJson(this.decode(response)["data"]);
+    return Duvida.fromJson(this.decode(response)["data"], loadDependencies: true);
   }
 
   // GET
