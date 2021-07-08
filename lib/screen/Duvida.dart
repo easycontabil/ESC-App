@@ -11,6 +11,8 @@ import 'package:easycontab/services/DuvidaService.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'CriarResposta.dart';
+
 class VerDuvida extends StatefulWidget {
   String duvidaId;
 
@@ -68,7 +70,9 @@ class _VerDuvidaState extends State<VerDuvida> {
         ),
         floatingActionButton: IconButton(
           icon: Icon(Icons.add),
-          onPressed: (){},
+          onPressed: () {
+            Navigator.push( context, MaterialPageRoute(builder: (context) => CriarResposta(this.duvida)) );
+          },
         )
     );
   }

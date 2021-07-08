@@ -31,6 +31,7 @@ abstract class AbstractService{
 
   Future<Map<String, String>> getAuthHeader() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    print(prefs.get('token'));
     return { "Authorization": "Bearer ${prefs.get('token')}"};
   }
 

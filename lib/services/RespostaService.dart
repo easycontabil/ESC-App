@@ -19,6 +19,14 @@ class RespostaService extends AbstractService {
       encoding: this.encoding
     );
 
+    // dynamic body = this.decode(response);
+
+    if (response.statusCode == 400) {
+      // TODO mostrar algum popUp em tela com a mensagem de erro
+      // TODO Criar um solucao global para isso, qualquer erro que der na API tem que renderizar no popUp
+      // TODO Seria otimo fica dentro do this.decode
+    }
+
     return Resposta.fromJson(this.decode(response)["data"]);
   }
 
@@ -31,7 +39,7 @@ class RespostaService extends AbstractService {
       encoding: this.encoding
     );
 
-    return Resposta.fromJson(this.decode(response)["data"]);
+    return Resposta.fromJson(this.decode(response)["data"], loadDependencies: true);
   }
 
   // GET

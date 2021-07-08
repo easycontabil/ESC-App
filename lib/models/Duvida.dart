@@ -76,13 +76,20 @@ class Duvida extends Abstract{
       return reacoes;
     }
 
-    Map<String, dynamic> toJson() => {
-      'title': this.titulo,
-      'description': this.descricao,
-      'doubtReaction': {
-        'liked': this.reacaoDuvida
+    Map<String, dynamic> toJson() {
+      if (this.reacaoDuvida != null) {
+        return {
+          'doubtReaction': {
+            'liked': this.reacaoDuvida
+          }
+        };
       }
-    };
+
+      return {
+        'title': this.titulo,
+        'description': this.descricao,
+      };
+    }
   
     @override 
     String toString() => "${this.titulo}"; 

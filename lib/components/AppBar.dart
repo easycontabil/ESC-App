@@ -1,4 +1,6 @@
 import 'package:easycontab/contants/app_assets.dart';
+import 'package:easycontab/models/Usuario.dart';
+import 'package:easycontab/utils/Preferences.dart';
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatefulWidget {
@@ -12,6 +14,20 @@ class CustomAppBar extends StatefulWidget {
 }
 
 class _CustomAppBarState extends State<CustomAppBar> {
+  Usuario usuario = new Usuario();
+  Preferences preferences = new Preferences();
+
+  setUser() {
+    this.preferences.init().then((value) => {
+      setState(() {
+        this.usuario = this.preferences.getUser();
+      })
+    });
+  }
+
+  _CustomAppBarState() {
+    setUser();
+  }
 
   Widget _getChild(BuildContext context){
       if(this.widget.logged == true){
@@ -62,8 +78,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
               margin: EdgeInsets.all(10),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(50),
-                child: Image.asset(
-                  Assets.userRegister,       
+                child: Image.network(
+                  this.usuario.foto,
                   height: 80,  
                   fit: BoxFit.fill  
                 )

@@ -1,4 +1,6 @@
 import 'package:easycontab/contants/app_assets.dart';
+import 'package:easycontab/models/Usuario.dart';
+import 'package:easycontab/utils/Preferences.dart';
 import 'package:flutter/material.dart';
 
 class FeedAppBar extends StatefulWidget {
@@ -13,6 +15,20 @@ class FeedAppBar extends StatefulWidget {
 }
  
 class _FeedAppBarState extends State<FeedAppBar> {
+  Usuario usuario = new Usuario();
+  Preferences preferences = new Preferences();
+
+  setUser() {
+    this.preferences.init().then((value) => {
+      setState(() {
+        this.usuario = this.preferences.getUser();
+      })
+    });
+  }
+
+  _FeedAppBarState() {
+    setUser();
+  }
 
   Widget _getChild(){
       if(this.widget.logged == true){
@@ -63,8 +79,8 @@ class _FeedAppBarState extends State<FeedAppBar> {
               margin: EdgeInsets.all(10),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(50),
-                child: Image.asset(
-                  Assets.userRegister,       
+                child: Image.network(
+                  this.usuario.foto,
                   height: 70,  
                   fit: BoxFit.fill  
                 )

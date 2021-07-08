@@ -4,13 +4,31 @@ import 'package:easycontab/components/CustomTextField.dart';
 import 'package:easycontab/components/FeedAppBar.dart';
 import 'package:easycontab/components/SearchTextField.dart';
 import 'package:easycontab/components/misc/DrawerActionItem.dart';
+import 'package:easycontab/contants/app_api_urls.dart';
 import 'package:easycontab/contants/app_assets.dart';
+import 'package:easycontab/models/Duvida.dart';
+import 'package:easycontab/services/DuvidaService.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'Duvidas.dart';
 
 class CriarDuvida extends StatelessWidget {
+  DuvidaService service = new DuvidaService( prefix: ApiUrls.prefix, host: ApiUrls.hostqst , path: "qst/doubts");
+
+  TextEditingController tituloController = new TextEditingController();
+  TextEditingController descricaoController = new TextEditingController();
+
+  void submit(context) async {
+    Duvida duvida = new Duvida();
+
+    duvida.titulo = this.tituloController.text;
+    duvida.descricao = this.descricaoController.text;
+
+    await service.registerDuvida(duvida);
+
+    Navigator.push( context, MaterialPageRoute(builder: (context) => Duvidas()) );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -113,9 +131,9 @@ class CriarDuvida extends StatelessWidget {
                     child: Container(                 
                       child: Column(
                         children: [
-                          CustomTextField(labelText: "TÍTULO",),
+                          CustomTextField(labelText: "TÍTULO", textController: this.tituloController),
                           SizedBox(height: 20),
-                          CustomTextField(labelText: "DESCRIÇÃO",),
+                          CustomTextField(labelText: "DESCRIÇÃO", textController: this.descricaoController),
                           SizedBox(height: 40),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -129,9 +147,9 @@ class CriarDuvida extends StatelessWidget {
                               ),
                               CustomSmallButton(
                                 action: (){
-                                  Navigator.push( context, MaterialPageRoute(builder: (context) => Duvidas()) );
+                                  submit(context);
                                 },
-                                label: "ABRIR",
+                                label: "CRIAR",
                               ),
                             ],                           
                           ),

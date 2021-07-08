@@ -72,7 +72,7 @@ class _DuvidasState extends State<Duvidas> {
       ),
       floatingActionButton: IconButton(
         icon: Icon(Icons.add),
-        onPressed: (){
+        onPressed: () {
           Navigator.push( context, MaterialPageRoute(builder: (context) => CriarDuvida()) );
         },
       )

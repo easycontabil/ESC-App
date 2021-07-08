@@ -12,7 +12,8 @@ class Resposta extends Abstract{
   List<ReacaoResposta> reacoes;
   String conteudo;
   bool resolveu;
-  int nrAprovacoes, nrDesaprovacoes;
+  int nrAprovacoes, nrDesaprovacoes, nrComentarions;
+  bool reacaoResposta;
 
   Resposta(
     { id, criacao, ultimaModificacao, this.usuario, this.duvida, this.conteudo, this.nrAprovacoes, this.nrDesaprovacoes, this.resolveu }
@@ -29,6 +30,7 @@ class Resposta extends Abstract{
     if (loadDependencies == true) {
       this.comentarios = comentariosFromJson(json['comments']);
       this.reacoes = reacoesFromJson(json['answerReactions']);
+      this.nrComentarions = this.comentarios.length;
       this.nrAprovacoes = this.reacoes.where((element) => element.curtiu == true).toList().length;
       this.nrDesaprovacoes = this.reacoes.where((element) => element.curtiu == false).toList().length;
     }
@@ -52,13 +54,21 @@ class Resposta extends Abstract{
       return reacoes;
     }
 
-  Map<String, dynamic> toJson() => {
-    'id': this.id,
-    // 'userId': this.usuario,
-    'doubtId': this.duvida.id,
-    'content': this.conteudo,
-    'solved': this.resolveu
-  };
+  Map<String, dynamic> toJson() {
+    if (this.reacaoResposta != null) {
+      return {
+        'answerReaction': {
+          'liked': this.reacaoResposta
+        }
+      };
+    }
+
+    return {
+      'doubtId': this.duvida.id,
+      'content': this.conteudo,
+      'solved': this.resolveu
+    };
+  }
 
   @override 
   String toString() => this.conteudo;

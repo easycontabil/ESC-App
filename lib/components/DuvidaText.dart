@@ -30,18 +30,12 @@ class _DuvidaTextState extends State<DuvidaText> {
 
   bool respostasVisible = false;
 
-  List<RespostaComponent> showRespostas(){
+  List<RespostaComponent> showRespostas() {
     List<RespostaComponent> respostas = [];
 
-    for( var resposta in this.widget.duvida.respostas ){
+    for( var resposta in this.widget.duvida.respostas ) {
       respostas.add(
-        RespostaComponent(
-          conteudo: resposta.conteudo,
-          nrComentarios: resposta.comentarios != null ? resposta.comentarios.length : 0,
-          nrCurtidas: resposta.nrAprovacoes ?? 0,
-          nrDescurtidas: resposta.nrDesaprovacoes ?? 0,
-          resolveu: resposta.resolveu ?? false
-        )
+        RespostaComponent(resposta: resposta)
       );
     }
     return respostas;

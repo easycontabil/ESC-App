@@ -4,12 +4,13 @@ import 'Abstract.dart';
 class Usuario extends Abstract{
   String nome, login, senha, email, foto;
   bool admin;
+  int pontos;
 
   Usuario(
-    {id, this.nome, this.login, this.senha, this.email, this.admin, this.foto}
+    {id, this.nome, this.login, this.senha, this.email, this.admin, this.foto, this.pontos}
   ) : super(id: id);
 
-  Usuario.fromJson(Map<String, dynamic> json){
+  Usuario.fromJson(Map<String, dynamic> json) {
     this.id = json["id"];
     this.nome = json['name'];
     this.login = json['login'];
@@ -17,6 +18,7 @@ class Usuario extends Abstract{
     this.email = json['email'];
     this.admin = json['admin'];
     this.foto = json['image'];
+    this.pontos = json['points'];
   }
 
   Map<String, dynamic> toJson() => {
@@ -27,6 +29,7 @@ class Usuario extends Abstract{
     'email': this.email,
     'admin': this.admin,
     'image': this.foto,
+    'points': this.pontos
   };
 
   @override

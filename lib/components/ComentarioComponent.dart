@@ -1,4 +1,5 @@
 
+import 'package:easycontab/models/Comentario.dart';
 import 'package:easycontab/models/Usuario.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -7,10 +8,11 @@ import 'package:google_fonts/google_fonts.dart';
 class ComentarioComponent extends StatefulWidget {
 
   //final Usuario dono;
-  final String conteudo;
+  // final String conteudo;
+  Comentario comentario;
   final controller = new TextEditingController();
 
-  ComentarioComponent({ /*@required this.dono,*/ @required this.conteudo });
+  ComentarioComponent({ /*@required this.dono,*/ @required this.comentario });
 
   @override
   _ComentarioComponentState createState() => _ComentarioComponentState();
@@ -34,7 +36,7 @@ class _ComentarioComponentState extends State<ComentarioComponent> {
             padding: EdgeInsets.only(top: 6),
             child: Container(                 
               child: Text(
-                this.widget.conteudo,
+                this.widget.comentario.comentario,
                 style: GoogleFonts.openSans( color: Color.fromRGBO(161,161,161,1), fontSize: 9, fontWeight: FontWeight.w600),
                 overflow: TextOverflow.clip,                   
               ),
