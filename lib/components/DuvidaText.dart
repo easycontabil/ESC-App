@@ -29,10 +29,10 @@ class _DuvidaTextState extends State<DuvidaText> {
       respostas.add(
         RespostaComponent(
           conteudo: resposta.conteudo,
-          nrComentarios: 2,
-          nrCurtidas: resposta.nrAprovacoes,
+          nrComentarios: resposta.comentarios != null ? resposta.comentarios.length : 0,
+          nrCurtidas: resposta.nrAprovacoes ?? 0,
           nrDescurtidas: resposta.nrDesaprovacoes ?? 0,
-          resolveu: resposta.resolveu,
+          resolveu: resposta.resolveu ?? false
         )
       );
     }

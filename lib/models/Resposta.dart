@@ -28,7 +28,11 @@ class Resposta extends Abstract{
     this.resolveu = json['solved'];
     if( loadDependencies == true  ){
       this.comentarios = comentariosFromJson(json['comments']);
+      print(json['answerReactions']);
       this.reacoes = reacoesFromJson(json['answerReactions']);
+      print(this.reacoes);
+      this.nrAprovacoes = this.reacoes.where((element) => element.curtiu == true).toList().length;
+      this.nrDesaprovacoes = this.reacoes.where((element) => element.curtiu == false).toList().length;
     }
   } 
 

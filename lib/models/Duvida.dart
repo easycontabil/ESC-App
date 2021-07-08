@@ -27,20 +27,19 @@ class Duvida extends Abstract{
       this.usuario = Usuario.fromJson(json['user']);
       this.titulo = json['title'];
       this.descricao = json['description'];
-      // this.nrRespostas = json['answers'];
-      // this.nrViews = json['nr_views'];
-      // this.nrFavoritos = json['nr_favoritos'];
       this.aberta = json['solved'];
       this.resolvida = json['solved'];
-      // this.categorias = this.categoriasFromJson(json['categories']);
       if( loadDependencies == true){
-        this.comentarios = comentariosFromJson(json['comments']);
-        this.respostas = respostasFromJson(json['answers']);
-        this.reacoes = reacoesFromJson(json['doubtReactions']);
+        this.comentarios = comentariosFromJson(json['comments'], loadDependencies: loadDependencies);
+        this.respostas = respostasFromJson(json['answers'], loadDependencies: loadDependencies);
+        this.reacoes = reacoesFromJson(json['doubtReactions'], loadDependencies: loadDependencies);
+        this.nrRespostas = this.respostas.length;
+        this.nrAprovacoes = this.reacoes.where((element) => element.curtiu == true).toList().length;
+        this.nrDesaprovacoes = this.reacoes.where((element) => element.curtiu == false).toList().length;
       }
     }
 
-    List<Categoria> categoriasFromJson(dynamic json){
+    List<Categoria> categoriasFromJson(dynamic json, { bool loadDependencies = false}){
       List<Categoria> categorias = [];
 
       for( var categoria in json){
@@ -49,7 +48,7 @@ class Duvida extends Abstract{
       return categorias;
     }
 
-    List<Comentario> comentariosFromJson(dynamic json){
+    List<Comentario> comentariosFromJson(dynamic json, { bool loadDependencies = false}){
       List<Comentario> comentarios = [];
 
       for( var comentario in json){
@@ -58,16 +57,16 @@ class Duvida extends Abstract{
       return comentarios;
     }
 
-    List<Resposta> respostasFromJson(dynamic json){
+    List<Resposta> respostasFromJson(dynamic json, { bool loadDependencies = false}){
       List<Resposta> respostas = [];
 
       for( var resposta in json){
-        respostas.add( Resposta.fromJson(resposta) );
+        respostas.add( Resposta.fromJson(resposta, loadDependencies: loadDependencies) );
       }
       return respostas;
     }
 
-    List<ReacaoDuvida> reacoesFromJson(dynamic json){
+    List<ReacaoDuvida> reacoesFromJson(dynamic json, { bool loadDependencies = false}){
       List<ReacaoDuvida> reacoes = [];
 
       for( var resposta in json){
@@ -78,16 +77,11 @@ class Duvida extends Abstract{
 
     Map<String, dynamic> toJson() => {
       'id': this.id,
-      // 'userId': this.usuario.id,
       'title': this.titulo,
       'description': this.descricao,
-      // 'nr_respostas': this.nrRespostas,
-      // 'nr_views': this.nrViews ,
-      // 'nr_favoritos': this.nrFavoritos ,
       'closedAt': this.aberta ,
       'solved': this.resolvida ,
       'categories': this.gategoriasToJson(),
-      // 'doubtReaction': { 'liked': this.curtiu }
     };
   
     List<Map<String, dynamic>> gategoriasToJson(){

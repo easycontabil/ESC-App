@@ -63,10 +63,8 @@ class _RespostaComponentState extends State<RespostaComponent> {
       ),
       decoration: BoxDecoration(
         color: Colors.white,
-        border: Border(
-          left: BorderSide(color: Colors.green[800], width: 8, style: BorderStyle.solid )
-        ),
-        boxShadow: [
+        border: this.widget.resolveu == true ? Border(left: BorderSide(color: Colors.green[800], width: 8, style: BorderStyle.solid )) : null
+        ,boxShadow: [
           BoxShadow( 
             color: Colors.grey,
             offset: Offset(1,3),

@@ -40,7 +40,7 @@ class _VerDuvidaState extends State<VerDuvida> {
   }
 
   _VerDuvidaState(String id) {
-    this.service.queryPath = "*deletedAt=null&_comments=true&_doubtReactions=true&_answers.answerReactions=true";
+    this.service.queryPath = "*deletedAt=null&_doubtReactions=true&_answers.answerReactions=true&_answers.comments=true";
     getDuvida(id);
   }
 
@@ -58,7 +58,7 @@ class _VerDuvidaState extends State<VerDuvida> {
                   scrollDirection: Axis.vertical,
                   child: Column(
                       children: [
-                        this.duvida != null ? DuvidaText(this.duvida) : CircularProgressIndicator()                       
+                        this.duvida != null ? DuvidaText(this.duvida) : Center( child: CircularProgressIndicator(), )                       
                       ]
                   ),
                 ),
