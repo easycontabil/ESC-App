@@ -27,7 +27,6 @@ class _PaginaLoginState extends State<PaginaLogin> {
   TextEditingController senhaController = new TextEditingController();
 
   Preferences preferences = new Preferences();
-  
 
 
   void showError(String msg){
@@ -45,6 +44,7 @@ class _PaginaLoginState extends State<PaginaLogin> {
         Map<String, dynamic> data = await this.service.login( this.nomeController.text, this.senhaController.text );
         if( data["status"] == 201 ) {
           String token = data["data"]["accessToken"]["token"];
+          await this.preferences.init();
           this.preferences.setToken(token);
           Navigator.push( context, MaterialPageRoute(builder: (context) => Duvidas()) );
         }
@@ -74,8 +74,6 @@ class _PaginaLoginState extends State<PaginaLogin> {
 
   @override
   Widget build(BuildContext context) {
-
-    this.preferences.init();
 
     var size = MediaQuery.of(context).size;
 

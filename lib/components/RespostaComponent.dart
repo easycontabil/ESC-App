@@ -1,5 +1,6 @@
 
 import 'package:easycontab/components/ComentarioComponent.dart';
+import 'package:easycontab/components/ComentarioComponentCreate.dart';
 import 'package:easycontab/contants/app_api_urls.dart';
 import 'package:easycontab/models/Resposta.dart';
 import 'package:easycontab/services/RespostaService.dart';
@@ -33,6 +34,7 @@ class _RespostaComponentState extends State<RespostaComponent> {
           ComentarioComponent(comentario: comentario)
       );
     }
+    comentarios.add(ComentarioComponentCreate(controller: new TextEditingController()));
 
     return comentarios;
   }
@@ -116,7 +118,9 @@ class _RespostaComponentState extends State<RespostaComponent> {
               ]
             ),
           ),
-          this.comentariosVisible == true ? this.showComentarios() : Text("")
+          Column(
+            children: this.comentariosVisible == true ? this.showComentarios() : [],
+          )
         ],
       ),
     );
