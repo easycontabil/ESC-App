@@ -77,7 +77,7 @@ class _DuvidaComponentState extends State<DuvidaComponent> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       IconCount(count: this.widget.duvida.nrRespostas ?? 0, icon: Icons.messenger_sharp, size: 18, ),
-                      IconCount(icon: Icons.check),
+                      Icon(Icons.check, color: this.widget.duvida.resolvida == true ? Colors.green : Colors.grey ),
                       IconCount(icon: Icons.edit),
                     ],
                   ),
