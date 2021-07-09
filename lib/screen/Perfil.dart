@@ -45,11 +45,6 @@ class _PerfilState extends State<Perfil> {
         children: [
           CustomAppBar(logged: true,),
           Container(
-              width: double.infinity,
-              padding: EdgeInsets.only(left: 30),
-              child: Text(this.usuario.nome, style: GoogleFonts.openSans( fontSize: 20, color: Colors.white, fontWeight: FontWeight.w600, height: 4),)
-          ),
-          Container(
             margin: EdgeInsets.only(top: 10, bottom: 6, left: 6, right: 6),
             padding: EdgeInsets.all(10),
             width: double.infinity,

@@ -19,7 +19,7 @@ class _DuvidasState extends State<Duvidas> {
   List<Duvida> duvidas = [];
 
   getDuvidas() {
-    this.service.getDuvidas().then((response) => {
+    this.service.getDuvidas(loadDependencies: true).then((response) => {
       setState(() {
         duvidas = response;
       })
@@ -27,6 +27,7 @@ class _DuvidasState extends State<Duvidas> {
   }
 
   _DuvidasState() {
+    this.service.queryPath = "*deletedAt=null&_doubtReactions=[]&_answers=[\"answerReactions\", \"comments\"]"; 
     getDuvidas();
   }
 

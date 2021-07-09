@@ -1,19 +1,33 @@
-# easycontab
+# EasyContábil
 
-A new Flutter project.
+O EasyContábil é um aplicativo que fornece aos seus usuários a possibilidade de publicar suas principais dúvidas na área de contabilidade e responder as dúvidas de outros usuários, trabalhando com um sistema de pontuação com o objetivo de recompensar os envolvidos com a resolução de uma dúvida.
 
-## Getting Started
+<br>
 
-This project is a starting point for a Flutter application.
+## Rodando as APIs
 
-A few resources to get you started if this is your first Flutter project:
+1º: Siga o passo-a-passo de instalação do Docker através do link: https://docs.docker.com/get-docker/. (Caso esteja no linux, deve realizar a instalação do docker compose separado através do link https://docs.docker.com/compose/install/). <br>
+2º: Faça download do projeto ESC-K8S (enviado via ZIP). <br>
+3º: Em seu terminal, vá até o projeto ESC-K8S e rode os seguintes comandos: <br>
+```bash 
+docker network create esc-network
+docker-compose up -d --build
+```
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+<br>
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Rodando o Aplicativo
+
+1º: Siga o passo-a-passo de instalação do SDK do DART através do link: https://dart.dev/get-dart. <br>
+2º: Siga o passo-a-passo de instalação do SDK do Flutter e do Android Studio através do link: https://flutter.dev/docs/get-started/install. <br>
+3º: Faça um clone deste repositório em sua máquina. <br>
+4º: Em seu terminal, vá até a pasta da aplicação e rode o comando: <br> 
+```bash 
+flutter run
+```
+5º: Caso sua máquina esteja rodando um emulador mobile, o aplicativo irá abrir automaticamente no emulador, caso contrário o flutter dará a opção de rodar através do Google Chrome ou do Microsoft Edge, selecione a opção que preferir.
+
+
 
 - [x] like, dislike resposta
 - [x] renderizar o perfil *

@@ -76,8 +76,7 @@ class _DuvidaComponentState extends State<DuvidaComponent> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      IconCount(count: 0, icon: Icons.messenger_sharp, size: 18, ),
-                      IconCount(count: 0, icon: Icons.remove_red_eye),
+                      IconCount(count: this.widget.duvida.nrRespostas ?? 0, icon: Icons.messenger_sharp, size: 18, ),
                       IconCount(icon: Icons.check),
                       IconCount(icon: Icons.edit),
                     ],
