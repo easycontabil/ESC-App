@@ -37,4 +37,4 @@ flutter run
 - [ ] fechar duvida
 - [ ] pontos
 - [x] listagem minhas duvidas
-- [ ] resolver duvida baseada em uma resposta
+- [x] resolver duvida baseada em uma resposta

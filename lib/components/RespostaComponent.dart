@@ -66,6 +66,18 @@ class _RespostaComponentState extends State<RespostaComponent> {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               GestureDetector(
+                  child: Icon(Icons.check, color: this.widget.resposta.resolveu == true ? Colors.blue : Colors.grey),
+                  onTap: () {
+                    this.widget.resposta.resolveu = true;
+
+                    this.service.updateResposta(id: this.widget.resposta.id, resposta: this.widget.resposta).then((response) => {
+                      setState(() {
+                        this.widget.resposta = response;
+                      })
+                    });
+                  }
+              ),
+              GestureDetector(
                   child: IconCount(count: this.widget.resposta.nrComentarions, icon: Icons.question_answer, size: 18, ),
                   onTap: (){
                     setState(() {
