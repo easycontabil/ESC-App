@@ -35,7 +35,7 @@ class _DuvidaTextState extends State<DuvidaText> {
 
     for( var resposta in this.widget.duvida.respostas ) {
       respostas.add(
-        RespostaComponent(resposta: resposta)
+        RespostaComponent(resposta: resposta, duvida: this.widget.duvida)
       );
     }
     return respostas;

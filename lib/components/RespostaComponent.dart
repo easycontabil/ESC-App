@@ -2,7 +2,9 @@
 import 'package:easycontab/components/ComentarioComponent.dart';
 import 'package:easycontab/components/ComentarioComponentCreate.dart';
 import 'package:easycontab/contants/app_api_urls.dart';
+import 'package:easycontab/models/Duvida.dart';
 import 'package:easycontab/models/Resposta.dart';
+import 'package:easycontab/services/ComentarioService.dart';
 import 'package:easycontab/services/RespostaService.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,35 +13,44 @@ import 'misc/IconCount.dart';
 
 class RespostaComponent extends StatefulWidget {
 
+  Duvida duvida;
   Resposta resposta;
 
-  RespostaComponent({ this.resposta });
+  RespostaComponent({ this.resposta, this.duvida });
 
   @override
   _RespostaComponentState createState() => _RespostaComponentState();
 }
 
 class _RespostaComponentState extends State<RespostaComponent> {
+
+  String comentario;
+
+  void setComentario(String comentario){
+    print(comentario);
+    this.comentario = comentario;
+  }
+
   RespostaService service = new RespostaService(
     prefix: ApiUrls.prefix,
     host: ApiUrls.hostqst ,
     path: "qst/answers",
   );
 
-  List<ComentarioComponent> showComentarios() {
-    List<ComentarioComponent> comentarios = [];
+  List<Widget> showComentarios() {
+    List<Widget> comentarios = [];
 
     for( var comentario in this.widget.resposta.comentarios ) {
       comentarios.add(
           ComentarioComponent(comentario: comentario)
       );
     }
-    comentarios.add(ComentarioComponentCreate(controller: new TextEditingController()));
+    comentarios.add(ComentarioComponentCreate(controller: new TextEditingController(),  resposta: this.widget.resposta, callback:  this.setComentario,));
 
     return comentarios;
   }
 
-  bool comentariosVisible = true;
+  bool comentariosVisible = false;
 
   @override
   Widget build(BuildContext context) {
