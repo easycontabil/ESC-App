@@ -49,30 +49,28 @@ class _RegistroUsuarioState extends State<RegistroUsuario> {
   }
 
   Future<void> submit() async {
-    print('BATATA');
-    sleep(Duration(seconds: 3));
-    print('OK');
-    // if( this.validateSenha() ){
-    //   if( this.validateNome() ){
-    //     if( this.validateEmail()){
-    //       Map<String, dynamic> data = await this.service.register(
-    //         this.nomeController.text,
-    //         this.emailController.text,
-    //         this.senhaController.text,
-    //         this.img64
-    //       );
-    //       if( data["status"] == 201 ){
-    //         // String userId = data["data"]["id"];
-    //         data = await this.service.login( this.emailController.text, this.senhaController.text );
-    //         String token = data["data"]["accessToken"]["token"];
-    //         this.preferences.setToken(token);
-    //         Navigator.push( context, MaterialPageRoute(builder: (context) => Duvidas()) );
-    //       }else{
-    //         this.showError("Não foi possível registrar o usuário");
-    //       }
-    //     }
-    //   }
-    // }
+    if( this.validateSenha() ){
+      if( this.validateNome() ){
+        if( this.validateEmail()){
+          Map<String, dynamic> data = await this.service.register(
+            this.nomeController.text,
+            this.emailController.text,
+            this.senhaController.text,
+            this.img64
+          );
+          if( data["status"] == 201 ){
+            // String userId = data["data"]["id"];
+            data = await this.service.login( this.emailController.text, this.senhaController.text );
+            String token = data["data"]["accessToken"]["token"];
+            this.preferences.setToken(token);
+            Navigator.push( context, MaterialPageRoute(builder: (context) => Duvidas()) );
+          }else{
+            this.showError("Não foi possível registrar o usuário");
+            print(data["error"]["message"]["message"]);
+          }
+        }
+      }
+    }
   }
 
   bool validateSenha(){
