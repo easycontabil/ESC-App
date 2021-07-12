@@ -48,28 +48,31 @@ class _RegistroUsuarioState extends State<RegistroUsuario> {
     );
   }
 
-  void submit() async {
-    if( this.validateSenha() ){
-      if( this.validateNome() ){
-        if( this.validateEmail()){
-          Map<String, dynamic> data = await this.service.register(
-            this.nomeController.text,
-            this.emailController.text,
-            this.senhaController.text,
-            this.img64
-          );
-          if( data["status"] == 201 ){
-            // String userId = data["data"]["id"];
-            data = await this.service.login( this.emailController.text, this.senhaController.text );
-            String token = data["data"]["accessToken"]["token"];
-            this.preferences.setToken(token);
-            Navigator.push( context, MaterialPageRoute(builder: (context) => Duvidas()) );
-          }else{
-            this.showError("Não foi possível registrar o usuário");
-          }
-        }
-      }
-    }
+  Future<void> submit() async {
+    print('BATATA');
+    sleep(Duration(seconds: 3));
+    print('OK');
+    // if( this.validateSenha() ){
+    //   if( this.validateNome() ){
+    //     if( this.validateEmail()){
+    //       Map<String, dynamic> data = await this.service.register(
+    //         this.nomeController.text,
+    //         this.emailController.text,
+    //         this.senhaController.text,
+    //         this.img64
+    //       );
+    //       if( data["status"] == 201 ){
+    //         // String userId = data["data"]["id"];
+    //         data = await this.service.login( this.emailController.text, this.senhaController.text );
+    //         String token = data["data"]["accessToken"]["token"];
+    //         this.preferences.setToken(token);
+    //         Navigator.push( context, MaterialPageRoute(builder: (context) => Duvidas()) );
+    //       }else{
+    //         this.showError("Não foi possível registrar o usuário");
+    //       }
+    //     }
+    //   }
+    // }
   }
 
   bool validateSenha(){
@@ -168,7 +171,7 @@ class _RegistroUsuarioState extends State<RegistroUsuario> {
                       ),
                     ),
                     SizedBox( height: 20 ),
-                    CustomButton(label: "CADASTRO", action: submit,),
+                    CustomButton(label: "CADASTRO", action: submit), //submit
                     SizedBox( height: 30 ),
                     TextButton(
                       style: TextButton.styleFrom(

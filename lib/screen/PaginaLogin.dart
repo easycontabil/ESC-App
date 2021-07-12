@@ -38,7 +38,7 @@ class _PaginaLoginState extends State<PaginaLogin> {
     );
   }
 
-  void submit() async {
+  Future<void> submit() async {
     if( this.validateSenha() ){
       if( this.validateNome() ){
         Map<String, dynamic> data = await this.service.login( this.nomeController.text, this.senhaController.text );
