@@ -25,7 +25,7 @@ class Duvida extends Abstract{
       this.id = json['id'];
       this.criacao = DateTime.parse(json['createdAt']) ?? null;
       this.ultimaModificacao = DateTime.parse(json['updatedAt']) ?? null;
-      this.usuario = new Usuario( id: json['userId'] ); //Usuario.fromJson(json['user']);
+      this.usuario = json['user'] != null ? Usuario.fromJson(json['user']) : Usuario(id: json['userId']);
       this.titulo = json['title'];
       this.descricao = json['description'];
       this.aberta = json['solved'];
@@ -61,7 +61,7 @@ class Duvida extends Abstract{
       List<Resposta> respostas = [];
 
       for( var resposta in json){
-        respostas.add( Resposta.fromJson(resposta, loadDependencies: true) );
+        respostas.add( Resposta.fromJson(resposta, loadDependencies: false) );
       }
 
       return respostas;

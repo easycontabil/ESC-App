@@ -12,7 +12,7 @@ class ReacaoResposta extends Abstract{
   ReacaoResposta({ id, this.usuario, this.resposta, this.curtiu }) : super(id: id);
 
   ReacaoResposta.fromJson(Map<String, dynamic> json) {
-    this.usuario = Usuario(id:json['userId']);//Usuario.fromJson(json['user']);
+    this.usuario = json['user'] != null ? Usuario.fromJson(json['user']) : new Usuario( id: json['userId'] );
     this.resposta = Resposta(id: json['answerId']);
     this.curtiu = json['liked'];
   }

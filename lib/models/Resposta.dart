@@ -23,7 +23,7 @@ class Resposta extends Abstract{
     this.id = json['id'];
     this.criacao = DateTime.parse(json['createdAt']);
     this.ultimaModificacao = DateTime.parse(json['updatedAt']);
-    this.usuario = Usuario.fromJson(json['user']);
+    this.usuario = json['user'] != null ? Usuario.fromJson(json['user']) : new Usuario( id: json['userId'] );
     this.duvida = Duvida(id: json['doubtId']);
     this.conteudo = json['content'];
     this.resolveu = json['solved'];
