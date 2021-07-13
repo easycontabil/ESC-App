@@ -35,22 +35,28 @@ class _DuvidaTextState extends State<DuvidaText> {
     path: "qst/answers",
   );
 
-  //List<Resposta> respostas = [];
+  List<Resposta> respostas = [];
 
-  // getRespostas() {
-  //   this.respostaService.getRespostas(loadDependencies: true).then((response) => {
-  //     setState(() {
-  //       this.respostas = response;
-  //     })
-  //   });
-  // }
+  getRespostas() {
+    this.respostaService.getRespostas(loadDependencies: true).then((response) => {
+      setState(() {
+        this.respostas = response;
+      })
+    });
+  }
+
+  _DuvidaTextState() {
+    this.respostaService.queryPath = "*deletedAt=null&_answerReactions=[]&_user=[]&_comments=[]&*doubtId=${this.widget.duvida.id}";
+    getRespostas();
+  }
 
   bool respostasVisible = false;
 
   List<RespostaComponent> showRespostas() {
+    print(this.respostas);
     List<RespostaComponent> respostas = [];
 
-    for( var resposta in this.widget.duvida.respostas ) {
+    for( var resposta in this.respostas ) {
       respostas.add(
         RespostaComponent(resposta: resposta, duvida: this.widget.duvida)
       );
@@ -60,12 +66,6 @@ class _DuvidaTextState extends State<DuvidaText> {
 
   @override
   Widget build(BuildContext context) {
-
-    this.respostaService.queryPath = "*deletedAt=null&_answerReactions=[]&_user=[]&_comments=[]&*doubtId=${this.widget.duvida.id}";
-    // if( this.respostas == [] ){
-    //   getRespostas();
-    // }
-
     Size size = MediaQuery.of(context).size;
 
     return Container(
