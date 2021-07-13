@@ -15,13 +15,14 @@ class DuvidaText extends StatefulWidget {
 
   Duvida duvida;
 
-  DuvidaText(@required this.duvida);
+  DuvidaText({this.duvida});
 
   @override
   _DuvidaTextState createState() => _DuvidaTextState();
 }
 
 class _DuvidaTextState extends State<DuvidaText> {
+
   DuvidaService duvidaService = new DuvidaService(
     prefix: ApiUrls.prefix,
     host: ApiUrls.hostqst ,
@@ -34,27 +35,22 @@ class _DuvidaTextState extends State<DuvidaText> {
     path: "qst/answers",
   );
 
-  List<Resposta> respostas = [];
+  //List<Resposta> respostas = [];
 
-  getRespostas() {
-    this.respostaService.getRespostas(loadDependencies: true).then((response) => {
-      setState(() {
-        respostas = response;
-      })
-    });
-  }
+  // getRespostas() {
+  //   this.respostaService.getRespostas(loadDependencies: true).then((response) => {
+  //     setState(() {
+  //       this.respostas = response;
+  //     })
+  //   });
+  // }
 
   bool respostasVisible = false;
-
-  _DuvidaTextState() {
-    this.respostaService.queryPath = "*deletedAt=null&_answerReactions=[]&_user=[]&_comments=[]&*doubtId=${this.widget.duvida.id}";
-    getRespostas();
-  }
 
   List<RespostaComponent> showRespostas() {
     List<RespostaComponent> respostas = [];
 
-    for( var resposta in this.respostas ) {
+    for( var resposta in this.widget.duvida.respostas ) {
       respostas.add(
         RespostaComponent(resposta: resposta, duvida: this.widget.duvida)
       );
@@ -64,6 +60,11 @@ class _DuvidaTextState extends State<DuvidaText> {
 
   @override
   Widget build(BuildContext context) {
+
+    this.respostaService.queryPath = "*deletedAt=null&_answerReactions=[]&_user=[]&_comments=[]&*doubtId=${this.widget.duvida.id}";
+    // if( this.respostas == [] ){
+    //   getRespostas();
+    // }
 
     Size size = MediaQuery.of(context).size;
 
@@ -84,14 +85,14 @@ class _DuvidaTextState extends State<DuvidaText> {
                     children: [
                       Container(            
                         child: Text(
-                          this.widget.duvida.titulo, 
+                          this.widget.duvida.titulo ?? '', 
                           overflow: TextOverflow.clip, 
                           style: GoogleFonts.openSans( color: Color.fromRGBO(78,76,76,1), fontSize: 12, fontWeight: FontWeight.w600),
                         ),
                       ),                     
                       Container(                 
                         child: Text(
-                          this.widget.duvida.descricao,
+                          this.widget.duvida.descricao ?? '',
                           style: GoogleFonts.openSans( color: Color.fromRGBO(161,161,161,1), fontSize: 9, fontWeight: FontWeight.w600),
                           overflow: TextOverflow.clip,                   
                         ),
@@ -104,7 +105,7 @@ class _DuvidaTextState extends State<DuvidaText> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     GestureDetector(
-                      child: IconCount(count: this.widget.duvida.nrRespostas ?? 0, icon: Icons.messenger_sharp, size: 18, ),
+                      child: IconCount(count: this.widget.duvida.nrRespostas, icon: Icons.messenger_sharp, size: 18, ),
                       onTap: (){
                         setState(() { 
                           this.respostasVisible = !this.respostasVisible;
@@ -151,10 +152,8 @@ class _DuvidaTextState extends State<DuvidaText> {
               ]
             ),
           ),
-          //SizedBox( height: 5),
           Column(
             children: this.respostasVisible == true ? this.showRespostas() : [], 
-            //this.respostasVisible == true ? Text("RESPOSTAS") : Text("SEM RESPOSTAS")
           )
         ],
       ),

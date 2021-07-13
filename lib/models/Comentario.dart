@@ -16,7 +16,7 @@ class Comentario extends Abstract{
     this.criacao = DateTime.parse(json['createdAt']) ?? null;
     this.resposta = Resposta(id: json['answerId']);
     this.comentario = json['content'];
-    this.usuario = Usuario.fromJson(json['user']);
+    this.usuario = Usuario(id: json['userId']); //Usuario.fromJson(json['user']);
   }
 
   Map<String, dynamic> toJson() => {

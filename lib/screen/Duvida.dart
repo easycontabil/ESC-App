@@ -1,20 +1,16 @@
-import 'package:easycontab/components/ComentarioComponent.dart';
+
 import 'package:easycontab/components/CustomDrawer.dart';
 import 'package:easycontab/components/DuvidaText.dart';
 import 'package:easycontab/components/FeedAppBar.dart';
-import 'package:easycontab/components/RespostaComponent.dart';
-import 'package:easycontab/components/misc/DrawerActionItem.dart';
 import 'package:easycontab/contants/app_api_urls.dart';
-import 'package:easycontab/contants/app_assets.dart';
 import 'package:easycontab/models/Duvida.dart';
 import 'package:easycontab/services/DuvidaService.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'CriarResposta.dart';
 
 class VerDuvida extends StatefulWidget {
-  String duvidaId;
+  final String duvidaId;
 
   VerDuvida({ @required this.duvidaId });
 
@@ -60,7 +56,7 @@ class _VerDuvidaState extends State<VerDuvida> {
                   scrollDirection: Axis.vertical,
                   child: Column(
                       children: [
-                        this.duvida != null ? DuvidaText(this.duvida) : Center( child: CircularProgressIndicator(), )                       
+                        this.duvida != null ? DuvidaText(duvida: this.duvida) : Center( child: CircularProgressIndicator(), )                       
                       ]
                   ),
                 ),

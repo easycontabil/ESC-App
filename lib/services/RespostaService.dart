@@ -51,7 +51,7 @@ class RespostaService extends AbstractService {
 
   // LIST
   Future<List<Resposta>> getRespostas({bool loadDependencies = false}) async {
-    List<Resposta> respostas = new List<Resposta>();
+    List<Resposta> respostas = [];
 
     http.Response response = await http.get(this.buildUri(), headers: await this.getHeader(auth: true));
 

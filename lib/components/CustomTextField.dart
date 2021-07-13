@@ -18,6 +18,7 @@ class CustomTextField extends StatefulWidget {
 class _CustomTextFieldState extends State<CustomTextField> {
   @override
   Widget build(BuildContext context) {
+    print(this.widget.password);
     return Container(
       margin: this.widget.margin,
       padding: EdgeInsets.symmetric( horizontal: 20 ),
@@ -27,7 +28,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       ),
       child: TextField(
         controller: this.widget.textController ?? null,
-        //obscureText: this.widget.password,
+        obscureText: this.widget.password,
         decoration: InputDecoration(
           labelText: this.widget.labelText,
           labelStyle: GoogleFonts.openSans( color: Colors.grey[800], fontWeight: FontWeight.w700),

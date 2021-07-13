@@ -22,7 +22,6 @@ class _DuvidasState extends State<Duvidas> {
     this.service.getDuvidas(loadDependencies: true).then((response) => {
       setState(() {
         duvidas = response;
-        print(duvidas);
       })
     });
   }

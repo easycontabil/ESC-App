@@ -38,7 +38,6 @@ class DuvidaService extends AbstractService {
   // GET
   Future<Duvida> getDuvida(String id, { bool loadDependencies = false, String extraParams }) async{
     http.Response response = await http.get(this.buildUri(id), headers: await this.getHeader(auth: true));
-
     return Duvida.fromJson(this.decode(response)["data"], loadDependencies: loadDependencies);
   }
 
@@ -47,7 +46,7 @@ class DuvidaService extends AbstractService {
     List<Duvida> duvidas = [];
 
     http.Response response = await http.get(this.buildUri(extraParams), headers: await this.getHeader(auth: true));
-    //print(this.decode(response));
+
     for (var obj in this.decode(response)["data"]["data"]) {
       duvidas.add(Duvida.fromJson(obj, loadDependencies: loadDependencies) );
     }

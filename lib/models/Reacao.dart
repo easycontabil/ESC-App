@@ -12,7 +12,7 @@ class ReacaoResposta extends Abstract{
   ReacaoResposta({ id, this.usuario, this.resposta, this.curtiu }) : super(id: id);
 
   ReacaoResposta.fromJson(Map<String, dynamic> json) {
-    this.usuario = Usuario.fromJson(json['user']);
+    this.usuario = Usuario(id:json['userId']);//Usuario.fromJson(json['user']);
     this.resposta = Resposta(id: json['answerId']);
     this.curtiu = json['liked'];
   }
@@ -30,7 +30,7 @@ class ReacaoDuvida extends Abstract{
   ReacaoDuvida({ id, this.usuario, this.duvida, this.curtiu }) : super(id: id);
 
   ReacaoDuvida.fromJson(Map<String, dynamic> json) {
-    this.usuario = Usuario.fromJson(json['user']);
+    this.usuario = Usuario(id:json['userId']); //Usuario.fromJson(json['user']);
     this.duvida = Duvida(id: json['doubtId']);
     this.curtiu = json['liked'];
   }
