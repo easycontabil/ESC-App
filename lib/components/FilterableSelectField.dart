@@ -1,6 +1,50 @@
+import 'package:easycontab/contants/app_api_urls.dart';
+import 'package:easycontab/models/Categoria.dart';
+import 'package:easycontab/services/CategoriaService.dart';
+import 'package:searchfield/searchfield.dart';
+import 'package:flutter/material.dart';
 
-// import 'package:app_cellshop/service/CidadeService.dart';
-// import 'package:app_cellshop/models/Cidade.dart';
+class FilterableSelectField extends StatefulWidget {
+
+  Categoria categoria;
+
+  FilterableSelectField({ this.categoria });
+
+  @override
+  _FilterableSelectFieldState createState() => _FilterableSelectFieldState();
+}
+
+class _FilterableSelectFieldState extends State<FilterableSelectField> {
+
+  CategoriaService service = new CategoriaService(
+    prefix: ApiUrls.prefix, 
+    host: ApiUrls.hostqst , 
+    path: "qst/doubts",
+  );
+
+  List<Categoria> categorias = [];
+
+  void loadCategorias(){
+    this.service.getCategorias().then((response) => {
+      setState((){
+        this.categorias = response;
+      })
+    });
+  }
+
+  _FilterableSelectFieldState(){
+    this.loadCategorias();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      
+    );
+  }
+}
+
+
 
 // import 'package:find_dropdown/find_dropdown.dart';
 // import 'package:google_fonts/google_fonts.dart';
