@@ -51,8 +51,10 @@ class AuthService extends AbstractService {
   Future<Map<String, dynamic>> update([ String id, String login, String email, String senha, String image ]) async {
     dynamic headers = await this.getHeader(auth: false);
 
-    http.Response response = await http.post( 
-      this.buildUri("update"),
+    print({ 'id': id, 'name': login, 'email': email, 'password': senha, 'password_confirmation': senha, 'image': image});
+
+    http.Response response = await http.put( 
+      this.buildUri("users/${id}"),
       headers: headers,
       body: json.encode({ 'id': id, 'name': login, 'email': email, 'password': senha, 'password_confirmation': senha, 'image': image})
     );

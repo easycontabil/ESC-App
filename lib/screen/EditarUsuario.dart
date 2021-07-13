@@ -25,7 +25,7 @@ class EditarUsuario extends StatefulWidget {
 
 class _EditarUsuarioState extends State<EditarUsuario> {
 
-  AuthService service = new AuthService( prefix: ApiUrls.prefix, host: ApiUrls.host, path: "grd/auth");
+  AuthService service = new AuthService( prefix: ApiUrls.prefix, host: ApiUrls.host, path: "grd");
 
   TextEditingController confirmarSenhaController = new TextEditingController();
   TextEditingController emailController = new TextEditingController();
