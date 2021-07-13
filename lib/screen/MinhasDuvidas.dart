@@ -24,7 +24,7 @@ class _MinhasDuvidasState extends State<MinhasDuvidas> {
   List<Duvida> duvidas = [];
 
   getDuvidas(Usuario usuario) {
-    this.service.queryPath = "*userId=${usuario.id}";
+    this.service.queryPath = "&_user=[]*userId=${usuario.id}";
     print(this.service.queryPath);
 
     this.service.getDuvidas().then((response) => {
