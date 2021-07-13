@@ -10,12 +10,12 @@ class CategoriaService extends AbstractService {
 
   Future<Categoria> getCategoria(String id) async {
     http.Response response = await http.get(this.buildUri(id), headers: await this.getHeader(auth: true));
-
+    
     return Categoria.fromJson(this.decode(response)["data"]);
   }
 
   Future<List<Categoria>> getCategorias() async {
-    List<Categoria> categorias = new List<Categoria>();
+    List<Categoria> categorias = [];
     http.Response response = await http.get(this.buildUri(), headers: await this.getHeader(auth: true));
 
     for( var obj in this.decode(response)["data"]["data"]) {

@@ -25,7 +25,7 @@ class Duvida extends Abstract{
       this.id = json['id'];
       this.criacao = DateTime.parse(json['createdAt']) ?? null;
       this.ultimaModificacao = DateTime.parse(json['updatedAt']) ?? null;
-      this.usuario = Usuario.fromJson(json['user']);
+      this.usuario = new Usuario( id: json['userId'] ); //Usuario.fromJson(json['user']);
       this.titulo = json['title'];
       this.descricao = json['description'];
       this.aberta = json['solved'];

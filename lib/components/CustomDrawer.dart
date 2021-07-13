@@ -43,8 +43,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 Container(
                   margin: EdgeInsets.all(10),
                   child: ClipRRect(
-                      borderRadius: BorderRadius.circular(50),
-                      child: Image.network(this.usuario.foto, height: 80, fit: BoxFit.fill),
+                    borderRadius: BorderRadius.circular(50),
+                    child: Image.asset(Assets.avatar, height: 80, fit: BoxFit.fill )
+                      //Image.network(this.usuario.foto, height: 80, fit: BoxFit.fill),                
                   ),
                 ),
                 Column(

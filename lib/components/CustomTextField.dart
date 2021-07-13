@@ -27,7 +27,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       ),
       child: TextField(
         controller: this.widget.textController ?? null,
-        obscureText: this.widget.password,
+        //obscureText: this.widget.password,
         decoration: InputDecoration(
           labelText: this.widget.labelText,
           labelStyle: GoogleFonts.openSans( color: Colors.grey[800], fontWeight: FontWeight.w700),

@@ -47,7 +47,7 @@ class DuvidaService extends AbstractService {
     List<Duvida> duvidas = [];
 
     http.Response response = await http.get(this.buildUri(extraParams), headers: await this.getHeader(auth: true));
-
+    //print(this.decode(response));
     for (var obj in this.decode(response)["data"]["data"]) {
       duvidas.add(Duvida.fromJson(obj, loadDependencies: loadDependencies) );
     }
