@@ -84,8 +84,8 @@ class Duvida extends Abstract{
           }
         };
       }
-
       return {
+        'categories': this.categorias.map((e) => e.id).toList(),
         'title': this.titulo,
         'description': this.descricao,
       };

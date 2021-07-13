@@ -15,5 +15,5 @@
 - [x] resolver duvida baseada em uma resposta
 - [ ] corrigir estado do ver dúvida
 - [x] ver perfil de outros usuários
-- [ ] adicionar campo categoria na criacao da duvida
+- [x] adicionar campo categoria na criacao da duvida
 - [ ] filtrar duvida por categoria no buscar
