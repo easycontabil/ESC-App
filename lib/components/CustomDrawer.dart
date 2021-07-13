@@ -44,8 +44,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   margin: EdgeInsets.all(10),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(50),
-                    child: Image.asset(Assets.avatar, height: 80, fit: BoxFit.fill )
-                      //Image.network(this.usuario.foto, height: 80, fit: BoxFit.fill),                
+                    child: this.usuario.foto != null ? Image.network(this.usuario.foto, height: 80, fit: BoxFit.fill) : Image.asset(Assets.avatar, height: 80, fit: BoxFit.fill)           
                   ),
                 ),
                 Column(
@@ -63,7 +62,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
           DrawerActionItem(
             title: "PERFIL",
             action: (){
-              Navigator.push( context, MaterialPageRoute(builder: (context) => Perfil()) );
+              Navigator.push( context, MaterialPageRoute(builder: (context) => Perfil(editable: true,)) );
             },
             icon: Icons.person,
           ),

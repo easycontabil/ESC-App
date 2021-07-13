@@ -14,6 +14,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'EditarUsuario.dart';
 
 class Perfil extends StatefulWidget {
+
+  final bool editable;
+
+  Perfil({this.editable = false});
+
   @override
   _PerfilState createState() => _PerfilState();
 }
@@ -78,7 +83,8 @@ class _PerfilState extends State<Perfil> {
                 Padding(child: Divider( color: Colors.black), padding: EdgeInsets.symmetric(horizontal: 10)),
                 SizedBox(
                   height: 200,
-                  child: Row(
+                  child: this.widget.editable == true ?
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Padding(
@@ -86,12 +92,12 @@ class _PerfilState extends State<Perfil> {
                         child: CustomButton(
                           label: "EDITAR",
                           action: (){
-                            Navigator.push( context, MaterialPageRoute(builder: (context) => EditarUsuario()) );
+                            Navigator.push( context, MaterialPageRoute(builder: (context) => EditarUsuario(usuario: this.usuario)) );
                           },
                         ),
                       )
                     ],
-                  ),
+                  ) : null
                 )
               ],
             ),

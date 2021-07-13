@@ -5,10 +5,12 @@
 - [ ] editar o perfil *
 - [x] criar uma duvida *
 - [x] listar comentarios das respostas *
-- [+] criar uma resposta/comentario *
+- [x] criar uma resposta/comentario *
 - [ ] fechar duvida
-- [ ] pontos
+- [x] pontos
 - [ ] tratamento de erros da api *
 - [ ] loading buttons
 - [x] listagem minhas duvidas
 - [x] resolver duvida baseada em uma resposta
+- [ ] corrigir estado do ver dúvida
+- [ ] ver perfil de outros usuários

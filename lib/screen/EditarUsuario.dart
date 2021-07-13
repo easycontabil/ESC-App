@@ -6,6 +6,7 @@ import 'package:easycontab/components/BackgroundBaseWidget.dart';
 import 'package:easycontab/components/Button.dart';
 import 'package:easycontab/components/CustomTextField.dart';
 import 'package:easycontab/contants/app_api_urls.dart';
+import 'package:easycontab/contants/app_assets.dart';
 import 'package:easycontab/models/Usuario.dart';
 import 'package:easycontab/services/AuthService.dart';
 import 'package:easycontab/utils/Preferences.dart';
@@ -19,6 +20,11 @@ import 'Duvidas.dart';
 
 
 class EditarUsuario extends StatefulWidget {
+
+  final Usuario usuario;
+
+  EditarUsuario({ this.usuario });
+
   @override
   _EditarUsuarioState createState() => _EditarUsuarioState();
 }
@@ -27,10 +33,10 @@ class _EditarUsuarioState extends State<EditarUsuario> {
 
   AuthService service = new AuthService( prefix: ApiUrls.prefix, host: ApiUrls.host, path: "grd");
 
-  TextEditingController confirmarSenhaController = new TextEditingController();
-  TextEditingController emailController = new TextEditingController();
-  TextEditingController senhaController = new TextEditingController();
-  TextEditingController nomeController = new TextEditingController();
+  TextEditingController confirmarSenhaController;
+  TextEditingController emailController;
+  TextEditingController senhaController;
+  TextEditingController nomeController;
   
   Preferences preferences = new Preferences();
   bool isLoading = true;
@@ -54,21 +60,19 @@ class _EditarUsuarioState extends State<EditarUsuario> {
       if( this.validateNome() ){
         if( this.validateEmail()){
           Map<String, dynamic> data = await this.service.update(
-            this.usuario.id,
+            this.widget.usuario.id,
             this.nomeController.text,
             this.emailController.text,
             this.senhaController.text,
             this.img64
           );
-          if( data["status"] == 201 ){
-            // String userId = data["data"]["id"];
+          if( data["status"] == 200 ){           
             data = await this.service.login( this.emailController.text, this.senhaController.text );
             String token = data["data"]["accessToken"]["token"];
             this.preferences.setToken(token);
             Navigator.push( context, MaterialPageRoute(builder: (context) => Duvidas()) );
           }else{
             this.showError("Não foi possível editar o usuário");
-            print(data["error"]["message"]["message"]);
           }
         }
       }
@@ -119,24 +123,34 @@ class _EditarUsuarioState extends State<EditarUsuario> {
     }); 
   }
 
+  void initialize(){
+    print(this.widget.usuario.id);
+    this.confirmarSenhaController = new TextEditingController(text: this.widget.usuario.senha);
+    this.emailController = new TextEditingController(text: this.widget.usuario.email);
+    this.senhaController = new TextEditingController(text: this.widget.usuario.senha);
+    this.nomeController = new TextEditingController(text: this.widget.usuario.nome);  
+  }
+
   @override
   Widget build(BuildContext context) {
 
+    this.initialize();
+    
     this.preferences.init().then((value){
-      this.usuario = this.preferences.getUser();
-      setState(() {
-        this.isLoading = false;   
-        this.nomeController.text = this.usuario.nome; 
-        this.emailController.text = this.usuario.email; 
-        this.senhaController.text = this.usuario.senha;   
-        this.confirmarSenhaController.text = this.usuario.senha;
-      });
+      // this.usuario = this.preferences.getUser();
+      // setState(() {
+      //   this.isLoading = false;   
+      //   this.nomeController.text = this.usuario.nome; 
+      //   this.emailController.text = this.usuario.email; 
+      //   this.senhaController.text = this.usuario.senha;   
+      //   this.confirmarSenhaController.text = this.usuario.senha;
+      // });
     });
 
     var size = MediaQuery.of(context).size;
 
     return BackgroundBaseWidget(
-      child: this.isLoading == false ? Column(
+      child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         mainAxisSize: MainAxisSize.max,
         children: [
@@ -160,17 +174,36 @@ class _EditarUsuarioState extends State<EditarUsuario> {
                 CustomTextField(labelText: "E-MAIL", margin: EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20), textController: this.emailController,),
                 CustomTextField(labelText: "SENHA", margin: EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20), textController: this.senhaController, password: true,),
                 CustomTextField(labelText: "CONFIRMAR SENHA", margin: EdgeInsets.only(top: 10, bottom: 30, left: 20, right: 20), textController: this.confirmarSenhaController, password: true,),
+                Padding(
+                  padding: EdgeInsets.only( left: 20, top: 5, right: 20, bottom: 5 ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      OutlinedButton(onPressed: chooseImage, child: Text("IMAGEM")),
+                      Container(
+                        height: 80.0,
+                        width: 80.0,                        
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(50),
+                          child: this.image == null ? Image.asset(Assets.avatar) : Image.file(image, height: 80, width: 80, fit: BoxFit.fill, )
+                        ),
+                      ),                     
+                    ],
+                  ),
+                ),
                 CustomButton(label: "EDITAR", action: submit),
-                SizedBox( height: 80 ),
+                SizedBox( height: 80 ),                
               ],
             ),
           ),
         ],
-      ) : Container(
-        width: size.width,
-        height: 400,
-        child: Center(child: CircularProgressIndicator(),)
       )
     );
   }
 }
+
+// Container(
+//   width: size.width,
+//   height: 400,
+//   child: Center(child: CircularProgressIndicator(),)
+// )
