@@ -49,7 +49,15 @@ class _DuvidaComponentState extends State<DuvidaComponent> {
                 ]
               ),
               Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  this.widget.duvida.usuario.foto != null ? Image.network(this.widget.duvida.usuario.foto, width: 25, height: 25, fit: BoxFit.fitWidth) : Image.asset(Assets.avatar, width: 25, height: 25, fit: BoxFit.fitWidth)
+                  //,Text(this.widget.duvida.usuario.nome, overflow: TextOverflow.ellipsis, style: GoogleFonts.openSans( color: Color.fromRGBO(78,127,222,1), fontSize: 12, fontWeight: FontWeight.w600)),                     
+                ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   Padding(
                     padding: EdgeInsets.only(top: 6),
@@ -58,28 +66,11 @@ class _DuvidaComponentState extends State<DuvidaComponent> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                            width: size.width * 0.75,
-                            child: Text(this.widget.duvida.usuario.nome, overflow: TextOverflow.ellipsis, style: GoogleFonts.openSans( color: Color.fromRGBO(78,76,76,1), fontSize: 12, fontWeight: FontWeight.w600),),
-                        ),
-                        Container(
-                          width: 50,
-                          child: this.widget.duvida.usuario.foto != null ? Image.network(this.widget.duvida.usuario.foto, width: 50, height: 50, fit: BoxFit.fitWidth) : Image.asset(Assets.avatar, width: 50, height: 50, fit: BoxFit.fitWidth)
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 6),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: size.width * 0.75,
+                          width: size.width * 0.70,
                           child: Text(this.widget.duvida.titulo, overflow: TextOverflow.ellipsis, style: GoogleFonts.openSans( color: Color.fromRGBO(78,76,76,1), fontSize: 12, fontWeight: FontWeight.w600),),
                         ),
                         Container(
-                          width: size.width * 0.75,
+                          width: size.width * 0.70,
                           child: Text(
                             this.widget.duvida.descricao, 
                             style: GoogleFonts.openSans( color: Color.fromRGBO(161,161,161,1), fontSize: 9, fontWeight: FontWeight.w600),
