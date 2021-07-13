@@ -5,6 +5,7 @@ import 'package:easycontab/contants/app_api_urls.dart';
 import 'package:easycontab/models/Duvida.dart';
 import 'package:easycontab/models/Resposta.dart';
 import 'package:easycontab/services/DuvidaService.dart';
+import 'package:easycontab/services/RespostaService.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -21,19 +22,39 @@ class DuvidaText extends StatefulWidget {
 }
 
 class _DuvidaTextState extends State<DuvidaText> {
-
-  DuvidaService service = new DuvidaService(
+  DuvidaService duvidaService = new DuvidaService(
     prefix: ApiUrls.prefix,
     host: ApiUrls.hostqst ,
     path: "qst/doubts",
   );
 
+  RespostaService respostaService = new RespostaService(
+    prefix: ApiUrls.prefix,
+    host: ApiUrls.hostqst ,
+    path: "qst/answers",
+  );
+
+  List<Resposta> respostas = [];
+
+  getRespostas() {
+    this.respostaService.getRespostas(loadDependencies: true).then((response) => {
+      setState(() {
+        respostas = response;
+      })
+    });
+  }
+
   bool respostasVisible = false;
+
+  _DuvidaTextState() {
+    this.respostaService.queryPath = "*deletedAt=null&_answerReactions=[]&_user=[]&_comments=[]&*doubtId=${this.widget.duvida.id}";
+    getRespostas();
+  }
 
   List<RespostaComponent> showRespostas() {
     List<RespostaComponent> respostas = [];
 
-    for( var resposta in this.widget.duvida.respostas ) {
+    for( var resposta in this.respostas ) {
       respostas.add(
         RespostaComponent(resposta: resposta, duvida: this.widget.duvida)
       );
@@ -95,7 +116,7 @@ class _DuvidaTextState extends State<DuvidaText> {
                       onTap: () {
                         this.widget.duvida.reacaoDuvida = true;
 
-                        this.service.updateDuvida(id: this.widget.duvida.id, duvida: this.widget.duvida).then((response) => {
+                        this.duvidaService.updateDuvida(id: this.widget.duvida.id, duvida: this.widget.duvida).then((response) => {
                           setState(() {
                             this.widget.duvida = response;
                           })
@@ -107,7 +128,7 @@ class _DuvidaTextState extends State<DuvidaText> {
                         onTap: () {
                           this.widget.duvida.reacaoDuvida = false;
 
-                          this.service.updateDuvida(id: this.widget.duvida.id, duvida: this.widget.duvida).then((response) => {
+                          this.duvidaService.updateDuvida(id: this.widget.duvida.id, duvida: this.widget.duvida).then((response) => {
                             setState(() {
                               this.widget.duvida = response;
                             })

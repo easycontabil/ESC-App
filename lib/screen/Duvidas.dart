@@ -27,7 +27,7 @@ class _DuvidasState extends State<Duvidas> {
   }
 
   _DuvidasState() {
-    this.service.queryPath = "*deletedAt=null&_doubtReactions=[]&_answers=[\"answerReactions\", \"comments\"]"; 
+    this.service.queryPath = "*deletedAt=null&_doubtReactions=[]&_user=[]&_answers=[\"answerReactions\", \"comments\",  \"user\"]";
     getDuvidas();
   }
 
