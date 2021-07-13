@@ -1,4 +1,5 @@
 import 'package:easycontab/contants/app_api_urls.dart';
+import 'package:easycontab/contants/app_assets.dart';
 import 'package:easycontab/models/Duvida.dart';
 import 'package:easycontab/screen/Duvida.dart';
 import 'package:easycontab/services/DuvidaService.dart';
@@ -48,7 +49,7 @@ class _DuvidaComponentState extends State<DuvidaComponent> {
                 ]
               ),
               Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
                     padding: EdgeInsets.only(top: 6),
@@ -56,7 +57,24 @@ class _DuvidaComponentState extends State<DuvidaComponent> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                            Container(
+                        Container(
+                            width: size.width * 0.75,
+                            child: Text(this.widget.duvida.usuario.nome, overflow: TextOverflow.ellipsis, style: GoogleFonts.openSans( color: Color.fromRGBO(78,76,76,1), fontSize: 12, fontWeight: FontWeight.w600),),
+                        ),
+                        Container(
+                          width: 50,
+                          child: this.widget.duvida.usuario.foto != null ? Image.network(this.widget.duvida.usuario.foto, width: 50, height: 50, fit: BoxFit.fitWidth) : Image.asset(Assets.avatar, width: 50, height: 50, fit: BoxFit.fitWidth)
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 6),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
                           width: size.width * 0.75,
                           child: Text(this.widget.duvida.titulo, overflow: TextOverflow.ellipsis, style: GoogleFonts.openSans( color: Color.fromRGBO(78,76,76,1), fontSize: 12, fontWeight: FontWeight.w600),),
                         ),
