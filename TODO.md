@@ -1,5 +1,8 @@
 
 
+GABRIEL FAZENDO:
+  - [ ] adicionar campo categoria na criacao da duvida
+
 - [x] like, dislike resposta
 - [x] renderizar o perfil *
 - [x] editar o perfil *
@@ -15,5 +18,4 @@
 - [x] resolver duvida baseada em uma resposta
 - [ ] corrigir estado do ver dúvida
 - [ ] ver perfil de outros usuários
-- [ ] adicionar campo categoria na criacao da duvida
 - [ ] filtrar duvida por categoria no buscar

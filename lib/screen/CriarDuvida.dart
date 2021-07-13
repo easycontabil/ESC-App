@@ -1,30 +1,56 @@
 
 import 'package:easycontab/components/Button.dart';
+import 'package:easycontab/components/CustomDrawer.dart';
 import 'package:easycontab/components/CustomTextField.dart';
 import 'package:easycontab/components/FeedAppBar.dart';
-import 'package:easycontab/components/SearchTextField.dart';
-import 'package:easycontab/components/misc/DrawerActionItem.dart';
+import 'package:easycontab/components/FilterableSelectField.dart';
 import 'package:easycontab/contants/app_api_urls.dart';
-import 'package:easycontab/contants/app_assets.dart';
+import 'package:easycontab/models/Categoria.dart';
 import 'package:easycontab/models/Duvida.dart';
+import 'package:easycontab/services/CategoriaService.dart';
 import 'package:easycontab/services/DuvidaService.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'Duvidas.dart';
 
-class CriarDuvida extends StatelessWidget {
-  DuvidaService service = new DuvidaService( prefix: ApiUrls.prefix, host: ApiUrls.hostqst , path: "qst/doubts");
 
-  TextEditingController tituloController = new TextEditingController();
+class CriarDuvida extends StatefulWidget {
+  
+  @override
+  _CriarDuvidaState createState() => _CriarDuvidaState();
+}
+
+class _CriarDuvidaState extends State<CriarDuvida> {
+
+  _CriarDuvidaState(){
+    this.loadCategorias();
+  }
+
+  CategoriaService categoriaService = new CategoriaService( prefix: ApiUrls.prefix, host: ApiUrls.hostqst ,path: "qst/categories");
+  DuvidaService service = new DuvidaService( prefix: ApiUrls.prefix, host: ApiUrls.hostqst, path: "qst/doubts");
+
   TextEditingController descricaoController = new TextEditingController();
+  TextEditingController categoriaController = new TextEditingController();
+  TextEditingController tituloController = new TextEditingController();
+  
+  List<Categoria> categorias = [];
+  List<String> categoriasStr;
+
+  void loadCategorias(){
+    this.categoriaService.getCategorias().then((response){
+      setState((){
+        this.categorias = response;
+      });
+      this.categoriasStr = this.categorias.map((e) => e.nome).toList();
+    }); 
+  }
 
   void submit(context) async {
-    Duvida duvida = new Duvida();
-
-    duvida.titulo = this.tituloController.text;
-    duvida.descricao = this.descricaoController.text;
-
+    Duvida duvida = new Duvida(
+      titulo: this.tituloController.text,
+      descricao: this.descricaoController.text,
+      categorias: this.categorias.where((x) => x.nome == this.categoriaController.text).toList()
+    );
     await service.registerDuvida(duvida);
 
     Navigator.push( context, MaterialPageRoute(builder: (context) => Duvidas()) );
@@ -33,78 +59,11 @@ class CriarDuvida extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    ListView getDrawerActions(){
-      return ListView(          
-          children: [
-            DrawerHeader(
-              child: Row(
-                children: [
-                  Container(
-                    margin: EdgeInsets.all(10),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(50),
-                      child: Image.asset(
-                        Assets.userRegister,       
-                        height: 80,  
-                        fit: BoxFit.fill  
-                      )
-                    ),
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("LOGIN", style: GoogleFonts.openSans( fontSize: 19, color: Colors.grey, fontWeight: FontWeight.w700)),
-                      Text("GABRIEL ANDRADE", style: GoogleFonts.openSans( fontSize: 21, color: Colors.grey[350], fontWeight: FontWeight.w600)),
-                    ],
-                  )
-                ],
-              ),
-            ),
-            Divider( color: Colors.grey[300], height: 4),
-            DrawerActionItem(
-              title: "PERFIL",
-              action: (){},
-              icon: Icons.person,
-            ),
-            Divider( color: Colors.grey[300], height: 4),
-            DrawerActionItem(
-              title: "DÚVIDAS",
-              action: (){},
-              icon: Icons.question_answer,
-            ),
-            Divider( color: Colors.grey[300], height: 4),
-            DrawerActionItem(
-              title: "NOTIFICAÇÕES",
-              action: (){},
-              icon: Icons.notifications,
-            ),
-            Divider( color: Colors.grey[300], height: 4),
-            DrawerActionItem(
-              title: "MINHAS DÚVIDAS",
-              action: (){},
-              icon: Icons.question_answer,
-            ),
-            Divider( color: Colors.grey[300], height: 4),
-          ],
-        );
-    }
-
     Size size = MediaQuery.of(context).size;
 
     return Scaffold(
       backgroundColor: Color.fromRGBO(241,237,237, 1),
-      drawer: Theme(
-        data: Theme.of(context).copyWith(
-          canvasColor: Colors.grey[900].withOpacity(0.9)
-        ),
-        child: Container(
-          width: size.width * 0.9,
-          child: Drawer(
-            child: getDrawerActions(),
-          ),
-        )
-      ),
+      drawer: CustomDrawer(),
       body: Container(
         child: Column(
           children: [
@@ -115,8 +74,9 @@ class CriarDuvida extends StatelessWidget {
                   color: Color.fromRGBO(241,237,237, 1), 
                   height: 190, width: size.width,
                 ),    
-                Positioned(child: FeedAppBar(logged: true, height: 150,), top: 0),  
-                SearchField(labelText: "BUSCAR", margin: EdgeInsets.only(top: 10, bottom: 10, left: 40, right: 40)),              
+                Positioned(child: FeedAppBar(logged: true, height: 150,), top: 0),   
+                this.categorias == null ? CircularProgressIndicator(backgroundColor: Colors.white) :
+                FilterableSelectField(labelText: "CATEGORIA", sugestions: this.categoriasStr, textController: this.categoriaController, margin: EdgeInsets.only(top: 10, bottom: 10, left: 40, right: 40))            
               ],
             ),     
             Container(
@@ -134,6 +94,7 @@ class CriarDuvida extends StatelessWidget {
                           CustomTextField(labelText: "TÍTULO", textController: this.tituloController),
                           SizedBox(height: 20),
                           CustomTextField(labelText: "DESCRIÇÃO", textController: this.descricaoController),
+                          SizedBox(height: 20),
                           SizedBox(height: 40),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -177,3 +138,5 @@ class CriarDuvida extends StatelessWidget {
     );
   }
 }
+
+
