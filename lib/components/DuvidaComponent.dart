@@ -2,6 +2,7 @@ import 'package:easycontab/contants/app_api_urls.dart';
 import 'package:easycontab/contants/app_assets.dart';
 import 'package:easycontab/models/Duvida.dart';
 import 'package:easycontab/screen/Duvida.dart';
+import 'package:easycontab/screen/Perfil.dart';
 import 'package:easycontab/services/DuvidaService.dart';
 import 'package:easycontab/utils/Preferences.dart';
 import 'package:easycontab/utils/shapes.dart';
@@ -48,13 +49,17 @@ class _DuvidaComponentState extends State<DuvidaComponent> {
                   CustomPaint(size: Size(21,14), painter: DrawInverseTriangle(color: Colors.grey)),
                 ]
               ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  this.widget.duvida.usuario.foto != null ? Image.network(this.widget.duvida.usuario.foto, width: 25, height: 25, fit: BoxFit.fitWidth) : Image.asset(Assets.avatar, width: 25, height: 25, fit: BoxFit.fitWidth)
-                  //,Text(this.widget.duvida.usuario.nome, overflow: TextOverflow.ellipsis, style: GoogleFonts.openSans( color: Color.fromRGBO(78,127,222,1), fontSize: 12, fontWeight: FontWeight.w600)),                     
-                ],
+              GestureDetector(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    this.widget.duvida.usuario.foto != null ? Image.network(this.widget.duvida.usuario.foto, width: 25, height: 25, fit: BoxFit.fitWidth) : Image.asset(Assets.avatar, width: 25, height: 25, fit: BoxFit.fitWidth)
+                  ],
+                ),
+                onTap: () {
+                  Navigator.push( context, MaterialPageRoute(builder: (context) => Perfil(editable: false, usuario: this.widget.duvida.usuario)) );
+                },
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,

@@ -14,13 +14,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'EditarUsuario.dart';
 
 class Perfil extends StatefulWidget {
-
+  final Usuario usuario;
   final bool editable;
 
-  Perfil({this.editable = false});
+  Perfil({this.editable = false, this.usuario = null});
 
   @override
-  _PerfilState createState() => _PerfilState();
+  _PerfilState createState() => _PerfilState(this.usuario);
 }
 
 class _PerfilState extends State<Perfil> {
@@ -29,16 +29,20 @@ class _PerfilState extends State<Perfil> {
   Usuario usuario = new Usuario();
   Preferences preferences = new Preferences();
 
-  setUser() {
-    this.preferences.init().then((value) => {
-      setState(() {
-        this.usuario = this.preferences.getUser();
-      })
-    });
+  setUser(Usuario usuario) {
+    if (usuario == null) {
+      this.preferences.init().then((value) => {
+        setState(() {
+          this.usuario = this.preferences.getUser();
+        })
+      });
+    } else {
+      this.usuario = usuario;
+    }
   }
 
-  _PerfilState() {
-    setUser();
+  _PerfilState(Usuario usuario) {
+    setUser(usuario);
   }
 
   @override
@@ -48,7 +52,8 @@ class _PerfilState extends State<Perfil> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         mainAxisSize: MainAxisSize.max,
         children: [
-          CustomAppBar(logged: true,),
+          CustomAppBar(logged: true),
+          // this.usuario == null ? CustomAppBar(logged: true) : CustomAppBar(),
           Container(
             margin: EdgeInsets.only(top: 10, bottom: 6, left: 6, right: 6),
             padding: EdgeInsets.all(10),

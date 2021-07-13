@@ -1,10 +1,13 @@
 
 import 'package:easycontab/contants/app_api_urls.dart';
+import 'package:easycontab/contants/app_assets.dart';
 import 'package:easycontab/models/Comentario.dart';
 import 'package:easycontab/models/Duvida.dart';
 import 'package:easycontab/models/Resposta.dart';
 import 'package:easycontab/models/Usuario.dart';
+import 'package:easycontab/screen/Perfil.dart';
 import 'package:easycontab/services/ComentarioService.dart';
+import 'package:easycontab/utils/Preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -24,6 +27,20 @@ class ComentarioComponentCreate extends StatefulWidget {
 }
 
 class _ComentarioComponentCreateState extends State<ComentarioComponentCreate> {
+  Usuario usuario = new Usuario();
+  Preferences preferences = new Preferences();
+
+  setUser() {
+    this.preferences.init().then((value) => {
+      setState(() {
+        this.usuario = this.preferences.getUser();
+      })
+    });
+  }
+
+  _ComentarioComponentCreateState() {
+    setUser();
+  }
 
   bool loading = false;
   bool created = false;
@@ -34,26 +51,58 @@ class _ComentarioComponentCreateState extends State<ComentarioComponentCreate> {
     path: "qst/comments",
   );
 
+
   List<Widget> getContent(){
     
     if( this.created == true){
       return [
         Padding(
             padding: EdgeInsets.only(top: 6),
-            child: Container(                 
-              child: Text(
-                this.widget.controller.text,
-                style: GoogleFonts.openSans( color: Color.fromRGBO(161,161,161,1), fontSize: 9, fontWeight: FontWeight.w600),
-                overflow: TextOverflow.clip,                   
-              ),
-            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                GestureDetector(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      this.usuario.foto != null ? Image.network(this.usuario.foto, width: 25, height: 25, fit: BoxFit.fitWidth) : Image.asset(Assets.avatar, width: 25, height: 25, fit: BoxFit.fitWidth)
+                    ],
+                  ),
+                  onTap: () {
+                    Navigator.push( context, MaterialPageRoute(builder: (context) => Perfil(editable: false, usuario: this.usuario)) );
+                  },
+                ),
+                Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Padding(
+                          padding: EdgeInsets.only(top: 6),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                child: Text(
+                                  this.widget.controller.text,
+                                  style: GoogleFonts.openSans( color: Color.fromRGBO(161,161,161,1), fontSize: 9, fontWeight: FontWeight.w600),
+                                  overflow: TextOverflow.clip,
+                                ),
+                              )
+                            ],
+                          )
+                      ),
+                    ]
+                ),
+              ],
+            )
           ),    
       ];
     }else{
       return [
         Padding(
           padding: EdgeInsets.only(top: 0),
-          child: Container(                 
+          child: Container(
             child: TextField(               
               controller: this.widget.controller,
               decoration: InputDecoration(

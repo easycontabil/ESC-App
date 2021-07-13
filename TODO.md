@@ -14,6 +14,6 @@
 - [x] listagem minhas duvidas
 - [x] resolver duvida baseada em uma resposta
 - [ ] corrigir estado do ver dúvida
-- [ ] ver perfil de outros usuários
+- [x] ver perfil de outros usuários
 - [ ] adicionar campo categoria na criacao da duvida
 - [ ] filtrar duvida por categoria no buscar
