@@ -18,7 +18,7 @@ class DuvidaText extends StatefulWidget {
   DuvidaText({this.duvida});
 
   @override
-  _DuvidaTextState createState() => _DuvidaTextState();
+  _DuvidaTextState createState() => _DuvidaTextState(this.duvida.id);
 }
 
 class _DuvidaTextState extends State<DuvidaText> {
@@ -45,8 +45,8 @@ class _DuvidaTextState extends State<DuvidaText> {
     });
   }
 
-  _DuvidaTextState() {
-    this.respostaService.queryPath = "*deletedAt=null&_answerReactions=[]&_user=[]&_comments=[]&*doubtId=${this.widget.duvida.id}";
+  _DuvidaTextState(String id) {
+    this.respostaService.queryPath = "*deletedAt=null&_answerReactions=[]&_user=[]&_comments=[]&*doubtId=${id}";
     getRespostas();
   }
 

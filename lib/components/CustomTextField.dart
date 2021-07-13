@@ -19,7 +19,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
   
   @override
   Widget build(BuildContext context) {
-    print(this.widget.password);
+    //print(this.widget.password);
     return Container(
       margin: this.widget.margin,
       padding: EdgeInsets.symmetric( horizontal: 20 ),

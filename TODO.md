@@ -3,6 +3,7 @@
 - [x] like, dislike resposta
 - [x] renderizar o perfil *
 - [x] editar o perfil *
+- [ ] se o campo senha for mantido em branco, mantém a senha padrão *
 - [x] criar uma duvida *
 - [x] listar comentarios das respostas *
 - [x] criar uma resposta/comentario *

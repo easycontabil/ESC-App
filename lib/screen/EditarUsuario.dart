@@ -66,7 +66,8 @@ class _EditarUsuarioState extends State<EditarUsuario> {
             this.senhaController.text,
             this.img64
           );
-          if( data["status"] == 200 ){           
+          if( data["status"] == 200 ){   
+            this.service.path = "grd/auth";       
             data = await this.service.login( this.emailController.text, this.senhaController.text );
             String token = data["data"]["accessToken"]["token"];
             this.preferences.setToken(token);
