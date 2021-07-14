@@ -56,7 +56,10 @@ class _CustomDrawerState extends State<CustomDrawer> {
                       width: 200,
                       child: Text(this.usuario.email, overflow: TextOverflow.ellipsis, style: GoogleFonts.openSans( fontSize: 19, color: Colors.grey, fontWeight: FontWeight.w700)),                      
                     ),
-                    Text(this.usuario.nome, overflow: TextOverflow.ellipsis, style: GoogleFonts.openSans( fontSize: 21, color: Colors.grey[350], fontWeight: FontWeight.w600)),
+                    Container(
+                      width: 200,
+                      child: Text(this.usuario.nome, overflow: TextOverflow.ellipsis, style: GoogleFonts.openSans( fontSize: 21, color: Colors.grey[350], fontWeight: FontWeight.w600)),                      
+                    ),                  
                   ],
                 )
               ],
