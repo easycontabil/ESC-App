@@ -73,16 +73,16 @@ class _PerfilState extends State<Perfil> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    DataText(dataLabel: "N° DUVIDAS", dataValue: "${this.usuario.nmrDuvidas}"),
-                    DataText(dataLabel: "N° RESPOSTAS ", dataValue: "${this.usuario.nmrRespostas}"),
-                    DataText(dataLabel: "PONTUAÇÃO", dataValue: "${this.usuario.pontos} XP"),
+                    DataText(dataLabel: "N° DUVIDAS", dataValue: this.usuario.nmrDuvidas.toString()),
+                    DataText(dataLabel: "N° RESPOSTAS ", dataValue: this.usuario.nmrRespostas.toString()),
+                    DataText(dataLabel: "PONTUAÇÃO", dataValue: this.usuario.pontos.toString() + " XP"),
                   ],
                 ),
                 SizedBox( height: 10 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    DataText(dataLabel: "N° RESOLUÇÕES", dataValue: "${this.usuario.nmrResolucoes}"),
+                    DataText(dataLabel: "N° RESOLUÇÕES", dataValue: this.usuario.nmrResolucoes.toString()),
                   ],
                 ),
                 Padding(child: Divider( color: Colors.black), padding: EdgeInsets.symmetric(horizontal: 10)),

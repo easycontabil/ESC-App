@@ -60,12 +60,12 @@ class _RegistroUsuarioState extends State<RegistroUsuario> {
             this.img64
           );
           if( data["status"] == 201 ){
-            // String userId = data["data"]["id"];
-            data = await this.service.login( this.emailController.text, this.senhaController.text );
-            String token = data["data"]["accessToken"]["token"];
-            this.preferences.setToken(token);
-            Navigator.push( context, MaterialPageRoute(builder: (context) => Duvidas()) );
-            //Navigator.push( context, MaterialPageRoute(builder: (context) => PaginaLogin(mustVerification: true)) );
+            // // String userId = data["data"]["id"];
+            // data = await this.service.login( this.emailController.text, this.senhaController.text );
+            // String token = data["data"]["accessToken"]["token"];
+            // this.preferences.setToken(token);
+            // Navigator.push( context, MaterialPageRoute(builder: (context) => Duvidas()) );
+            Navigator.push( context, MaterialPageRoute(builder: (context) => PaginaLogin(mustVerification: true)) );
           }else{
             this.showError("Não foi possível registrar o usuário");           
           }
