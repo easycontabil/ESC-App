@@ -9,28 +9,17 @@ class NotificacaoService extends AbstractService {
 
   NotificacaoService({ encoding, prefix, @required host, path, queryPath}) 
   : super( prefix: prefix, host: host, path: path, queryPath: queryPath, encoding: encoding );
-  //({ encoding, prefix, host, path, queryPath}) : super( prefix: prefix, host: host, path: path, queryPath: queryPath, encoding: encoding );
-
-  // GET
-  Future<Notificacao> getNotificacao(int id) async{
-    http.Response response = await http.get( this.buildUri(id.toString()) );
-    
-    dynamic json = this.decode(response);
-    return Notificacao.fromJson(json);
-
-  }
 
   // GET --> LIST
-  Future<List<Notificacao>> getNotificacoes() async{
+  Future<List<Notificacao>> getNotificacoes() async {
     List<Notificacao> notificacoes = [];
-    http.Response response = await http.get(this.buildUri());
 
-    dynamic json = this.decode(response);
+    http.Response response = await http.get(this.buildUri(), headers: await this.getHeader(auth: true));
 
-    for( var obj in json){
+    for( var obj in this.decode(response)["data"]["data"]){
       notificacoes.add( Notificacao.fromJson(obj) );
     }
+
     return notificacoes;
   }
-
 }

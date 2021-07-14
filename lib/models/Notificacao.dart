@@ -3,7 +3,7 @@ import 'Usuario.dart';
 
 class Notificacao extends Abstract{
   Usuario usuario;
-  int usuarioId;
+  String usuarioId;
   String titulo, conteudo, tipo;
 
   Notificacao( 
@@ -12,11 +12,11 @@ class Notificacao extends Abstract{
 
   Notificacao.fromJson(Map<String, dynamic> json){
     this.id = json['id'];
-    this.usuarioId = json['usuario_id'];
-    this.titulo = json['titulo'];
-    this.conteudo = json['conteudo'];
-    this.tipo = json['tipo'];
-    this.criacao = json['criacao'];
+    this.usuarioId = json['userId'];
+    this.titulo = json['title'];
+    this.conteudo = json['content'];
+    this.tipo = json['type'];
+    this.criacao = DateTime.parse(json['createdAt']) ?? null;
   }
 
   Map<String, dynamic> tojson() => {

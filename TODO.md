@@ -17,11 +17,13 @@
 - [x] atualizar duvida
 - [x] atualizar resposta
 - [x] atualizar comentario
+- [x] resolver duvida
 - [x] disparar mensagem de erro quando usuário tentar reagir a propria duvida/resposta
+- [x] numero de respostas, duvidas e comentarios perfil usuario
 
 - [ ] tratamento de erros da api **** EXTREMAMENTE IMPORTANTE
 
-- [ ] resolver duvida
+- [ ] remover o botao de criacao da resposta 
+  ou disparar um erro ao tentar criar uma nova resposta para a mesma duvida
 - [ ] se o campo senha for mantido em branco, mantém a senha padrão *
 - [ ] loading buttons
-- [ ] numero de respostas,duvidas e comentarios perfil usuario

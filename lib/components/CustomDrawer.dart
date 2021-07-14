@@ -79,7 +79,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
           DrawerActionItem(
             title: "NOTIFICAÇÕES",
             action: () {
-              Navigator.push( context, MaterialPageRoute(builder: (context) => Notificacoes()) );
+              Navigator.push( context, MaterialPageRoute(builder: (context) => Notificacoes(usuario: this.usuario)) );
             },
             icon: Icons.notifications,
           ),
