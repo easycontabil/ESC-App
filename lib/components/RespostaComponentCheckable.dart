@@ -27,6 +27,7 @@ class RespostaComponentCheckable extends StatefulWidget {
 class _RespostaComponentCheckableState extends State<RespostaComponentCheckable> {
 
   String comentario;
+  bool checked = false;
 
   void setComentario(String comentario){
     this.comentario = comentario;
@@ -50,7 +51,17 @@ class _RespostaComponentCheckableState extends State<RespostaComponentCheckable>
         width: 600,  
         child: Row(
           children: [
-            Checkbox(value: false, onChanged: (value){print(value);}),
+            Checkbox(
+              value: this.checked, 
+              onChanged: (value){
+                setState(() {
+                  this.checked = value;                 
+                });
+                if(value == true){
+                  this.widget.onCheck(this.widget.duvida);     
+                }           
+              }
+            ),
             Container(
               width: size.width * 0.91,
               child: Column(

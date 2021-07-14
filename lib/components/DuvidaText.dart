@@ -49,6 +49,8 @@ class _DuvidaTextState extends State<DuvidaText> {
   bool respostasVisible = false;
   bool test = false;
 
+  dynamic selectedSolve;
+
   List<RespostaComponent> showRespostas() {
     List<RespostaComponent> respostas = [];
     for( var resposta in this.respostas ) {
@@ -64,7 +66,7 @@ class _DuvidaTextState extends State<DuvidaText> {
 
     for( var resposta in this.respostas ) {
       respostas.add(
-        RespostaComponentCheckable(resposta: resposta, duvida: this.widget.duvida,onCheck: (){},)
+        RespostaComponentCheckable(resposta: resposta, duvida: this.widget.duvida, onCheck: setSelectedSolve)
       );
     }
     return respostas;
@@ -75,6 +77,11 @@ class _DuvidaTextState extends State<DuvidaText> {
       return this.showRespostasToSolve();
     }
     return this.showRespostas();
+  }
+
+  void setSelectedSolve(dynamic value){
+    this.selectedSolve = value;
+    print(this.selectedSolve.id);
   }
 
   @override
