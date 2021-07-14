@@ -58,6 +58,7 @@ class RespostaService extends AbstractService {
 
   // PUT
   Future<Resposta> resolverDuvida({String id}) async {
+    print(this.buildUri(id.toString()));
     http.Response response = await http.put(
         this.buildUri(id.toString()),
         body: json.encode({ 'solved': true }),
