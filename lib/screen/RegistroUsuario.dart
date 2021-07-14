@@ -8,6 +8,7 @@ import 'package:easycontab/components/CustomTextField.dart';
 import 'package:easycontab/components/logo.dart';
 import 'package:easycontab/contants/app_api_urls.dart';
 import 'package:easycontab/contants/app_assets.dart';
+import 'package:easycontab/screen/PaginaLogin.dart';
 import 'package:easycontab/services/AuthService.dart';
 import 'package:easycontab/utils/Preferences.dart';
 import 'package:flutter/material.dart';
@@ -64,9 +65,9 @@ class _RegistroUsuarioState extends State<RegistroUsuario> {
             String token = data["data"]["accessToken"]["token"];
             this.preferences.setToken(token);
             Navigator.push( context, MaterialPageRoute(builder: (context) => Duvidas()) );
+            //Navigator.push( context, MaterialPageRoute(builder: (context) => PaginaLogin(mustVerification: true)) );
           }else{
-            this.showError("Não foi possível registrar o usuário");
-            print(data["error"]["message"]["message"]);
+            this.showError("Não foi possível registrar o usuário");           
           }
         }
       }
