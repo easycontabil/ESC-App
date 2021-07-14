@@ -137,16 +137,7 @@ class _EditarUsuarioState extends State<EditarUsuario> {
 
     this.initialize();
     
-    this.preferences.init().then((value){
-      // this.usuario = this.preferences.getUser();
-      // setState(() {
-      //   this.isLoading = false;   
-      //   this.nomeController.text = this.usuario.nome; 
-      //   this.emailController.text = this.usuario.email; 
-      //   this.senhaController.text = this.usuario.senha;   
-      //   this.confirmarSenhaController.text = this.usuario.senha;
-      // });
-    });
+    this.preferences.init().then((value){});
 
     var size = MediaQuery.of(context).size;
 

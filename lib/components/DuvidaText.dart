@@ -11,13 +11,15 @@ import 'package:easycontab/services/RespostaService.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'RespostaComponentCheckable.dart';
 import 'misc/IconCount.dart';
 
 class DuvidaText extends StatefulWidget {
 
   Duvida duvida;
+  bool solving;
 
-  DuvidaText({this.duvida});
+  DuvidaText({this.duvida, this.solving=false});
 
   @override
   _DuvidaTextState createState() => _DuvidaTextState(this.duvida.id);
@@ -25,17 +27,9 @@ class DuvidaText extends StatefulWidget {
 
 class _DuvidaTextState extends State<DuvidaText> {
 
-  DuvidaService duvidaService = new DuvidaService(
-    prefix: ApiUrls.prefix,
-    host: ApiUrls.hostqst ,
-    path: "qst/doubts",
-  );
+  DuvidaService duvidaService = new DuvidaService( prefix: ApiUrls.prefix, host: ApiUrls.hostqst, path: "qst/doubts");
 
-  RespostaService respostaService = new RespostaService(
-    prefix: ApiUrls.prefix,
-    host: ApiUrls.hostqst ,
-    path: "qst/answers",
-  );
+  RespostaService respostaService = new RespostaService(prefix: ApiUrls.prefix, host: ApiUrls.hostqst, path: "qst/answers");
 
   List<Resposta> respostas = [];
 
@@ -53,16 +47,34 @@ class _DuvidaTextState extends State<DuvidaText> {
   }
 
   bool respostasVisible = false;
+  bool test = false;
 
   List<RespostaComponent> showRespostas() {
     List<RespostaComponent> respostas = [];
-
     for( var resposta in this.respostas ) {
       respostas.add(
         RespostaComponent(resposta: resposta, duvida: this.widget.duvida)
       );
     }
     return respostas;
+  }
+
+  List<RespostaComponentCheckable> showRespostasToSolve() {
+    List<RespostaComponentCheckable> respostas = [];
+
+    for( var resposta in this.respostas ) {
+      respostas.add(
+        RespostaComponentCheckable(resposta: resposta, duvida: this.widget.duvida,onCheck: (){},)
+      );
+    }
+    return respostas;
+  }
+
+  List<Widget> getContent(){
+    if(this.widget.solving == true){
+      return this.showRespostasToSolve();
+    }
+    return this.showRespostas();
   }
 
   @override
@@ -164,8 +176,8 @@ class _DuvidaTextState extends State<DuvidaText> {
               ],
             ),
             decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(1),
+              color: this.widget.solving == false ? Colors.white : Colors.green[50] 
+              ,borderRadius: BorderRadius.circular(1),
               boxShadow: [
                 BoxShadow( 
                   color: Colors.grey,
@@ -176,8 +188,8 @@ class _DuvidaTextState extends State<DuvidaText> {
             ),
           ),
           Column(
-            children: this.respostasVisible == true ? this.showRespostas() : [], 
-          )
+            children: this.respostasVisible == true ? this.getContent() : []            
+          ),         
         ],
       ),
     );
@@ -185,3 +197,16 @@ class _DuvidaTextState extends State<DuvidaText> {
 }
 
                       
+
+// SingleChildScrollView(
+//             scrollDirection: Axis.horizontal,
+//             child: Container( 
+//               width: 600,  
+//               child: Row(
+//                 children: [
+//                   Checkbox(value: false, onChanged: (value){print(value);}),
+//                   this.respostasVisible == true ? RespostaComponent(resposta: this.widget.duvida.respostas.first, duvida: this.widget.duvida) : Text("TESTE"), 
+//                 ],
+//               ),
+//             ),           
+//           ),         

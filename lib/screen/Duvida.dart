@@ -32,6 +32,7 @@ class _VerDuvidaState extends State<VerDuvida> {
     path: "qst/doubts",
   );
 
+  bool solving = false;
   bool respostas = false;
   bool ower = false;
   Usuario usuario;
@@ -89,24 +90,58 @@ class _VerDuvidaState extends State<VerDuvida> {
     if( this.duvida == null || this.usuario == null){
       return [ Center( child: CircularProgressIndicator()) ];
     }
-    content.add(DuvidaText(duvida: this.duvida));
+    content.add(DuvidaText(duvida: this.duvida, solving: this.solving));
     content.add(SizedBox(height: 30));
 
+    // SE A DÙVIDA PERTENCE AO USUÁRIO AUTENTICADO
     if(this.usuario.id == this.duvida.usuario.id){
       this.ower = true;
-      content.add(
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            CustomButton(
-              label: "FECHAR", 
-              action: (){ this._showAlert(context); }, 
-              color: Color.fromRGBO(219, 36, 36, 1)
-            ),
-            CustomButton(label: "RESOLVER", action: (){}),
-          ],
-        )   
-      );
+      // SE NÃO ESTIVER SENDO RESOLVIDA
+      if(this.solving == false){
+        content.add(
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              CustomButton(
+                label: "FECHAR", 
+                action: (){ this._showAlert(context); }, 
+                color: Color.fromRGBO(219, 36, 36, 1)
+              ),
+              this.duvida.resolvida == false ? CustomButton(
+                label: "RESOLVER", 
+                action: (){
+                  setState(() {
+                    this.solving = true;  
+                  });
+                }
+              ) : null
+            ],
+          )   
+        );
+      // SE ESTÁ SENDO RESOLVIDA
+      }else{
+        content.add(
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              CustomButton(
+                label: "CANCELAR", 
+                action: () => {setState(() { this.solving = false; }) }, 
+                color: Color.fromRGBO(219, 36, 36, 1)
+              ),
+              CustomButton(
+                label: "CONFIRMAR", 
+                action: (){
+                  print("RESOLVENDOOO");
+                  setState(() {
+                      this.solving = false;                
+                  });
+                }
+              ),
+            ],
+          )   
+        );
+      }   
     }
     return content;
   }

@@ -46,7 +46,7 @@ class _DuvidaComponentState extends State<DuvidaComponent> {
                   SizedBox(height: 5,),
                   Text(this.widget.duvida.relevancia.toString(), style: GoogleFonts.openSans( fontSize: 14, fontWeight: FontWeight.w600 ) ),
                   SizedBox(height: 5,),
-                  CustomPaint(size: Size(21,14), painter: DrawInverseTriangle(color: this.widget.duvida.relevancia < 0 ? Colors.red[600] : Colors.grey)),
+                  CustomPaint(size: Size(21,14), painter: DrawInverseTriangle(color: this.widget.duvida.relevancia < 0 ? Colors.red : Colors.grey)),
                 ]
               ),
               GestureDetector(

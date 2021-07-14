@@ -59,6 +59,7 @@ class _RespostaComponentState extends State<RespostaComponent> {
     Size size = MediaQuery.of(context).size;
 
     return Container(
+      width: size.width * 1,
       child: Column(
         children: [
           Container(
