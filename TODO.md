@@ -14,9 +14,10 @@
 - [x] não mostrar duvidas fechadas em Duvidas mas sim em MinhasDuvidas  
 - [x] fechar duvida
 
+- [ ] tratamento de erros da api **** EXTREMAMENTE IMPORTANTE
+
 - [ ] resolver duvida
 - [ ] se o campo senha for mantido em branco, mantém a senha padrão *
-- [ ] tratamento de erros da api *
 - [ ] loading buttons  
 - [ ] corrigir estado do ver dúvida
 - [ ] atualizar duvida
