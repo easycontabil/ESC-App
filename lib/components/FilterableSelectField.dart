@@ -41,10 +41,10 @@ class _FilterableSelectFieldState extends State<FilterableSelectField> {
           hintStyle: GoogleFonts.openSans( color: Colors.grey[600], fontWeight: FontWeight.w700) ,          
           enabledBorder: InputBorder.none,
           focusedBorder: InputBorder.none,
-          suffixIcon: Icon(Icons.search)
+          suffixIcon: Icon(Icons.search),
         ),
-        suggestions: this.widget.sugestions ?? [],
-      )
+        suggestions: this.widget.sugestions ?? []
+      ),
     );
   }
 }

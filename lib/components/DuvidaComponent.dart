@@ -42,11 +42,11 @@ class _DuvidaComponentState extends State<DuvidaComponent> {
               Column(
                 //mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [              
-                  CustomPaint(size: Size(21,14), painter: DrawTriangle(color: Colors.grey)),
+                  CustomPaint(size: Size(21,14), painter: DrawTriangle(color: this.widget.duvida.relevancia > 0 ? Colors.green : Colors.grey)),
                   SizedBox(height: 5,),
-                  Text("3", style: GoogleFonts.openSans( fontSize: 14, fontWeight: FontWeight.w600 ) ),
+                  Text(this.widget.duvida.relevancia.toString(), style: GoogleFonts.openSans( fontSize: 14, fontWeight: FontWeight.w600 ) ),
                   SizedBox(height: 5,),
-                  CustomPaint(size: Size(21,14), painter: DrawInverseTriangle(color: Colors.grey)),
+                  CustomPaint(size: Size(21,14), painter: DrawInverseTriangle(color: this.widget.duvida.relevancia < 0 ? Colors.red[600] : Colors.grey)),
                 ]
               ),
               GestureDetector(
@@ -54,7 +54,11 @@ class _DuvidaComponentState extends State<DuvidaComponent> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    this.widget.duvida.usuario.foto != null ? Image.network(this.widget.duvida.usuario.foto, width: 25, height: 25, fit: BoxFit.fitWidth) : Image.asset(Assets.avatar, width: 25, height: 25, fit: BoxFit.fitWidth)
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(50),
+                      child: this.widget.duvida.usuario.foto != null ? Image.network(this.widget.duvida.usuario.foto, width: 25, height: 25, fit: BoxFit.fitWidth) : Image.asset(Assets.avatar, width: 25, height: 25, fit: BoxFit.fitWidth)          
+                    ),
+                    // this.widget.duvida.usuario.foto != null ? Image.network(this.widget.duvida.usuario.foto, width: 25, height: 25, fit: BoxFit.fitWidth) : Image.asset(Assets.avatar, width: 25, height: 25, fit: BoxFit.fitWidth)
                   ],
                 ),
                 onTap: () {
@@ -100,7 +104,7 @@ class _DuvidaComponentState extends State<DuvidaComponent> {
             ],
           ),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: this.widget.duvida.aberta == true ? Colors.white : Colors.grey[300] ,
             borderRadius: BorderRadius.circular(1),
             boxShadow: [
               BoxShadow( 
