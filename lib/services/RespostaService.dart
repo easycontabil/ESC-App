@@ -34,9 +34,35 @@ class RespostaService extends AbstractService {
   Future<Resposta> updateResposta({String id, Resposta resposta}) async {
     http.Response response = await http.put(
       this.buildUri(id.toString()),
-      body: json.encode(resposta.toJson()),
+      body: json.encode({ 'content': resposta.conteudo }),
       headers: await this.getHeader(auth: true),
       encoding: this.encoding
+    );
+
+    return Resposta.fromJson(this.decode(response)["data"], loadDependencies: true);
+  }
+
+  // PUT
+  Future<Resposta> reagirDuvida({String id, Resposta resposta}) async {
+    http.Response response = await http.put(
+        this.buildUri(id.toString()),
+        body: json.encode({ 'answerReaction': {
+          'liked': resposta.reacaoResposta
+        } }),
+        headers: await this.getHeader(auth: true),
+        encoding: this.encoding
+    );
+
+    return Resposta.fromJson(this.decode(response)["data"], loadDependencies: true);
+  }
+
+  // PUT
+  Future<Resposta> resolverDuvida({String id, Resposta resposta}) async {
+    http.Response response = await http.put(
+        this.buildUri(id.toString()),
+        body: json.encode({ 'solved': resposta.resolveu }),
+        headers: await this.getHeader(auth: true),
+        encoding: this.encoding
     );
 
     return Resposta.fromJson(this.decode(response)["data"], loadDependencies: true);

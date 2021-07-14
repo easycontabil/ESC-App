@@ -5,9 +5,12 @@ import 'package:easycontab/contants/app_api_urls.dart';
 import 'package:easycontab/contants/app_assets.dart';
 import 'package:easycontab/models/Duvida.dart';
 import 'package:easycontab/models/Resposta.dart';
+import 'package:easycontab/models/Usuario.dart';
+import 'package:easycontab/screen/EditarResposta.dart';
 import 'package:easycontab/screen/Perfil.dart';
 import 'package:easycontab/services/ComentarioService.dart';
 import 'package:easycontab/services/RespostaService.dart';
+import 'package:easycontab/utils/Preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -25,6 +28,21 @@ class RespostaComponent extends StatefulWidget {
 }
 
 class _RespostaComponentState extends State<RespostaComponent> {
+  Usuario usuario = new Usuario();
+
+  Preferences preferences = new Preferences();
+
+  setUser() {
+    this.preferences.init().then((value) => {
+      setState(() {
+        this.usuario = this.preferences.getUser();
+      })
+    });
+  }
+
+  _RespostaComponentState() {
+    setUser();
+  }
 
   String comentario;
 
@@ -43,7 +61,7 @@ class _RespostaComponentState extends State<RespostaComponent> {
 
     for( var comentario in this.widget.resposta.comentarios ) {
       comentarios.add(
-          ComentarioComponent(comentario: comentario)
+          ComentarioComponent(comentario: comentario, duvidaId: this.widget.resposta.duvida.id)
       );
     }
     comentarios.add(ComentarioComponentCreate(controller: new TextEditingController(), resposta: this.widget.resposta, callback: this.setComentario,));
@@ -51,7 +69,7 @@ class _RespostaComponentState extends State<RespostaComponent> {
     return comentarios;
   }
 
-  bool comentariosVisible = false;
+  bool comentariosVisible = true;
 
   @override
   Widget build(BuildContext context) {
@@ -114,10 +132,12 @@ class _RespostaComponentState extends State<RespostaComponent> {
                           ),
                           GestureDetector(
                               child: IconCount(count: this.widget.resposta.nrAprovacoes, icon: Icons.thumb_up, size: 18, ),
-                              onTap: () {
+                              onTap: this.usuario.id == this.widget.resposta.usuario.id ? () {
+                                // TODO USUARIO NAO PODE REAGIR A PROPRIA RESPOSTA
+                              } : () {
                                 this.widget.resposta.reacaoResposta = true;
 
-                                this.service.updateResposta(id: this.widget.resposta.id, resposta: this.widget.resposta).then((response) => {
+                                this.service.reagirDuvida(id: this.widget.resposta.id, resposta: this.widget.resposta).then((response) => {
                                   setState(() {
                                     this.widget.resposta = response;
                                   })
@@ -126,16 +146,24 @@ class _RespostaComponentState extends State<RespostaComponent> {
                           ),
                           GestureDetector(
                               child: IconCount(count: this.widget.resposta.nrDesaprovacoes, icon: Icons.thumb_down, size: 18 ),
-                              onTap: () {
+                              onTap: this.usuario.id == this.widget.resposta.usuario.id ? () {
+                                // TODO USUARIO NAO PODE REAGIR A PROPRIA RESPOSTA
+                              } : () {
                                 this.widget.resposta.reacaoResposta = false;
 
-                                this.service.updateResposta(id: this.widget.resposta.id, resposta: this.widget.resposta).then((response) => {
+                                this.service.reagirDuvida(id: this.widget.resposta.id, resposta: this.widget.resposta).then((response) => {
                                   setState(() {
                                     this.widget.resposta = response;
                                   })
                                 });
                               }
                           ),
+                          this.usuario.id == this.widget.resposta.usuario.id ? GestureDetector(
+                            child: IconCount(icon: Icons.edit),
+                            onTap: () {
+                              Navigator.push( context, MaterialPageRoute(builder: (context) => EditarResposta(resposta: this.widget.resposta)) );
+                            },
+                          ) : Text("")
                         ],
                       ),
                     ]

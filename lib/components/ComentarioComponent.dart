@@ -2,25 +2,45 @@
 import 'package:easycontab/contants/app_assets.dart';
 import 'package:easycontab/models/Comentario.dart';
 import 'package:easycontab/models/Usuario.dart';
+import 'package:easycontab/screen/EditarComentario.dart';
 import 'package:easycontab/screen/Perfil.dart';
+import 'package:easycontab/utils/Preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import 'misc/IconCount.dart';
 
 
 class ComentarioComponent extends StatefulWidget {
 
   //final Usuario dono;
   // final String conteudo;
+  String duvidaId;
   Comentario comentario;
   final controller = new TextEditingController();
 
-  ComentarioComponent({ /*@required this.dono,*/ @required this.comentario });
+  ComentarioComponent({ /*@required this.dono,*/ @required this.comentario, this.duvidaId });
 
   @override
   _ComentarioComponentState createState() => _ComentarioComponentState();
 }
 
 class _ComentarioComponentState extends State<ComentarioComponent> {
+  Usuario usuario = new Usuario();
+
+  Preferences preferences = new Preferences();
+
+  setUser() {
+    this.preferences.init().then((value) => {
+      setState(() {
+        this.usuario = this.preferences.getUser();
+      })
+    });
+  }
+
+  _ComentarioComponentState() {
+    setUser();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,12 +70,13 @@ class _ComentarioComponentState extends State<ComentarioComponent> {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Padding(
-                  padding: EdgeInsets.only(top: 6),
+                  padding: EdgeInsets.only(top: 1),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
+                        width: size.width * 0.70,
                         child: Text(
                           this.widget.comentario.comentario,
                           style: GoogleFonts.openSans( color: Color.fromRGBO(161,161,161,1), fontSize: 9, fontWeight: FontWeight.w600),
@@ -65,6 +86,18 @@ class _ComentarioComponentState extends State<ComentarioComponent> {
                     ],
                   )
                 ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    this.usuario.id == this.widget.comentario.usuario.id ? GestureDetector(
+                      child: IconCount(icon: Icons.edit),
+                      onTap: () {
+                        Navigator.push( context, MaterialPageRoute(builder: (context) => EditarComentario(comentario: this.widget.comentario, duvidaId: this.widget.duvidaId)) );
+                      },
+                    ) : Text("")
+                  ]
+                )
               ]
           ),
         ],

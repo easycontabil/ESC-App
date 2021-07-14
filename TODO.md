@@ -13,14 +13,15 @@
 - [x] ajustar página minhas duvidas
 - [x] não mostrar duvidas fechadas em Duvidas mas sim em MinhasDuvidas  
 - [x] fechar duvida
+- [x] corrigir estado do ver dúvida
+- [x] atualizar duvida
+- [x] atualizar resposta
+- [x] atualizar comentario
 
 - [ ] tratamento de erros da api **** EXTREMAMENTE IMPORTANTE
 
+- [ ] disparar mensagem de erro quando usuário tentar reagir a propria duvida/resposta
 - [ ] resolver duvida
 - [ ] se o campo senha for mantido em branco, mantém a senha padrão *
-- [ ] loading buttons  
-- [ ] corrigir estado do ver dúvida
-- [ ] atualizar duvida
-- [ ] atualizar resposta
-- [ ] atualizar comentario
+- [ ] loading buttons
 - [ ] numero de respostas,duvidas e comentarios perfil usuario

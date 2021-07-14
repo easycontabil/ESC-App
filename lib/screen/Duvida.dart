@@ -16,11 +16,12 @@ import 'CriarResposta.dart';
 
 class VerDuvida extends StatefulWidget {
   final String duvidaId;
+  final bool respostas;
 
-  VerDuvida({ @required this.duvidaId});
+  VerDuvida({ @required this.duvidaId, this.respostas = false });
 
   @override
-  _VerDuvidaState createState() => _VerDuvidaState(duvidaId);
+  _VerDuvidaState createState() => _VerDuvidaState(duvidaId, this.respostas);
 }
 
 class _VerDuvidaState extends State<VerDuvida> {
@@ -45,7 +46,8 @@ class _VerDuvidaState extends State<VerDuvida> {
     });
   }
 
-  _VerDuvidaState(String id) {
+  _VerDuvidaState(String id, bool respostas) {
+    this.respostas = respostas;
     this.service.queryPath = "*deletedAt=null&_doubtReactions=[]&_answers=[]&_user=[]";
     getDuvida(id);
     this.preferences.init().then((value) => {
@@ -73,8 +75,8 @@ class _VerDuvidaState extends State<VerDuvida> {
         ),
         content: Text("Uma dúvida fechada não poderá ser aberta novamente, sua dúvida não poderá mais ser visualizada por nenhum outro usuário. Deseja prosseguir?"),
         actions: [
-          CustomButton(label: "cancelar", action: (){Navigator.of(context).pop();}, color: Color.fromRGBO(219, 36, 36, 1)),
-          CustomButton(label: "confirmar", action: (){
+          CustomButton(label: "CANCELAR", action: (){Navigator.of(context).pop();}, color: Color.fromRGBO(219, 36, 36, 1)),
+          CustomButton(label: "CONFIRMAR", action: (){
             Navigator.of(context).pop();
             this.fecharDuvida();
           }),
@@ -89,7 +91,7 @@ class _VerDuvidaState extends State<VerDuvida> {
     if( this.duvida == null || this.usuario == null){
       return [ Center( child: CircularProgressIndicator()) ];
     }
-    content.add(DuvidaText(duvida: this.duvida));
+    content.add(DuvidaText(duvida: this.duvida, respostasVisible: this.respostas));
     content.add(SizedBox(height: 30));
 
     if(this.usuario.id == this.duvida.usuario.id){

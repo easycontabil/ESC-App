@@ -5,9 +5,11 @@ import 'package:easycontab/contants/app_api_urls.dart';
 import 'package:easycontab/contants/app_assets.dart';
 import 'package:easycontab/models/Duvida.dart';
 import 'package:easycontab/models/Resposta.dart';
+import 'package:easycontab/models/Usuario.dart';
 import 'package:easycontab/screen/Perfil.dart';
 import 'package:easycontab/services/DuvidaService.dart';
 import 'package:easycontab/services/RespostaService.dart';
+import 'package:easycontab/utils/Preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -16,14 +18,26 @@ import 'misc/IconCount.dart';
 class DuvidaText extends StatefulWidget {
 
   Duvida duvida;
+  bool respostasVisible;
 
-  DuvidaText({this.duvida});
+  DuvidaText({this.duvida, this.respostasVisible = false});
 
   @override
-  _DuvidaTextState createState() => _DuvidaTextState(this.duvida.id);
+  _DuvidaTextState createState() => _DuvidaTextState(this.duvida.id, this.respostasVisible);
 }
 
 class _DuvidaTextState extends State<DuvidaText> {
+  Usuario usuario = new Usuario();
+
+  Preferences preferences = new Preferences();
+
+  setUser() {
+    this.preferences.init().then((value) => {
+      setState(() {
+        this.usuario = this.preferences.getUser();
+      })
+    });
+  }
 
   DuvidaService duvidaService = new DuvidaService(
     prefix: ApiUrls.prefix,
@@ -47,12 +61,14 @@ class _DuvidaTextState extends State<DuvidaText> {
     });
   }
 
-  _DuvidaTextState(String id) {
+  _DuvidaTextState(String id, bool respostasVisible) {
+    this.respostasVisible = respostasVisible;
     this.respostaService.queryPath = "*deletedAt=null&_answerReactions=[]&_user=[]&_comments=[\"user\"]&*doubtId=${id}";
     getRespostas();
+    setUser();
   }
 
-  bool respostasVisible = false;
+  bool respostasVisible;
 
   List<RespostaComponent> showRespostas() {
     List<RespostaComponent> respostas = [];
@@ -135,10 +151,12 @@ class _DuvidaTextState extends State<DuvidaText> {
                           ),
                           GestureDetector(
                               child: IconCount(count: this.widget.duvida.nrAprovacoes, icon: Icons.thumb_up, size: 18, ),
-                              onTap: () {
+                              onTap: this.usuario.id == this.widget.duvida.usuario.id ? () {
+                                // TODO USUARIO N PODE REAGIR A PROPRIA DUVIDA
+                              } : () {
                                 this.widget.duvida.reacaoDuvida = true;
 
-                                this.duvidaService.updateDuvida(id: this.widget.duvida.id, duvida: this.widget.duvida).then((response) => {
+                                this.duvidaService.reagirDuvida(id: this.widget.duvida.id, duvida: this.widget.duvida).then((response) => {
                                   setState(() {
                                     this.widget.duvida = response;
                                   })
@@ -147,10 +165,12 @@ class _DuvidaTextState extends State<DuvidaText> {
                           ),
                           GestureDetector(
                               child: IconCount(count: this.widget.duvida.nrDesaprovacoes, icon: Icons.thumb_down, size: 18 ),
-                              onTap: () {
+                              onTap: this.usuario.id == this.widget.duvida.usuario.id ? () {
+                                // TODO USUARIO N PODE REAGIR A PROPRIA DUVIDA
+                              } : () {
                                 this.widget.duvida.reacaoDuvida = false;
 
-                                this.duvidaService.updateDuvida(id: this.widget.duvida.id, duvida: this.widget.duvida).then((response) => {
+                                this.duvidaService.reagirDuvida(id: this.widget.duvida.id, duvida: this.widget.duvida).then((response) => {
                                   setState(() {
                                     this.widget.duvida = response;
                                   })

@@ -1,7 +1,9 @@
 import 'package:easycontab/contants/app_api_urls.dart';
 import 'package:easycontab/contants/app_assets.dart';
 import 'package:easycontab/models/Duvida.dart';
+import 'package:easycontab/models/Usuario.dart';
 import 'package:easycontab/screen/Duvida.dart';
+import 'package:easycontab/screen/EditarDuvida.dart';
 import 'package:easycontab/screen/Perfil.dart';
 import 'package:easycontab/services/DuvidaService.dart';
 import 'package:easycontab/utils/Preferences.dart';
@@ -22,6 +24,21 @@ class DuvidaComponent extends StatefulWidget {
 }
 
 class _DuvidaComponentState extends State<DuvidaComponent> {
+  Usuario usuario = new Usuario();
+
+  Preferences preferences = new Preferences();
+
+  setUser() {
+    this.preferences.init().then((value) => {
+      setState(() {
+        this.usuario = this.preferences.getUser();
+      })
+    });
+  }
+
+  _DuvidaComponentState() {
+    setUser();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +63,7 @@ class _DuvidaComponentState extends State<DuvidaComponent> {
                   SizedBox(height: 5,),
                   Text(this.widget.duvida.relevancia.toString(), style: GoogleFonts.openSans( fontSize: 14, fontWeight: FontWeight.w600 ) ),
                   SizedBox(height: 5,),
-                  CustomPaint(size: Size(21,14), painter: DrawInverseTriangle(color: this.widget.duvida.relevancia < 0 ? Colors.red[600] : Colors.grey)),
+                  CustomPaint(size: Size(21,14), painter: DrawInverseTriangle(color: this.widget.duvida.relevancia < 0 ? Colors.red : Colors.grey)),
                 ]
               ),
               GestureDetector(
@@ -96,7 +113,12 @@ class _DuvidaComponentState extends State<DuvidaComponent> {
                     children: [
                       IconCount(count: this.widget.duvida.nrRespostas ?? 0, icon: Icons.messenger_sharp, size: 18, ),
                       Icon(Icons.check, color: this.widget.duvida.resolvida == true ? Colors.green : Colors.grey ),
-                      IconCount(icon: Icons.edit),
+                      this.usuario.id == this.widget.duvida.usuario.id ? GestureDetector(
+                        child: IconCount(icon: Icons.edit),
+                        onTap: () {
+                          Navigator.push( context, MaterialPageRoute(builder: (context) => EditarDuvida(duvida: this.widget.duvida)) );
+                        },
+                      ) : Text("")
                     ],
                   ),
                 ]

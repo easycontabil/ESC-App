@@ -5,6 +5,7 @@ import 'package:easycontab/models/Comentario.dart';
 import 'package:easycontab/models/Duvida.dart';
 import 'package:easycontab/models/Resposta.dart';
 import 'package:easycontab/models/Usuario.dart';
+import 'package:easycontab/screen/Duvida.dart';
 import 'package:easycontab/screen/Perfil.dart';
 import 'package:easycontab/services/ComentarioService.dart';
 import 'package:easycontab/utils/Preferences.dart';
@@ -53,78 +54,31 @@ class _ComentarioComponentCreateState extends State<ComentarioComponentCreate> {
 
 
   List<Widget> getContent(){
-    
-    if( this.created == true){
-      return [
-        Padding(
-            padding: EdgeInsets.only(top: 6),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                GestureDetector(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      this.usuario.foto != null ? Image.network(this.usuario.foto, width: 25, height: 25, fit: BoxFit.fitWidth) : Image.asset(Assets.avatar, width: 25, height: 25, fit: BoxFit.fitWidth)
-                    ],
-                  ),
-                  onTap: () {
-                    Navigator.push( context, MaterialPageRoute(builder: (context) => Perfil(editable: false, usuario: this.usuario)) );
-                  },
-                ),
-                Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Padding(
-                          padding: EdgeInsets.only(top: 6),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                child: Text(
-                                  this.widget.controller.text,
-                                  style: GoogleFonts.openSans( color: Color.fromRGBO(161,161,161,1), fontSize: 9, fontWeight: FontWeight.w600),
-                                  overflow: TextOverflow.clip,
-                                ),
-                              )
-                            ],
-                          )
-                      ),
-                    ]
-                ),
-              ],
-            )
-          ),    
-      ];
-    }else{
-      return [
-        Padding(
-          padding: EdgeInsets.only(top: 0),
-          child: Container(
-            child: TextField(               
+    return [
+      Padding(
+        padding: EdgeInsets.only(top: 0),
+        child: Container(
+            child: TextField(
               controller: this.widget.controller,
               decoration: InputDecoration(
-                labelText: "COMENTÁRIO",
-                labelStyle: GoogleFonts.openSans( fontSize: 9)
+                  labelText: "COMENTÁRIO",
+                  labelStyle: GoogleFonts.openSans( fontSize: 9)
               ),
             )
-          ),
-        ),     
-        TextButton(
-          child: Text("COMENTAR"),
-          onPressed: (){
-            this.widget.callback( this.widget.controller.text );             
-            this.service.registerComentario(Comentario(comentario: this.widget.controller.text, resposta: this.widget.resposta)).then((value) => {
-              setState((){
-                this.created = true;
-              })
-            });
-          },
-        ),    
-      ];
-    }
+        ),
+      ),
+      TextButton(
+        child: Text("COMENTAR"),
+        onPressed: (){
+          this.widget.callback( this.widget.controller.text );
+          this.service.registerComentario(Comentario(comentario: this.widget.controller.text, resposta: this.widget.resposta)).then((value) => {
+            setState((){
+              Navigator.push( context, MaterialPageRoute(builder: (context) => VerDuvida(duvidaId: this.widget.resposta.duvida.id, respostas: true)) );
+            })
+          });
+        },
+      ),
+    ];
   }
 
   @override
