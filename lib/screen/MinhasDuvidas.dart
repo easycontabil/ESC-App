@@ -11,11 +11,12 @@ import 'package:flutter/material.dart';
 
 class MinhasDuvidas extends StatefulWidget {
   Usuario usuario;
+  String likeTitle;
 
-  MinhasDuvidas({ @required this.usuario });
+  MinhasDuvidas({ @required this.usuario, this.likeTitle = null });
 
   @override
-  _MinhasDuvidasState createState() => _MinhasDuvidasState(this.usuario);
+  _MinhasDuvidasState createState() => _MinhasDuvidasState(this.usuario, this.likeTitle);
 }
 
 class _MinhasDuvidasState extends State<MinhasDuvidas> {
@@ -24,18 +25,20 @@ class _MinhasDuvidasState extends State<MinhasDuvidas> {
   List<Duvida> duvidas = [];
 
   getDuvidas(Usuario usuario) {
-    this.service.queryPath = "&_user=[]*userId=${usuario.id}";
-    print(this.service.queryPath);
-
     this.service.getDuvidas().then((response) => {
       setState(() {
         duvidas = response;
       })
     });
-
   }
 
-  _MinhasDuvidasState(Usuario usuario) {
+  _MinhasDuvidasState(Usuario usuario, String likeTitle) {
+    this.service.queryPath = "*deletedAt=null&_doubtReactions=[]&_user=[]&_answers=[]&_categories=[]&*userId=${usuario.id}";
+
+    if (likeTitle != null) {
+      this.service.queryPath += "&*title=%${likeTitle}";
+    }
+
     getDuvidas(usuario);
   }
 
@@ -67,7 +70,9 @@ class _MinhasDuvidasState extends State<MinhasDuvidas> {
                     height: 190, width: size.width,
                   ),
                   Positioned(child: FeedAppBar(logged: true, height: 150,), top: 0),
-                  SearchField(labelText: "BUSCAR", margin: EdgeInsets.only(top: 10, bottom: 10, left: 40, right: 40)),
+                  SearchField(labelText: "BUSCAR", margin: EdgeInsets.only(top: 10, bottom: 10, left: 40, right: 40), onSubmitted: (value) {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => MinhasDuvidas(usuario: this.widget.usuario, likeTitle: value)));
+                  }),
                 ],
               ),
               SingleChildScrollView(

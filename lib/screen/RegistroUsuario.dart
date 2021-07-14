@@ -147,7 +147,7 @@ class _RegistroUsuarioState extends State<RegistroUsuario> {
                 child: Column(
                   children: [
                     SizedBox( height: 30 ),
-                    CustomTextField(labelText: "Nome", textController: this.nomeController, margin: EdgeInsets.only(top: 60, bottom: 10, left: 20, right: 20),),
+                    CustomTextField(labelText: "NOME", textController: this.nomeController, margin: EdgeInsets.only(top: 60, bottom: 10, left: 20, right: 20),),
                     CustomTextField(labelText: "E-MAIL", textController: this.emailController, margin: EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20)),
                     CustomTextField(labelText: "SENHA", textController: this.senhaController, password: true, margin: EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20)),
                     CustomTextField(labelText: "CONFIRMAR SENHA", textController: this.confirmarSenhaController, password: true, margin: EdgeInsets.only(top: 10, bottom: 30, left: 20, right: 20)),

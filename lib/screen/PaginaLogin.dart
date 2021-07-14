@@ -100,8 +100,8 @@ class _PaginaLoginState extends State<PaginaLogin> {
                 child: Column(
                   children: [
                     SizedBox( height: 30 ),
-                    CustomTextField(labelText: "Email", textController: this.nomeController, margin: EdgeInsets.only(top: 60, bottom: 10, left: 20, right: 20),),
-                    CustomTextField(labelText: "Senha", textController: this.senhaController, password: true, margin: EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20)),                    
+                    CustomTextField(labelText: "E-MAIL", textController: this.nomeController, margin: EdgeInsets.only(top: 60, bottom: 10, left: 20, right: 20),),
+                    CustomTextField(labelText: "SENHA", textController: this.senhaController, password: true, margin: EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20)),
                     SizedBox( height: 20 ),
                     CustomButton(label: "LOGIN", action: submit,),
                     SizedBox( height: 30 ),

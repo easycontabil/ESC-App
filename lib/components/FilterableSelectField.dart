@@ -43,7 +43,7 @@ class _FilterableSelectFieldState extends State<FilterableSelectField> {
           focusedBorder: InputBorder.none,
           suffixIcon: Icon(Icons.search)
         ),
-        suggestions: this.widget.sugestions ?? []
+        suggestions: this.widget.sugestions ?? [],
       )
     );
   }

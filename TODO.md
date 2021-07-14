@@ -16,4 +16,9 @@
 - [ ] corrigir estado do ver dúvida
 - [x] ver perfil de outros usuários
 - [x] adicionar campo categoria na criacao da duvida
-- [ ] filtrar duvida por categoria no buscar
+- [x] filtrar duvida por titulo no buscar
+- [x] ajustar página minhas duvidas
+- [ ] atualizar duvida
+- [ ] atualizar resposta
+- [ ] atualizar comentario
+- [ ] numero de respostas,duvidas e comentarios perfil usuario

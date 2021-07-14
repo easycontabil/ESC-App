@@ -7,8 +7,9 @@ class SearchField extends StatefulWidget {
   final double padding;
   final TextEditingController textController;
   final EdgeInsets margin;
+  final Function onSubmitted;
 
-  SearchField({ this.hintText, this.padding = 20, this.textController, this.labelText, this.margin });
+  SearchField({ this.hintText, this.padding = 20, this.textController, this.labelText, this.margin, this.onSubmitted });
 
   @override
   _SearchFieldState createState() => _SearchFieldState();
@@ -26,6 +27,7 @@ class _SearchFieldState extends State<SearchField> {
         boxShadow: [BoxShadow( color: Colors.grey[600], blurRadius: 2, offset: Offset(1,2) )]
       ),
       child: TextField(
+        onSubmitted: this.widget.onSubmitted,
         controller: this.widget.textController ?? null,
         decoration: InputDecoration(
           labelText: this.widget.labelText,

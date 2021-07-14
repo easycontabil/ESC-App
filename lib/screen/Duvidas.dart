@@ -1,16 +1,24 @@
+import 'package:easycontab/components/Button.dart';
 import 'package:easycontab/components/CustomDrawer.dart';
+import 'package:easycontab/components/CustomTextField.dart';
 import 'package:easycontab/components/DuvidaComponent.dart';
 import 'package:easycontab/components/FeedAppBar.dart';
 import 'package:easycontab/components/SearchTextField.dart';
 import 'package:easycontab/contants/app_api_urls.dart';
+import 'package:easycontab/models/Categoria.dart';
 import 'package:easycontab/models/Duvida.dart';
 import 'package:easycontab/screen/CriarDuvida.dart';
+import 'package:easycontab/services/CategoriaService.dart';
 import 'package:easycontab/services/DuvidaService.dart';
 import 'package:flutter/material.dart';
 
 class Duvidas extends StatefulWidget {
+  String likeTitle;
+
+  Duvidas({ this.likeTitle = null });
+
   @override
-  _DuvidasState createState() => _DuvidasState();
+  _DuvidasState createState() => _DuvidasState(this.likeTitle);
 }
 
 class _DuvidasState extends State<Duvidas> {
@@ -26,8 +34,13 @@ class _DuvidasState extends State<Duvidas> {
     });
   }
 
-  _DuvidasState() {
-    this.service.queryPath = "*deletedAt=null&_doubtReactions=[]&_user=[]&_answers=[]";
+  _DuvidasState(String likeTitle) {
+    this.service.queryPath = "*closedAt=null&*deletedAt=null&_doubtReactions=[]&_user=[]&_answers=[]&_categories=[]";
+
+    if (likeTitle != null) {
+      this.service.queryPath += "&*title=%${likeTitle}";
+    }
+
     getDuvidas();
   }
 
@@ -53,13 +66,15 @@ class _DuvidasState extends State<Duvidas> {
           children: [
             Stack(
               alignment: AlignmentDirectional.bottomCenter,
-              children: [       
+              children: [
                 Container(
-                  color: Color.fromRGBO(241,237,237, 1), 
+                  color: Color.fromRGBO(241,237,237, 1),
                   height: 190, width: size.width,
-                ),    
-                Positioned(child: FeedAppBar(logged: true, height: 150,), top: 0),  
-                SearchField(labelText: "BUSCAR", margin: EdgeInsets.only(top: 10, bottom: 10, left: 40, right: 40)),              
+                ),
+                Positioned(child: FeedAppBar(logged: true, height: 150,), top: 0),
+                SearchField(labelText: "BUSCAR", margin: EdgeInsets.only(top: 10, bottom: 10, left: 40, right: 40), onSubmitted: (value) {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => Duvidas(likeTitle: value)));
+                }),
               ],
             ),
             SingleChildScrollView(
