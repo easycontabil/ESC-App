@@ -26,18 +26,21 @@ class VerDuvida extends StatefulWidget {
 
 class _VerDuvidaState extends State<VerDuvida> {
 
-  Preferences preferences = new Preferences();
-  DuvidaService service = new DuvidaService(
-    prefix: ApiUrls.prefix, 
-    host: ApiUrls.hostqst , 
-    path: "qst/doubts",
-  );
+  DuvidaService service = new DuvidaService(prefix: ApiUrls.prefix, host: ApiUrls.hostqst, path: "qst/doubts");
+  GlobalKey<DuvidaTextState> key = new GlobalKey<DuvidaTextState>() ;
 
-  bool solving = false;
+  Preferences preferences = new Preferences();
+
   bool respostas = false;
+  bool solving = false;
   bool ower = false;
   Usuario usuario;
+  dynamic submit;
   Duvida duvida;
+  
+  setSubmit(dynamic submit){
+    this.submit = submit;
+  }
 
   void getDuvida(String id) {
     this.service.getDuvida(id, loadDependencies: true).then((response) => {
@@ -60,7 +63,6 @@ class _VerDuvidaState extends State<VerDuvida> {
 
   void fecharDuvida(){
     this.service.fecharDuvida(id: this.widget.duvidaId).then((value) => (){
-      print(value);
       Navigator.push( context, MaterialPageRoute(builder: (context) => Duvidas()));
     });
   }
@@ -92,54 +94,75 @@ class _VerDuvidaState extends State<VerDuvida> {
     if( this.duvida == null || this.usuario == null){
       return [ Center( child: CircularProgressIndicator()) ];
     }
-    content.add(DuvidaText(duvida: this.duvida, respostasVisible: this.respostas, solving: this.solving));
+    content.add(DuvidaText(duvida: this.duvida, respostasVisible: this.respostas, solving: this.solving, key: key));
     content.add(SizedBox(height: 30));
 
     if(this.usuario.id == this.duvida.usuario.id){
       this.ower = true;
-      content.add(
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            CustomButton(
-                label: "FECHAR",
-                action: (){ this._showAlert(context); },
-                color: Color.fromRGBO(219, 36, 36, 1)
-            ),
-            this.duvida.resolvida == false ? CustomButton(
-                label: "RESOLVER",
-                action: (){
-                  setState(() {
-                    this.solving = true;
-                  });
-                }
-            ) : null
-          ],
-        )
-      );
-    // SE ESTÁ SENDO RESOLVIDA
-    }else{
-      content.add(
+      // content.add(
+      //   Row(
+      //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      //     children: [
+      //       CustomButton(
+      //           label: "FECHAR",
+      //           action: (){ this._showAlert(context); },
+      //           color: Color.fromRGBO(219, 36, 36, 1)
+      //       ),
+      //       this.duvida.resolvida == false ? CustomButton(
+      //           label: "RESOLVER",
+      //           action: (){
+      //             setState(() {
+      //               this.solving = true;
+      //             });
+      //           }
+      //       ) : null
+      //     ],
+      //   )
+      // );
+      // // SE ESTÁ SENDO RESOLVIDA
+     // SE NÃO ESTIVER SENDO RESOLVIDA
+      if(this.solving == false){
+        content.add(
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               CustomButton(
-                  label: "CANCELAR",
-                  action: () => {setState(() { this.solving = false; }) },
-                  color: Color.fromRGBO(219, 36, 36, 1)
+                label: "FECHAR", 
+                action: (){ this._showAlert(context); }, 
+                color: Color.fromRGBO(219, 36, 36, 1)
               ),
-              CustomButton(
-                  label: "CONFIRMAR",
-                  action: (){
-                    print("RESOLVENDOOO");
-                    setState(() {
-                      this.solving = false;
-                    });
-                  }
-              ),
+              this.duvida.resolvida == false ? CustomButton(
+                label: "RESOLVER", 
+                action: (){
+                  setState(() {
+                    this.solving = true;  
+                  });
+                }
+              ) : Text("")
             ],
-          )
-      );
+          )   
+        );
+      // SE ESTÁ SENDO RESOLVIDA
+      }else{
+        content.add(
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                CustomButton(
+                    label: "CANCELAR",
+                    action: () => {setState(() { this.solving = false; }) },
+                    color: Color.fromRGBO(219, 36, 36, 1)
+                ),
+                CustomButton(
+                    label: "CONFIRMAR",
+                    action: (){
+                      this.key.currentState.submit();
+                    }
+                ),
+              ],
+            )
+        );
+      }
     }
     return content;
   }

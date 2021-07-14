@@ -5,6 +5,7 @@ import 'package:easycontab/contants/app_api_urls.dart';
 import 'package:easycontab/contants/app_assets.dart';
 import 'package:easycontab/models/Duvida.dart';
 import 'package:easycontab/models/Resposta.dart';
+import 'package:easycontab/screen/Duvidas.dart';
 import 'package:easycontab/screen/Perfil.dart';
 import 'package:easycontab/services/DuvidaService.dart';
 import 'package:easycontab/services/RespostaService.dart';
@@ -18,18 +19,18 @@ import 'misc/IconCount.dart';
 
 class DuvidaText extends StatefulWidget {
 
+  bool respostasVisible;
   Duvida duvida;
   bool solving;
-  bool respostasVisible;
-
-  DuvidaText({this.duvida, this.respostasVisible = false, this.solving = false});
+  
+  DuvidaText({this.duvida, this.respostasVisible = false, this.solving = false, Key key }): super(key: key);
 
   @override
-  _DuvidaTextState createState() => _DuvidaTextState(this.duvida.id, this.respostasVisible);
+  DuvidaTextState createState() => DuvidaTextState(this.duvida.id, this.respostasVisible);
 }
 
 
-class _DuvidaTextState extends State<DuvidaText> {
+class DuvidaTextState extends State<DuvidaText> {
 
   RespostaService respostaService = new RespostaService(prefix: ApiUrls.prefix, host: ApiUrls.hostqst, path: "qst/answers");
   DuvidaService duvidaService = new DuvidaService(prefix: ApiUrls.prefix, host: ApiUrls.hostqst, path: "qst/doubts");
@@ -45,9 +46,8 @@ class _DuvidaTextState extends State<DuvidaText> {
   dynamic selectedSolve;
   bool respostasVisible;
   bool test = false;
-  
 
-  _DuvidaTextState(String id, bool respostasVisible) {
+  DuvidaTextState(String id, bool respostasVisible) {
     this.respostasVisible = respostasVisible;
     this.respostaService.queryPath = "*deletedAt=null&_answerReactions=[]&_user=[]&_comments=[\"user\"]&*doubtId=${id}";
     getRespostas();
@@ -56,12 +56,13 @@ class _DuvidaTextState extends State<DuvidaText> {
 
   setSelectedSolve(dynamic key, dynamic value){
     this.selectedSolve = value;
-    this.keys.forEach((ckey) {
-      if (ckey != key){
-        ckey.currentState.setChecked(false);
-      }
-    });
-    //key.currentState.printPotatos();
+    if( key != null){
+      this.keys.forEach((ckey) {
+        if (ckey != key){
+          ckey.currentState.setChecked(false);
+        }
+      });
+    }
   }
 
   getRespostas() {
@@ -90,6 +91,14 @@ class _DuvidaTextState extends State<DuvidaText> {
     });
   }
 
+  submit(){
+    if( this.selectedSolve != null ){
+      this.respostaService.resolverDuvida(id: this.selectedSolve.id );
+    }else{
+      this.duvidaService.resolverDuvida(id: this.widget.duvida.id);
+    }
+    Navigator.push( context, MaterialPageRoute(builder: (context) => Duvidas()));
+  }
 
   List<RespostaComponentCheckable> showRespostasToSolve() {
     List<RespostaComponentCheckable> respostas = [];
@@ -99,12 +108,6 @@ class _DuvidaTextState extends State<DuvidaText> {
         RespostaComponentCheckable(resposta: resposta, duvida: this.widget.duvida, onCheck: setSelectedSolve, key: this.keys[index],)
       );
     });
-
-    // for( var resposta in this.respostas ) {
-    //   respostas.add(
-    //       RespostaComponentCheckable(resposta: resposta, duvida: this.widget.duvida, onCheck: setSelectedSolve, key: keyState,)
-    //   );
-    // }
     return respostas;
   }
 
@@ -126,7 +129,6 @@ class _DuvidaTextState extends State<DuvidaText> {
     return this.showRespostas();
   }
 
-  
   //final GlobalKey<_RespostaComponentCheckableState> _RespostaComponentCheckableState = GlobalKey<_RespostaComponentCheckableState>();
 
   @override
@@ -251,18 +253,4 @@ class _DuvidaTextState extends State<DuvidaText> {
     );
   }
 }
-
-// SingleChildScrollView(
-//             scrollDirection: Axis.horizontal,
-//             child: Container(
-//               width: 600,
-//               child: Row(
-//                 children: [
-//                   Checkbox(value: false, onChanged: (value){print(value);}),
-//                   this.respostasVisible == true ? RespostaComponent(resposta: this.widget.duvida.respostas.first, duvida: this.widget.duvida) : Text("TESTE"),
-//                 ],
-//               ),
-//             ),
-//           ),
-
                       

@@ -39,10 +39,6 @@ class RespostaComponentCheckableState extends State<RespostaComponentCheckable> 
     });
   }
 
-  void printPotatos(){
-    print("POTATOS!!!");
-  }
-
   @override
   Widget build(BuildContext context) {
 
@@ -61,7 +57,9 @@ class RespostaComponentCheckableState extends State<RespostaComponentCheckable> 
                 this.setChecked(value);
                 if(value == true){
                   this.widget.onCheck( this.widget.key, this.widget.resposta);     
-                }           
+                }else{
+                  this.widget.onCheck( null, null); 
+                }        
               }
             ),
             Container(
