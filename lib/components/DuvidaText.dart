@@ -28,11 +28,59 @@ class DuvidaText extends StatefulWidget {
   _DuvidaTextState createState() => _DuvidaTextState(this.duvida.id, this.respostasVisible);
 }
 
+
 class _DuvidaTextState extends State<DuvidaText> {
 
-  Usuario usuario = new Usuario();
+  RespostaService respostaService = new RespostaService(prefix: ApiUrls.prefix, host: ApiUrls.hostqst, path: "qst/answers");
+  DuvidaService duvidaService = new DuvidaService(prefix: ApiUrls.prefix, host: ApiUrls.hostqst, path: "qst/doubts");
 
   Preferences preferences = new Preferences();
+  Usuario usuario = new Usuario();
+
+  // ESSE CARA É MUITO IMPORTANTE
+  List<GlobalKey<RespostaComponentCheckableState>> keys = [];
+  GlobalKey<RespostaComponentCheckableState> key;
+
+  List<Resposta> respostas = [];
+  dynamic selectedSolve;
+  bool respostasVisible;
+  bool test = false;
+  
+
+  _DuvidaTextState(String id, bool respostasVisible) {
+    this.respostasVisible = respostasVisible;
+    this.respostaService.queryPath = "*deletedAt=null&_answerReactions=[]&_user=[]&_comments=[\"user\"]&*doubtId=${id}";
+    getRespostas();
+    setUser();
+  }
+
+  setSelectedSolve(dynamic key, dynamic value){
+    this.selectedSolve = value;
+    this.keys.forEach((ckey) {
+      if (ckey != key){
+        ckey.currentState.setChecked(false);
+      }
+    });
+    //key.currentState.printPotatos();
+  }
+
+  getRespostas() {
+    this.respostaService.getRespostas(loadDependencies: true).then((response) => {
+      setState(() {
+        this.respostas = response;
+        this.keys = this.respostas.map((e) => new GlobalKey<RespostaComponentCheckableState>()).toList();
+      })
+    });
+  }
+
+  showError(String msg){
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            backgroundColor: Colors.red,
+            content: Text(msg, style: GoogleFonts.openSans( color: Colors.white, fontSize: 18, fontWeight: FontWeight.w500,))
+        )
+    );
+  }
 
   setUser() {
     this.preferences.init().then((value) => {
@@ -42,38 +90,23 @@ class _DuvidaTextState extends State<DuvidaText> {
     });
   }
 
-  DuvidaService duvidaService = new DuvidaService(
-    prefix: ApiUrls.prefix,
-    host: ApiUrls.hostqst ,
-    path: "qst/doubts",
-  );
 
-  RespostaService respostaService = new RespostaService(
-    prefix: ApiUrls.prefix,
-    host: ApiUrls.hostqst ,
-    path: "qst/answers",
-  );
+  List<RespostaComponentCheckable> showRespostasToSolve() {
+    List<RespostaComponentCheckable> respostas = [];
 
-  List<Resposta> respostas = [];
-
-  getRespostas() {
-    this.respostaService.getRespostas(loadDependencies: true).then((response) => {
-      setState(() {
-        this.respostas = response;
-      })
+    this.respostas.asMap().forEach((index, resposta) {
+      respostas.add(
+        RespostaComponentCheckable(resposta: resposta, duvida: this.widget.duvida, onCheck: setSelectedSolve, key: this.keys[index],)
+      );
     });
-  }
 
-  _DuvidaTextState(String id, bool respostasVisible) {
-    this.respostasVisible = respostasVisible;
-    this.respostaService.queryPath = "*deletedAt=null&_answerReactions=[]&_user=[]&_comments=[\"user\"]&*doubtId=${id}";
-    getRespostas();
-    setUser();
+    // for( var resposta in this.respostas ) {
+    //   respostas.add(
+    //       RespostaComponentCheckable(resposta: resposta, duvida: this.widget.duvida, onCheck: setSelectedSolve, key: keyState,)
+    //   );
+    // }
+    return respostas;
   }
-
-  bool respostasVisible;
-  bool test = false;
-  dynamic selectedSolve;
 
   List<RespostaComponent> showRespostas() {
     List<RespostaComponent> respostas = [];
@@ -86,26 +119,6 @@ class _DuvidaTextState extends State<DuvidaText> {
     return respostas;
   }
 
-  void showError(String msg){
-    ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            backgroundColor: Colors.red,
-            content: Text(msg, style: GoogleFonts.openSans( color: Colors.white, fontSize: 18, fontWeight: FontWeight.w500,))
-        )
-    );
-  }
-
-  List<RespostaComponentCheckable> showRespostasToSolve() {
-    List<RespostaComponentCheckable> respostas = [];
-
-    for( var resposta in this.respostas ) {
-      respostas.add(
-          RespostaComponentCheckable(resposta: resposta, duvida: this.widget.duvida, onCheck: setSelectedSolve)
-      );
-    }
-    return respostas;
-  }
-
   List<Widget> getContent(){
     if(this.widget.solving == true){
       return this.showRespostasToSolve();
@@ -113,10 +126,8 @@ class _DuvidaTextState extends State<DuvidaText> {
     return this.showRespostas();
   }
 
-  void setSelectedSolve(dynamic value){
-    this.selectedSolve = value;
-    print(this.selectedSolve.id);
-  }
+  
+  //final GlobalKey<_RespostaComponentCheckableState> _RespostaComponentCheckableState = GlobalKey<_RespostaComponentCheckableState>();
 
   @override
   Widget build(BuildContext context) {

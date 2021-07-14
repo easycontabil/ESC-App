@@ -1,6 +1,4 @@
 
-import 'package:easycontab/components/ComentarioComponent.dart';
-import 'package:easycontab/components/ComentarioComponentCreate.dart';
 import 'package:easycontab/contants/app_api_urls.dart';
 import 'package:easycontab/contants/app_assets.dart';
 import 'package:easycontab/models/Duvida.dart';
@@ -14,17 +12,19 @@ import 'misc/IconCount.dart';
 
 class RespostaComponentCheckable extends StatefulWidget {
 
-  Resposta resposta;
-  Duvida duvida;
-  dynamic onCheck;
+  final Resposta resposta;
+  final Duvida duvida;
+  final dynamic onCheck;
 
-  RespostaComponentCheckable({ this.resposta, this.duvida, this.onCheck });
+  RespostaComponentCheckable({ this.resposta, this.duvida, this.onCheck, Key key }) : super(key: key);
 
   @override
-  _RespostaComponentCheckableState createState() => _RespostaComponentCheckableState();
+  RespostaComponentCheckableState createState() => RespostaComponentCheckableState();
 }
 
-class _RespostaComponentCheckableState extends State<RespostaComponentCheckable> {
+class RespostaComponentCheckableState extends State<RespostaComponentCheckable> {
+
+  RespostaService service = new RespostaService(prefix: ApiUrls.prefix, host: ApiUrls.hostqst, path: "qst/answers");
 
   String comentario;
   bool checked = false;
@@ -33,11 +33,15 @@ class _RespostaComponentCheckableState extends State<RespostaComponentCheckable>
     this.comentario = comentario;
   }
 
-  RespostaService service = new RespostaService(
-    prefix: ApiUrls.prefix,
-    host: ApiUrls.hostqst ,
-    path: "qst/answers",
-  );
+  setChecked(bool value){
+    setState(() {
+      this.checked = value;      
+    });
+  }
+
+  void printPotatos(){
+    print("POTATOS!!!");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,11 +58,9 @@ class _RespostaComponentCheckableState extends State<RespostaComponentCheckable>
             Checkbox(
               value: this.checked, 
               onChanged: (value){
-                setState(() {
-                  this.checked = value;                 
-                });
+                this.setChecked(value);
                 if(value == true){
-                  this.widget.onCheck(this.widget.duvida);     
+                  this.widget.onCheck( this.widget.key, this.widget.resposta);     
                 }           
               }
             ),
