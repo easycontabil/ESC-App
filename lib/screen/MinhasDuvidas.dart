@@ -60,7 +60,9 @@ class _MinhasDuvidasState extends State<MinhasDuvidas> {
         backgroundColor: Color.fromRGBO(241,237,237, 1),
         drawer: CustomDrawer(),
         body: Container(
-          child: Column(
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: Column(
             children: [
               Stack(
                 alignment: AlignmentDirectional.bottomCenter,
@@ -82,6 +84,7 @@ class _MinhasDuvidasState extends State<MinhasDuvidas> {
                 ),
               ),
             ],
+          ),
           ),
         ),
         floatingActionButton: CircleAvatar(

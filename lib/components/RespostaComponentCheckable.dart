@@ -63,7 +63,7 @@ class RespostaComponentCheckableState extends State<RespostaComponentCheckable> 
               }
             ),
             Container(
-              width: size.width * 0.88,
+              width: 400,//size.width * 1,
               child: Column(
                 children: [
                   Container(
