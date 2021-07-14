@@ -38,27 +38,10 @@ class _RespostaComponentCheckableState extends State<RespostaComponentCheckable>
     path: "qst/answers",
   );
 
-  List<Widget> showComentarios() {
-    List<Widget> comentarios = [];
-
-    for( var comentario in this.widget.resposta.comentarios ) {
-      comentarios.add(
-          ComentarioComponent(comentario: comentario)
-      );
-    }
-    comentarios.add(ComentarioComponentCreate(controller: new TextEditingController(), resposta: this.widget.resposta, callback: this.setComentario,));
-
-    return comentarios;
-  }
-
-  bool comentariosVisible = false;
-
   @override
   Widget build(BuildContext context) {
 
     Size size = MediaQuery.of(context).size;
-
-    
 
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
@@ -92,35 +75,35 @@ class _RespostaComponentCheckableState extends State<RespostaComponentCheckable>
                           },
                         ),
                         Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(top: 6),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      width: size.width * 0.70,
-                                      child: Text(
-                                          this.widget.resposta.conteudo,
-                                          style: GoogleFonts.openSans( color: Color.fromRGBO(78,76,76,1), fontSize: 12, fontWeight: FontWeight.w600),
-                                          overflow: TextOverflow.clip
-                                      )
-                                    ),
-                                  ]
-                                ),
-                              ),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(top: 6),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  IconCount(count: this.widget.resposta.nrComentarions, icon: Icons.question_answer, size: 18, ),
-                                  IconCount(count: this.widget.resposta.nrAprovacoes, icon: Icons.thumb_up, size: 18, ),
-                                  IconCount(count: this.widget.resposta.nrDesaprovacoes, icon: Icons.thumb_down, size: 18 )
-                                ],
+                                  Container(
+                                    width: size.width * 0.70,
+                                    child: Text(
+                                        this.widget.resposta.conteudo,
+                                        style: GoogleFonts.openSans( color: Color.fromRGBO(78,76,76,1), fontSize: 12, fontWeight: FontWeight.w600),
+                                        overflow: TextOverflow.clip
+                                    )
+                                  ),
+                                ]
                               ),
-                            ]
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                IconCount(count: this.widget.resposta.nrComentarions, icon: Icons.question_answer, size: 18, ),
+                                IconCount(count: this.widget.resposta.nrAprovacoes, icon: Icons.thumb_up, size: 18, ),
+                                IconCount(count: this.widget.resposta.nrDesaprovacoes, icon: Icons.thumb_down, size: 18 )
+                              ],
+                            ),
+                          ]
                         ),
                       ],
                     ),
@@ -135,10 +118,7 @@ class _RespostaComponentCheckableState extends State<RespostaComponentCheckable>
                         )
                       ]
                     ),
-                  ),
-                  Column(
-                    children: this.comentariosVisible == true ? this.showComentarios() : [],
-                  )
+                  ),                 
                 ],
               ),
             )
