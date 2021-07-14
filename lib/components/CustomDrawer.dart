@@ -2,6 +2,7 @@ import 'package:easycontab/contants/app_assets.dart';
 import 'package:easycontab/models/Usuario.dart';
 import 'package:easycontab/screen/Duvidas.dart';
 import 'package:easycontab/screen/MinhasDuvidas.dart';
+import 'package:easycontab/screen/Notificacoes.dart';
 import 'package:easycontab/screen/PaginaLogin.dart';
 import 'package:easycontab/screen/Perfil.dart';
 import 'package:easycontab/utils/Preferences.dart';
@@ -78,7 +79,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
           DrawerActionItem(
             title: "NOTIFICAÇÕES",
             action: () {
-              Navigator.push( context, MaterialPageRoute(builder: (context) => Duvidas()) );
+              Navigator.push( context, MaterialPageRoute(builder: (context) => Notificacoes()) );
             },
             icon: Icons.notifications,
           ),
