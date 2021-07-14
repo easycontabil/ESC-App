@@ -108,14 +108,18 @@ class _RegistroUsuarioState extends State<RegistroUsuario> {
   }
 
   Future chooseImage() async {
-    PickedFile pickedFile = await picker.getImage(source: ImageSource.gallery);
-    Uint8List fileBytes = await pickedFile.readAsBytes();
-    setState(() {
-      if (pickedFile != null){
-        this.image = File(pickedFile.path);
-        this.img64 = base64Encode(fileBytes);
-      }
-    }); 
+    PickedFile pickedFile = await picker.getImage(source: ImageSource.gallery);   
+    if(pickedFile != null){
+      Uint8List fileBytes = await pickedFile.readAsBytes();
+      setState(() {   
+        if (pickedFile != null){
+          
+          this.image = File(pickedFile.path);
+          this.img64 = base64Encode(fileBytes);
+        }
+      }); 
+    }
+    
   }
 
 

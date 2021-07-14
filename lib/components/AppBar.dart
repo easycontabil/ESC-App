@@ -80,7 +80,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
                 borderRadius: BorderRadius.circular(50),
                 child: Image.network(
                   this.usuario.foto,
-                  height: 80,  
+                  height: 80,
+                  width: 80,  
                   fit: BoxFit.fill  
                 )
               ),

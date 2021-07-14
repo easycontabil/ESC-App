@@ -44,16 +44,19 @@ class _CustomDrawerState extends State<CustomDrawer> {
                 Container(
                   margin: EdgeInsets.all(10),
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(50),
-                    child: this.usuario.foto != null ? Image.network(this.usuario.foto, height: 80, fit: BoxFit.fill) : Image.asset(Assets.avatar, height: 80, fit: BoxFit.fill)           
+                    borderRadius: BorderRadius.circular(70),
+                    child: this.usuario.foto != null ? Image.network(this.usuario.foto, height: 60, width: 60, fit: BoxFit.fill) : Image.asset(Assets.avatar, height: 50, width: 60, fit: BoxFit.fill)           
                   ),
                 ),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(this.usuario.email, style: GoogleFonts.openSans( fontSize: 19, color: Colors.grey, fontWeight: FontWeight.w700)),
-                    Text(this.usuario.nome, style: GoogleFonts.openSans( fontSize: 21, color: Colors.grey[350], fontWeight: FontWeight.w600)),
+                    Container(
+                      width: 200,
+                      child: Text(this.usuario.email, overflow: TextOverflow.ellipsis, style: GoogleFonts.openSans( fontSize: 19, color: Colors.grey, fontWeight: FontWeight.w700)),                      
+                    ),
+                    Text(this.usuario.nome, overflow: TextOverflow.ellipsis, style: GoogleFonts.openSans( fontSize: 21, color: Colors.grey[350], fontWeight: FontWeight.w600)),
                   ],
                 )
               ],

@@ -79,7 +79,7 @@ class _FeedAppBarState extends State<FeedAppBar> {
               margin: EdgeInsets.all(10),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(50),
-                child: this.usuario.foto != null ? Image.network(this.usuario.foto, height: 70, fit: BoxFit.fill) : Image.asset(Assets.avatar, height: 70, fit: BoxFit.fill)
+                child: this.usuario.foto != null ? Image.network(this.usuario.foto, height: 70, width: 70, fit: BoxFit.fill) : Image.asset(Assets.avatar, height: 70, fit: BoxFit.fill)
               )
             )  
           ],
