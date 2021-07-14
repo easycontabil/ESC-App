@@ -15,6 +15,11 @@ import 'package:google_fonts/google_fonts.dart';
 
 
 class PaginaLogin extends StatefulWidget {
+
+  final bool mustVerification;
+
+  PaginaLogin({this.mustVerification = false});
+
   @override
   _PaginaLoginState createState() => _PaginaLoginState();
 }
@@ -33,6 +38,15 @@ class _PaginaLoginState extends State<PaginaLogin> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         backgroundColor: Colors.red,
+        content: Text(msg, style: GoogleFonts.openSans( color: Colors.white, fontSize: 18, fontWeight: FontWeight.w500,))
+      )
+    );
+  }
+
+  void showMessage(String msg){
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: Colors.green,
         content: Text(msg, style: GoogleFonts.openSans( color: Colors.white, fontSize: 18, fontWeight: FontWeight.w500,))
       )
     );
@@ -99,8 +113,13 @@ class _PaginaLoginState extends State<PaginaLogin> {
                 ),
                 child: Column(
                   children: [
-                    SizedBox( height: 30 ),
-                    CustomTextField(labelText: "E-MAIL", textController: this.nomeController, margin: EdgeInsets.only(top: 60, bottom: 10, left: 20, right: 20),),
+                    SizedBox( height: 80 ),
+                    this.widget.mustVerification == true ? 
+                    Text("Verifique sua caixa de e-mail", style: GoogleFonts.openSans( fontWeight: FontWeight.w600, fontSize: 14, color: Colors.blue[300])) 
+                    : SizedBox(height: 4)
+                    
+                    ,SizedBox( height: 16 ),
+                    CustomTextField(labelText: "E-MAIL", textController: this.nomeController, margin: EdgeInsets.only(top: 30, bottom: 10, left: 20, right: 20),),
                     CustomTextField(labelText: "SENHA", textController: this.senhaController, password: true, margin: EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20)),
                     SizedBox( height: 20 ),
                     CustomButton(label: "LOGIN", action: submit,),
