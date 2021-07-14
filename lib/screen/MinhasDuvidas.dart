@@ -25,7 +25,7 @@ class _MinhasDuvidasState extends State<MinhasDuvidas> {
   List<Duvida> duvidas = [];
 
   getDuvidas(Usuario usuario) {
-    this.service.getDuvidas().then((response) => {
+    this.service.getDuvidas(loadDependencies: true).then((response) => {
       setState(() {
         duvidas = response;
       })
@@ -45,7 +45,7 @@ class _MinhasDuvidasState extends State<MinhasDuvidas> {
   List<DuvidaComponent> listaDuvidas() {
     List<DuvidaComponent> duvidaComponents = [];
 
-    for (var duvida in duvidas) {
+    for (var duvida in this.duvidas) {
       duvidaComponents.add(DuvidaComponent(duvida: duvida,));
     }
 
@@ -84,11 +84,15 @@ class _MinhasDuvidasState extends State<MinhasDuvidas> {
             ],
           ),
         ),
-        floatingActionButton: IconButton(
-          icon: Icon(Icons.add),
-          onPressed: () {
-            Navigator.push( context, MaterialPageRoute(builder: (context) => CriarDuvida()) );
-          },
+        floatingActionButton: CircleAvatar(
+          backgroundColor: Colors.white,
+          child: IconButton(
+            icon: Icon(Icons.add),
+            highlightColor: Colors.white,
+            onPressed: () {
+              Navigator.push( context, MaterialPageRoute(builder: (context) => CriarDuvida()) );
+            },
+          ),
         )
     );
   }

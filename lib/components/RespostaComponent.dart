@@ -69,6 +69,15 @@ class _RespostaComponentState extends State<RespostaComponent> {
     return comentarios;
   }
 
+  void showError(String msg){
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            backgroundColor: Colors.red,
+            content: Text(msg, style: GoogleFonts.openSans( color: Colors.white, fontSize: 18, fontWeight: FontWeight.w500,))
+        )
+    );
+  }
+
   bool comentariosVisible = true;
 
   @override
@@ -91,7 +100,10 @@ class _RespostaComponentState extends State<RespostaComponent> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      this.widget.resposta.usuario.foto != null ? Image.network(this.widget.resposta.usuario.foto, width: 25, height: 25, fit: BoxFit.fitWidth) : Image.asset(Assets.avatar, width: 25, height: 25, fit: BoxFit.fitWidth)
+                      ClipRRect(
+                          borderRadius: BorderRadius.circular(50),
+                          child: this.widget.resposta.usuario.foto != null ? Image.network(this.widget.resposta.usuario.foto, width: 25, height: 25, fit: BoxFit.fitWidth) : Image.asset(Assets.avatar, width: 25, height: 25, fit: BoxFit.fitWidth)
+                      ),
                     ],
                   ),
                   onTap: () {
@@ -133,7 +145,7 @@ class _RespostaComponentState extends State<RespostaComponent> {
                           GestureDetector(
                               child: IconCount(count: this.widget.resposta.nrAprovacoes, icon: Icons.thumb_up, size: 18, ),
                               onTap: this.usuario.id == this.widget.resposta.usuario.id ? () {
-                                // TODO USUARIO NAO PODE REAGIR A PROPRIA RESPOSTA
+                                this.showError("Não é possível o usuário reagir a própria resposta");
                               } : () {
                                 this.widget.resposta.reacaoResposta = true;
 
@@ -147,7 +159,7 @@ class _RespostaComponentState extends State<RespostaComponent> {
                           GestureDetector(
                               child: IconCount(count: this.widget.resposta.nrDesaprovacoes, icon: Icons.thumb_down, size: 18 ),
                               onTap: this.usuario.id == this.widget.resposta.usuario.id ? () {
-                                // TODO USUARIO NAO PODE REAGIR A PROPRIA RESPOSTA
+                                this.showError("Não é possível o usuário reagir a própria resposta");
                               } : () {
                                 this.widget.resposta.reacaoResposta = false;
 

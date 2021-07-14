@@ -81,6 +81,15 @@ class _DuvidaTextState extends State<DuvidaText> {
     return respostas;
   }
 
+  void showError(String msg){
+    ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            backgroundColor: Colors.red,
+            content: Text(msg, style: GoogleFonts.openSans( color: Colors.white, fontSize: 18, fontWeight: FontWeight.w500,))
+        )
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -152,7 +161,7 @@ class _DuvidaTextState extends State<DuvidaText> {
                           GestureDetector(
                               child: IconCount(count: this.widget.duvida.nrAprovacoes, icon: Icons.thumb_up, size: 18, ),
                               onTap: this.usuario.id == this.widget.duvida.usuario.id ? () {
-                                // TODO USUARIO N PODE REAGIR A PROPRIA DUVIDA
+                                this.showError("Não é possível o usuário reagir a própria dúvida");
                               } : () {
                                 this.widget.duvida.reacaoDuvida = true;
 
@@ -166,7 +175,7 @@ class _DuvidaTextState extends State<DuvidaText> {
                           GestureDetector(
                               child: IconCount(count: this.widget.duvida.nrDesaprovacoes, icon: Icons.thumb_down, size: 18 ),
                               onTap: this.usuario.id == this.widget.duvida.usuario.id ? () {
-                                // TODO USUARIO N PODE REAGIR A PROPRIA DUVIDA
+                                this.showError("Não é possível o usuário reagir a própria dúvida");
                               } : () {
                                 this.widget.duvida.reacaoDuvida = false;
 

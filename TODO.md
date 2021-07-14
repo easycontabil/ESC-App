@@ -17,10 +17,10 @@
 - [x] atualizar duvida
 - [x] atualizar resposta
 - [x] atualizar comentario
+- [x] disparar mensagem de erro quando usuário tentar reagir a propria duvida/resposta
 
 - [ ] tratamento de erros da api **** EXTREMAMENTE IMPORTANTE
 
-- [ ] disparar mensagem de erro quando usuário tentar reagir a propria duvida/resposta
 - [ ] resolver duvida
 - [ ] se o campo senha for mantido em branco, mantém a senha padrão *
 - [ ] loading buttons

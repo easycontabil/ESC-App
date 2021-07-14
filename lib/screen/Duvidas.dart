@@ -86,11 +86,15 @@ class _DuvidasState extends State<Duvidas> {
           ],
         ),
       ),
-      floatingActionButton: IconButton(
-        icon: Icon(Icons.add),
-        onPressed: () {
-          Navigator.push( context, MaterialPageRoute(builder: (context) => CriarDuvida()) );
-        },
+      floatingActionButton: CircleAvatar(
+        backgroundColor: Colors.white,
+        child: IconButton(
+          icon: Icon(Icons.add),
+          highlightColor: Colors.white,
+          onPressed: () {
+            Navigator.push( context, MaterialPageRoute(builder: (context) => CriarDuvida()) );
+          },
+        ),
       )
     );
   }
