@@ -7,7 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 class CustomButton extends StatefulWidget {
 
   final String label;
-  AsyncCallback action;
+  dynamic action;
   final Color color;
 
   CustomButton({ this.label, this.action, this.color = const Color.fromRGBO(64,140,229, 1)  });

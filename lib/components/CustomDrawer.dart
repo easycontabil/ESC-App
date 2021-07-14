@@ -62,7 +62,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
           DrawerActionItem(
             title: "PERFIL",
             action: (){
-              Navigator.push( context, MaterialPageRoute(builder: (context) => Perfil(editable: true,)) );
+              Navigator.push( context, MaterialPageRoute(builder: (context) => Perfil(editable: true)));
             },
             icon: Icons.person,
           ),
