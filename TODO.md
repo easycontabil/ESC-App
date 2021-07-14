@@ -4,8 +4,6 @@ GABRIEL:
   - [ ] tratar a renderização de dúvida fechada
 - [ ] Resolver duvida
 
-
-
 - [x] like, dislike resposta
 - [x] renderizar o perfil *
 - [x] editar o perfil *

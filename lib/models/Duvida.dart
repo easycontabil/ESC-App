@@ -13,7 +13,7 @@ class Duvida extends Abstract{
   List<Comentario> comentarios;
   List<ReacaoDuvida> reacoes;
   String titulo, descricao;
-  int nrRespostas, nrViews, nrFavoritos, nrAprovacoes, nrDesaprovacoes;
+  int nrRespostas, nrViews, nrFavoritos, nrAprovacoes, nrDesaprovacoes, relevancia;
   bool aberta, resolvida;
   bool reacaoDuvida;
   
@@ -28,7 +28,7 @@ class Duvida extends Abstract{
       this.usuario = json['user'] != null ? Usuario.fromJson(json['user']) : Usuario(id: json['userId']);
       this.titulo = json['title'];
       this.descricao = json['description'];
-      this.aberta = json['solved'];
+      this.aberta = json['closedAt'] != null ? false : true;
       this.resolvida = json['solved'];
       if (loadDependencies == true) {
         this.respostas = respostasFromJson(json['answers']);
@@ -36,6 +36,7 @@ class Duvida extends Abstract{
         this.nrRespostas = this.respostas.length;
         this.nrAprovacoes = this.reacoes.where((element) => element.curtiu == true).toList().length;
         this.nrDesaprovacoes = this.reacoes.where((element) => element.curtiu == false).toList().length;
+        this.relevancia = this.nrAprovacoes - this.nrDesaprovacoes;
       }
     }
 
