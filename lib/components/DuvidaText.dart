@@ -5,28 +5,31 @@ import 'package:easycontab/contants/app_api_urls.dart';
 import 'package:easycontab/contants/app_assets.dart';
 import 'package:easycontab/models/Duvida.dart';
 import 'package:easycontab/models/Resposta.dart';
-import 'package:easycontab/models/Usuario.dart';
 import 'package:easycontab/screen/Perfil.dart';
 import 'package:easycontab/services/DuvidaService.dart';
 import 'package:easycontab/services/RespostaService.dart';
-import 'package:easycontab/utils/Preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:easycontab/models/Usuario.dart';
+import 'package:easycontab/utils/Preferences.dart';
+import 'RespostaComponentCheckable.dart';
 
 import 'misc/IconCount.dart';
 
 class DuvidaText extends StatefulWidget {
 
   Duvida duvida;
+  bool solving;
   bool respostasVisible;
 
-  DuvidaText({this.duvida, this.respostasVisible = false});
+  DuvidaText({this.duvida, this.respostasVisible = false, this.solving = false});
 
   @override
   _DuvidaTextState createState() => _DuvidaTextState(this.duvida.id, this.respostasVisible);
 }
 
 class _DuvidaTextState extends State<DuvidaText> {
+
   Usuario usuario = new Usuario();
 
   Preferences preferences = new Preferences();
@@ -69,6 +72,8 @@ class _DuvidaTextState extends State<DuvidaText> {
   }
 
   bool respostasVisible;
+  bool test = false;
+  dynamic selectedSolve;
 
   List<RespostaComponent> showRespostas() {
     List<RespostaComponent> respostas = [];
@@ -88,6 +93,29 @@ class _DuvidaTextState extends State<DuvidaText> {
             content: Text(msg, style: GoogleFonts.openSans( color: Colors.white, fontSize: 18, fontWeight: FontWeight.w500,))
         )
     );
+  }
+
+  List<RespostaComponentCheckable> showRespostasToSolve() {
+    List<RespostaComponentCheckable> respostas = [];
+
+    for( var resposta in this.respostas ) {
+      respostas.add(
+          RespostaComponentCheckable(resposta: resposta, duvida: this.widget.duvida, onCheck: setSelectedSolve)
+      );
+    }
+    return respostas;
+  }
+
+  List<Widget> getContent(){
+    if(this.widget.solving == true){
+      return this.showRespostasToSolve();
+    }
+    return this.showRespostas();
+  }
+
+  void setSelectedSolve(dynamic value){
+    this.selectedSolve = value;
+    print(this.selectedSolve.id);
   }
 
   @override
@@ -193,8 +221,8 @@ class _DuvidaTextState extends State<DuvidaText> {
               ],
             ),
             decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(1),
+                color: this.widget.solving == false ? Colors.white : Colors.green[50]
+                ,borderRadius: BorderRadius.circular(1),
               boxShadow: [
                 BoxShadow( 
                   color: Colors.grey,
@@ -205,12 +233,25 @@ class _DuvidaTextState extends State<DuvidaText> {
             ),
           ),
           Column(
-            children: this.respostasVisible == true ? this.showRespostas() : [], 
-          )
+              children: this.respostasVisible == true ? this.getContent() : []
+          ),
         ],
       ),
     );
   }
 }
+
+// SingleChildScrollView(
+//             scrollDirection: Axis.horizontal,
+//             child: Container(
+//               width: 600,
+//               child: Row(
+//                 children: [
+//                   Checkbox(value: false, onChanged: (value){print(value);}),
+//                   this.respostasVisible == true ? RespostaComponent(resposta: this.widget.duvida.respostas.first, duvida: this.widget.duvida) : Text("TESTE"),
+//                 ],
+//               ),
+//             ),
+//           ),
 
                       

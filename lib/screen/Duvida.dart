@@ -18,7 +18,7 @@ class VerDuvida extends StatefulWidget {
   final String duvidaId;
   final bool respostas;
 
-  VerDuvida({ @required this.duvidaId, this.respostas = false });
+  VerDuvida({ @required this.duvidaId, this.respostas = false});
 
   @override
   _VerDuvidaState createState() => _VerDuvidaState(duvidaId, this.respostas);
@@ -33,6 +33,7 @@ class _VerDuvidaState extends State<VerDuvida> {
     path: "qst/doubts",
   );
 
+  bool solving = false;
   bool respostas = false;
   bool ower = false;
   Usuario usuario;
@@ -91,7 +92,7 @@ class _VerDuvidaState extends State<VerDuvida> {
     if( this.duvida == null || this.usuario == null){
       return [ Center( child: CircularProgressIndicator()) ];
     }
-    content.add(DuvidaText(duvida: this.duvida, respostasVisible: this.respostas));
+    content.add(DuvidaText(duvida: this.duvida, respostasVisible: this.respostas, solving: this.solving));
     content.add(SizedBox(height: 30));
 
     if(this.usuario.id == this.duvida.usuario.id){
@@ -101,13 +102,43 @@ class _VerDuvidaState extends State<VerDuvida> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             CustomButton(
-              label: "FECHAR", 
-              action: (){ this._showAlert(context); }, 
-              color: Color.fromRGBO(219, 36, 36, 1)
+                label: "FECHAR",
+                action: (){ this._showAlert(context); },
+                color: Color.fromRGBO(219, 36, 36, 1)
             ),
-            CustomButton(label: "RESOLVER", action: (){}),
+            this.duvida.resolvida == false ? CustomButton(
+                label: "RESOLVER",
+                action: (){
+                  setState(() {
+                    this.solving = true;
+                  });
+                }
+            ) : null
           ],
-        )   
+        )
+      );
+    // SE ESTÁ SENDO RESOLVIDA
+    }else{
+      content.add(
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              CustomButton(
+                  label: "CANCELAR",
+                  action: () => {setState(() { this.solving = false; }) },
+                  color: Color.fromRGBO(219, 36, 36, 1)
+              ),
+              CustomButton(
+                  label: "CONFIRMAR",
+                  action: (){
+                    print("RESOLVENDOOO");
+                    setState(() {
+                      this.solving = false;
+                    });
+                  }
+              ),
+            ],
+          )
       );
     }
     return content;
